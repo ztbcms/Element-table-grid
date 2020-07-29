@@ -21,12 +21,16 @@
         </template>
         <!-- 按钮组 -->
         <template v-else-if="th.type === 'oper'">
-          <el-button
+          <div
             v-for="(o, k) in th.oper"
             :key="k"
-            @click.stop="o.clickFun(scope)"
-            v-bind="o.scopeoption"
-          >{{scope.row[o.prop] || o.name}}</el-button>
+          >
+            <el-button
+              @click.stop="o.clickFun(scope)"
+              v-bind="o.scopeoption"
+              v-if="scope.row['hidebtns'][o.name]"
+            >{{scope.row[o.prop] || o.name}}</el-button>
+          </div>
         </template>
         <!-- 图片 -->
         <template v-else-if="th.type === 'img'">

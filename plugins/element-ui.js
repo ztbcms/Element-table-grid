@@ -12,7 +12,25 @@ import {
   Popover,
   Loading,
   Pagination,
-  Card
+  Card,
+  Switch,
+  Slider,
+  Radio,
+  Checkbox,
+  Rate,
+  Select,
+  Form,
+  FormItem,
+  Option,
+  CheckboxGroup,
+  CheckboxButton,
+  RadioButton,
+  RadioGroup,
+  DatePicker,
+  TimePicker,
+  TimeSelect,
+  Timeline,
+  TimelineItem
 } from "element-ui";
 import "element-ui/lib/theme-chalk/index.css";
 
@@ -29,3 +47,21 @@ Vue.use(InputNumber);
 Vue.use(Popover);
 Vue.use(Pagination);
 Vue.use(Card);
+Vue.use(Switch);
+Vue.use(Slider);
+Vue.use(Radio);
+Vue.use(Checkbox);
+Vue.use(Rate);
+Vue.use(Select);
+Vue.use(Form);
+Vue.use(FormItem);
+Vue.use(Option);
+Vue.use(CheckboxGroup);
+Vue.use(CheckboxButton);
+Vue.use(RadioButton);
+Vue.use(RadioGroup);
+Vue.use(DatePicker);
+Vue.use(TimePicker);
+Vue.use(TimeSelect);
+Vue.use(Timeline);
+Vue.use(TimelineItem);
