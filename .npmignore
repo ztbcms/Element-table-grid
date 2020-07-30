@@ -2,6 +2,9 @@
 examples/
 packages/
 public/
+node_modules/
+plugins/
+src/
 
 # 忽略指定文件
 vue.config.js

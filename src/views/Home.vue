@@ -44,7 +44,7 @@ export default {
         { type: 'Select', label: '', prop: 'sex', width: '180px', options: sexs, props: sexProps, change: row => console.log('tag', row), placeholder: '请选择性别...' },
         // { type: 'Checkbox', label: '', width: '180px', prop: 'interst', checkboxs: intersts, props: interstProps }
       ],
-      // 表单方法设置
+      // 表单按钮方法设置
       searchHandle: [
         { label: '查询', type: 'primary', handle: (searchForm) => console.log('searchForm', searchForm) },
         { label: '重置', type: 'primary', handle: () => '' }
@@ -86,7 +86,7 @@ export default {
         },
         {
           label: '操作', type: 'Button', oper: [
-            { type: 'primary', name: '编辑', click: row => console.log('tag', row) },
+            { type: 'primary', name: '编辑', click: row => console.log('tag', row), scopeoption: {type: 'success'} },
             { type: 'danger', name: '删除', click: row => console.log('tag', row) }
           ]
         }
@@ -95,9 +95,11 @@ export default {
         { label: '新增', type: 'primary', click: () => console.log('tag'), option: { type: 'success' } }
       ],
       pagination: {
-        pageSize: 10,
-        pageNum: 1,
-        total: 7
+        pageSize: 10, // 页条数
+        pageNum: 1, // 当前页
+        total: 17, // 总条数
+        handleSizeChange: () => console.log('handleSizeChange'), // 页条数大小改变触发
+        handleCurrentChange: () => console.log('handleCurrentChange') // 当前页改变触发
       }
     }
   },

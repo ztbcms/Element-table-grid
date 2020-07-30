@@ -1,6 +1,6 @@
 {
   "name": "cpy-elementui-table",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "基于 element table 的二次封装",
   "main": "lib/diyelementtable.umd.js",
   "keyword": "elementTable table element-table",

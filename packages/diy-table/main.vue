@@ -177,7 +177,7 @@
               >{{ th.scopeoption['name'] || '链接'}}</el-link>
             </template>
             <!-- 长文本 -->
-            <template v-else-if="th.type === 'longtext'">
+            <template v-else-if="th.type === 'Popover'">
               <el-popover
                 v-bind="th.scopeoption"
                 :content="scope.row[th.prop]"
@@ -199,8 +199,8 @@
     >
       <el-pagination
         style='display: flex;justify-content: center;height: 100%;align-items: center;'
-        @current-change="handleCurrentChange"
-        @size-change="handleSizeChange"
+        @current-change="pagination.handleCurrentChange && pagination.handleCurrentChange($event)"
+        @size-change="pagination.handleSizeChange && pagination.handleSizeChange($event)"
         layout="total,sizes ,prev, pager, next,jumper"
         :page-size="pagination.pageSize"
         :current-page="pagination.pageNum"
@@ -304,14 +304,6 @@ export default {
     expandChange: {
       type: Function,
       default: (row, expandedRows) => { that.$emit('expandChange', row, expandedRows) }
-    },
-    handleCurrentChange: {
-      type: Function,
-      default: (val) => { that.$emit('handleCurrentChange', val) }
-    },
-    handleSizeChange: {
-      type: Function,
-      default: (val) => { that.$emit('handleSizeChange', val) }
     }
   },
   watch: {

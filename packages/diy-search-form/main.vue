@@ -14,6 +14,11 @@
           v-model="searchData[item.prop]"
           v-bind="item.option"
           :placeholder="item.placeholder"
+					@blur="item.blur && item.blur($event, searchData[item.prop])"
+					@focus="item.focus && item.focus($event, searchData[item.prop])"
+					@input="item.input && item.input($event, searchData[item.prop])"
+					@change="item.change && item.change($event, searchData[item.prop])"
+					@clear="item.clear && item.clear($event, searchData[item.prop])"
         ></el-input>
         <!-- 下拉框 -->
         <el-select
@@ -21,7 +26,12 @@
           v-model="searchData[item.prop]"
           v-bind="item.option"
           :placeholder="item.placeholder"
-          @change="item.change(searchData[item.prop])"
+          @change="item.change && item.change($event, searchData[item.prop])"
+					@visible-change="item.visibleChange && item.visibleChange($event, searchData[item.prop])"
+					@remove-tag="item.removeTag && item.removeTag($event, searchData[item.prop])"
+					@clear="item.clear && item.clear($event, searchData[item.prop])"
+					@blur="item.blur && item.blur($event, searchData[item.prop])"
+					@focus="item.focus && item.focus($event, searchData[item.prop])"
         >
           <el-option
             v-for="op in item.options"
@@ -49,7 +59,7 @@
           v-if="item.type==='RadioButton'"
           v-bind="item.option"
           v-model="searchData[item.prop]"
-          @change="item.change && item.change(searchData[item.prop])"
+          @change="item.change && item.change($event, searchData[item.prop])"
         >
           <el-radio-button
             v-for="ra in item.radios"
@@ -76,12 +86,18 @@
           v-if="item.type==='Date'"
           v-bind="item.option"
           v-model="searchData[item.prop]"
+					@change="item.change && item.change($event, searchData[item.prop])"
+					@blur="item.blur && item.blur($event, searchData[item.prop])"
+					@focus="item.focus && item.focus($event, searchData[item.prop])"
         ></el-date-picker>
         <!-- 时间 -->
         <el-time-select
           v-if="item.type==='Time'"
           v-bind="item.option"
           v-model="searchData[item.prop]"
+					@change="item.change && item.change($event, searchData[item.prop])"
+					@blur="item.blur && item.blur($event, searchData[item.prop])"
+					@focus="item.focus && item.focus($event, searchData[item.prop])"
         ></el-time-select>
         <!-- 日期时间 -->
         <el-date-picker
@@ -89,6 +105,9 @@
           v-bind="item.option"
           type='datetime'
           v-model="searchData[item.prop]"
+					@change="item.change && item.change($event, searchData[item.prop])"
+					@blur="item.blur && item.blur($event, searchData[item.prop])"
+					@focus="item.focus && item.focus($event, searchData[item.prop])"
         ></el-date-picker>
         <!-- 开关 -->
         <el-switch
