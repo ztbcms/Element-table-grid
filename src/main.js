@@ -4,7 +4,8 @@ import router from "./router";
 import store from "./store";
 import Bus from "./Bus";
 import "../plugins/element-ui";
-
+import Diy from "./../packages/index"
+Vue.use(Diy)
 Vue.config.productionTip = false;
 // 引入全局广播器
 Vue.use(Bus);

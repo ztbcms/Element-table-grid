@@ -117,6 +117,7 @@
 
 <script>
 export default {
+  name: 'DiySearchForm',
   props: {
     isHandle: {
       type: Boolean,

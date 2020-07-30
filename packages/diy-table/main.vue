@@ -213,6 +213,7 @@
 <script>
 let that = null
 export default {
+  name: 'DiyTable',
   props: {
     // 表格属性
     tableAttr: [Object],
