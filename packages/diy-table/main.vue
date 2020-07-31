@@ -50,6 +50,7 @@
           align="center"
           width="50"
         ></el-table-column>
+        <slot name="before"></slot>
         <!-- 数据栏 -->
         <el-table-column
           v-for="(th, key) in tableHeader"
@@ -189,7 +190,12 @@
               </el-popover>
             </template>
           </template>
+          <!-- 自定义 -->
+          <template v-if="th.type === 'Slot'">
+            <slot name="Slot"></slot>
+          </template>
         </el-table-column>
+        <slot name="later"></slot>
       </el-table>
     </section>
     <!-- 分页 -->
@@ -198,13 +204,9 @@
       v-if='isPagination'
     >
       <el-pagination
-        style='display: flex;justify-content: center;height: 100%;align-items: center;'
-        @current-change="pagination.handleCurrentChange && pagination.handleCurrentChange($event)"
-        @size-change="pagination.handleSizeChange && pagination.handleSizeChange($event)"
-        layout="total,sizes ,prev, pager, next,jumper"
-        :page-size="pagination.pageSize"
-        :current-page="pagination.pageNum"
-        :total="pagination.total"
+        v-bind="pagination"
+        @current-change="pagination.currentChange && pagination.currentChange($event)"
+        @size-change="pagination.sizeChange && pagination.sizeChange($event)"
       ></el-pagination>
     </section>
   </section>
@@ -324,6 +326,18 @@ export default {
       if (typeof (format) === 'function') {
         return format(val)
       } else return val
+    }
+  },
+  methods: {
+    sizeChange (val) {
+      this.$emit('update:pagination', {...this.pagination, pageSize: val})
+    },
+    CurrentChange (val) {
+      this.$emit('update:pagination', {...this.pagination, pageNum: val})
+      this.pagination.getList ? this.pagination.getList() : this.DefGetList()
+    },
+    DefGetList () {
+      console.log('DefGetList')
     }
   },
   mounted () {

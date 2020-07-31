@@ -15,9 +15,31 @@
       :tableHeader='tableHeader'
       :tableAttr="tableAttr"
       :tableHandles='tableHandles'
-      :pagination='pagination'
+      :pagination.sync='pagination'
       v-bind="tableFuns"
     >
+      <div slot="Slot">
+        <el-table-column
+          prop="province"
+          label="省份"
+          width="120">
+        </el-table-column>
+        <el-table-column
+          prop="city"
+          label="市区"
+          width="120">
+        </el-table-column>
+        <el-table-column
+          prop="address"
+          label="地址"
+          width="300">
+        </el-table-column>
+        <el-table-column
+          prop="zip"
+          label="邮编"
+          width="120">
+        </el-table-column>
+      </div>
     </diy-table>
   </div>
 </template>
@@ -79,10 +101,7 @@ export default {
         {
           label: '爱好',
           prop: 'interst',
-          children: [
-            { prop: 'interst1', label: '爱好1' },
-            { prop: 'interst2', label: '爱好2' }
-          ]
+          type: 'Slot'
         },
         {
           label: '操作', type: 'Button', oper: [
@@ -98,8 +117,10 @@ export default {
         pageSize: 10, // 页条数
         pageNum: 1, // 当前页
         total: 17, // 总条数
-        handleSizeChange: () => console.log('handleSizeChange'), // 页条数大小改变触发
-        handleCurrentChange: () => console.log('handleCurrentChange') // 当前页改变触发
+        sizeChange: () => console.log('handleSizeChange'), // 页条数大小改变触发
+        currentChange: () => console.log('handleCurrentChange'), // 当前页改变触发
+        layout: 'total,sizes ,prev, pager, next,jumper',
+        style: 'display: flex;justify-content: center;height: 100%;align-items: center;'
       }
     }
   },
