@@ -160,9 +160,30 @@ pagination: {
 	pageSize: 10, // 页条数
 	pageNum: 1, // 当前页
 	total: 17, // 总条数
-	handleSizeChange: () => {}, // 页条数大小改变触发
-	handleCurrentChange: () => {} // 当前页改变触发
+	sizeChange: () => {}, // 页条数大小改变触发
+	currentChange: () => {} // 当前页改变触发
 }
+```
+
+### 支持slot自定义
+```
+<diy-table>
+  <div slot="Slot">
+    <el-table-column
+      prop="province"
+      label="省份"
+      width="120">
+    </el-table-column>
+  </div>
+</diy-table>
+
+tableHeader: [
+  {
+    label: '定位',
+    prop: 'location',
+    type: 'Slot'
+  }
+]
 ```
 
 #### 注意：该组件的方法全部采用驼峰命名 例:sort-change 修改为 sortChange

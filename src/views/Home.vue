@@ -79,13 +79,13 @@ export default {
       },
       // 表格
       tableData: [
-        { name: '张三', age: '12', sex: '男', interst: '女' },
-        { name: '李四', age: '27', sex: '女', interst: '羽毛球' },
-        { name: '张三', age: '12', sex: '男', interst: '女' },
-        { name: '筱华', age: '27', sex: '女', interst: '羽毛球' },
-        { name: '筱华', age: '27', sex: '女', interst: '羽毛球' },
-        { name: '筱华', age: '27', sex: '女', interst: '羽毛球' },
-        { name: '筱华', age: '27', sex: '女', interst: '羽毛球' }
+        { name: '张三', age: '12', sex: '男', province: '广东' },
+        { name: '李四', age: '27', sex: '女', province: '广东' },
+        { name: '张三', age: '12', sex: '男', province: '广东' },
+        { name: '筱华', age: '27', sex: '女', province: '广东' },
+        { name: '筱华', age: '27', sex: '女', province: '广东' },
+        { name: '筱华', age: '27', sex: '女', province: '广东' },
+        { name: '筱华', age: '27', sex: '女', province: '广东' }
       ],
       tableAttr: {
         border: true,
@@ -99,8 +99,8 @@ export default {
         { label: '年龄', prop: 'age', option: { sortable: 'custom' } },
         { label: '性别', prop: 'sex', option: { sortable: 'custom' } },
         {
-          label: '爱好',
-          prop: 'interst',
+          label: '定位',
+          prop: 'location',
           type: 'Slot'
         },
         {
