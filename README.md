@@ -131,11 +131,12 @@ tableData: [
 // scopeoption： 根据type的不同改变，为elementui组件的Attr
 // option： elementui el-table-column组件的Attr
 // label: 标题名
+// formatData方法： type为Text或null时存在formatData方法用于过滤信息
 // 组件的Events方法（根据type的不同改变）如下
 tableHeader: [
 	{ label: '姓名', prop: 'name' },
 	{ label: '年龄', prop: 'age', option: { sortable: 'custom' } },
-	{ label: '性别', prop: 'sex', option: { sortable: 'custom' } },
+	{ label: '性别', prop: 'sex', option: { sortable: 'custom' }, formatData: (val) => {return val === 1 ? '男' : '女'} },
 	{ label: '爱好',type: 'Html', prop: 'interst', scopeoption: {} },
 	{
 		label: '操作', type: 'Button', oper: [

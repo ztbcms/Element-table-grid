@@ -79,13 +79,13 @@ export default {
       },
       // 表格
       tableData: [
-        { name: '张三', age: '12', sex: '男', province: '广东' },
-        { name: '李四', age: '27', sex: '女', province: '广东' },
-        { name: '张三', age: '12', sex: '男', province: '广东' },
-        { name: '筱华', age: '27', sex: '女', province: '广东' },
-        { name: '筱华', age: '27', sex: '女', province: '广东' },
-        { name: '筱华', age: '27', sex: '女', province: '广东' },
-        { name: '筱华', age: '27', sex: '女', province: '广东' }
+        { name: '张三', age: '12', sex: 1, province: '广东' },
+        { name: '李四', age: '27', sex: 2, province: '广东' },
+        { name: '张三', age: '12', sex: 1, province: '广东' },
+        { name: '筱华', age: '27', sex: 2, province: '广东' },
+        { name: '筱华', age: '27', sex: 2, province: '广东' },
+        { name: '筱华', age: '27', sex: 2, province: '广东' },
+        { name: '筱华', age: '27', sex: 2, province: '广东' }
       ],
       tableAttr: {
         border: true,
@@ -97,7 +97,7 @@ export default {
       tableHeader: [
         { label: '姓名', prop: 'name' },
         { label: '年龄', prop: 'age', option: { sortable: 'custom' } },
-        { label: '性别', prop: 'sex', option: { sortable: 'custom' } },
+        { label: '性别', prop: 'sex', option: { sortable: 'custom' }, formatData: (val) => {return val === 1 ? '男' : '女' } },
         {
           label: '定位',
           prop: 'location',

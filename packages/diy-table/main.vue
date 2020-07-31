@@ -62,132 +62,158 @@
           <template slot-scope="scope">
             <!-- 普通 -->
             <template v-if="th.type === 'Text' || !th.type">
-              <span
-                v-if="!th.formatData"
-                @click.stop="th.click && th.click(scope.row)"
-              >{{ scope.row[th.prop] }}</span>
-              <span
-                v-else
-                @click.stop="th.click && th.click(scope.row)"
-              >{{ scope.row[th.prop] | formatters(th.formatData) }}</span>
+              <slot name="Text">
+                <span
+                  v-if="!th.formatData"
+                  @click.stop="th.click && th.click(scope.row)"
+                >{{ scope.row[th.prop] }}</span>
+                <span
+                  v-else
+                  @click.stop="th.click && th.click(scope.row)"
+                >{{ scope.row[th.prop] | formatters(th.formatData) }}</span>
+              </slot>
             </template>
             <!-- html -->
             <template v-else-if="th.type === 'Html'">
-              <div v-html="th.html(scope.row[th.prop])"></div>
+              <slot name="Html">
+                <div v-html="th.html(scope.row[th.prop])"></div>
+              </slot>
             </template>
             <!-- 按钮 -->
             <template v-else-if="th.type === 'Button'">
-              <el-button
-                v-for="(o, k) in th.oper"
-                :key="k"
-                @click.stop="o.click(scope)"
-                v-bind="o.scopeoption"
-              >{{scope.row[o.prop] || o.name}}</el-button>
+              <slot name="Button">
+                <el-button
+                  v-for="(o, k) in th.oper"
+                  :key="k"
+                  @click.stop="o.click(scope)"
+                  v-bind="o.scopeoption"
+                >{{scope.row[o.prop] || o.name}}</el-button>
+              </slot>
             </template>
             <!-- 输入框 -->
             <template v-else-if="th.type === 'Input'">
-              <el-input
-                v-model="scope.row[th.prop]"
-                v-bind="th.scopeoption"
-                @focus="th.focus && th.focus(scope.row)"
-                @blur="th.blur && th.blur(scope.row)"
-              ></el-input>
+              <slot name="Input">
+                <el-input
+                  v-model="scope.row[th.prop]"
+                  v-bind="th.scopeoption"
+                  @focus="th.focus && th.focus(scope.row)"
+                  @blur="th.blur && th.blur(scope.row)"
+                ></el-input>
+              </slot>
             </template>
             <!-- 下拉框 -->
             <template v-else-if="th.type === 'Select'">
-              <el-select
-                v-model="scope.row[th.prop]"
-                v-bind="th.scopeoption"
-                @change='th.change && th.change(scope.row)'
-              >
-                <el-option
-                  v-for="op in th.options"
-                  :label="op[th.props.label]"
-                  :value="op[th.props.value]"
-                  :key="op[th.props.value]"
-                ></el-option>
-              </el-select>
+              <slot name="Select">
+                <el-select
+                  v-model="scope.row[th.prop]"
+                  v-bind="th.scopeoption"
+                  @change='th.change && th.change(scope.row)'
+                >
+                  <el-option
+                    v-for="op in th.options"
+                    :label="op[th.props.label]"
+                    :value="op[th.props.value]"
+                    :key="op[th.props.value]"
+                  ></el-option>
+                </el-select>
+              </slot>
             </template>
             <!-- 单选 -->
             <template v-else-if="th.type === 'Radio'">
-              <el-radio-group
-                v-model="scope.row[th.prop]"
-                v-bind="th.scopeoption"
-                @change='th.change && th.change(scope.row)'
-              >
-                <el-radio
-                  v-for="ra in th.radios"
-                  :label="ra.value"
-                  :key="ra.value"
-                >{{ra.label}}</el-radio>
-              </el-radio-group>
+              <slot name="Radio">
+                <el-radio-group
+                  v-model="scope.row[th.prop]"
+                  v-bind="th.scopeoption"
+                  @change='th.change && th.change(scope.row)'
+                >
+                  <el-radio
+                    v-for="ra in th.radios"
+                    :label="ra.value"
+                    :key="ra.value"
+                  >{{ra.label}}</el-radio>
+                </el-radio-group>
+              </slot>
             </template>
             <!-- 复选框 -->
             <template v-else-if="th.type === 'Checkbox'">
-              <el-checkbox-group
-                v-model="scope.row[th.prop]"
-                v-bind="th.scopeoption"
-                @change='th.change && th.change(scope.row)'
-              >
-                <el-checkbox
-                  v-for="ra in th.checkboxs"
-                  :label="ra.value"
-                  :key="ra.value"
-                >{{ra.label}}</el-checkbox>
-              </el-checkbox-group>
+              <slot name="Checkbox">
+                <el-checkbox-group
+                  v-model="scope.row[th.prop]"
+                  v-bind="th.scopeoption"
+                  @change='th.change && th.change(scope.row)'
+                >
+                  <el-checkbox
+                    v-for="ra in th.checkboxs"
+                    :label="ra.value"
+                    :key="ra.value"
+                  >{{ra.label}}</el-checkbox>
+                </el-checkbox-group>
+              </slot>
             </template>
             <!-- 评价 -->
             <template v-else-if="th.type === 'Rate'">
-              <el-rate
-                v-model="scope.row[th.prop]"
-                v-bind="th.scopeoption"
-                @change='th.change && th.change(scope.row)'
-              ></el-rate>
+              <slot name="Rate">
+                <el-rate
+                  v-model="scope.row[th.prop]"
+                  v-bind="th.scopeoption"
+                  @change='th.change && th.change(scope.row)'
+                ></el-rate>
+              </slot>
             </template>
             <!-- 开关 -->
             <template v-else-if="th.type === 'Switch'">
-              <el-switch
-                v-model="scope.row[th.prop]"
-                v-bind="th.scopeoption"
-                @change='th.change && th.change(scope.row)'
-              ></el-switch>
+              <slot name="Switch">
+                <el-switch
+                  v-model="scope.row[th.prop]"
+                  v-bind="th.scopeoption"
+                  @change='th.change && th.change(scope.row)'
+                ></el-switch>
+              </slot>
             </template>
             <!-- 图像 -->
             <template v-else-if="th.type === 'Image'">
-              <el-image
-                :src="scope.row[th.prop]"
-                v-bind="th.scopeoption"
-                @click.stop="th.click && th.click(scope.row)"
-              >
-              </el-image>
+              <slot name="Image">
+                <el-image
+                  :src="scope.row[th.prop]"
+                  v-bind="th.scopeoption"
+                  @click.stop="th.click && th.click(scope.row)"
+                >
+                </el-image>
+              </slot>
             </template>
             <!-- 滑块 -->
             <template v-else-if="th.type === 'Slider'">
-              <el-slider
-                v-model="scope.row[th.prop]"
-                v-bind="th.scopeoption"
-                @change='th.change && th.change(scope.row)'
-              ></el-slider>
+              <slot name="Slider">
+                <el-slider
+                  v-model="scope.row[th.prop]"
+                  v-bind="th.scopeoption"
+                  @change='th.change && th.change(scope.row)'
+                ></el-slider>
+              </slot>
             </template>
             <!-- 链接 -->
             <template v-else-if="th.type === 'Link'">
-              <el-link
-                :href="scope.row[th.prop]"
-                target="_blank"
-                v-bind="th.scopeoption"
-              >{{ th.scopeoption['name'] || '链接'}}</el-link>
+              <slot name="Link">
+                <el-link
+                  :href="scope.row[th.prop]"
+                  target="_blank"
+                  v-bind="th.scopeoption"
+                >{{ th.scopeoption['name'] || '链接'}}</el-link>
+              </slot>
             </template>
             <!-- 长文本 -->
             <template v-else-if="th.type === 'Popover'">
-              <el-popover
-                v-bind="th.scopeoption"
-                :content="scope.row[th.prop]"
-              >
-                <div
-                  class="line-lcump2"
-                  slot="reference"
-                >{{scope.row[th.prop]}}</div>
-              </el-popover>
+              <slot name="Popover">
+                <el-popover
+                  v-bind="th.scopeoption"
+                  :content="scope.row[th.prop]"
+                >
+                  <div
+                    class="line-lcump2"
+                    slot="reference"
+                  >{{scope.row[th.prop]}}</div>
+                </el-popover>
+              </slot>
             </template>
           </template>
           <!-- 自定义 -->
