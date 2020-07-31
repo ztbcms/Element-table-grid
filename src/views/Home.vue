@@ -1,46 +1,38 @@
 <template>
   <div class="cpy-main">
-    <diy-search-form
-      :searchData="searchData"
-      :searchForm="searchForm"
-      :searchHandle="searchHandle"
-      :formAttr="formAttr"
-    ></diy-search-form>
-    <diy-table
-      :isSelection='true'
-      :isIndex='true'
-      :isPagination='true'
-      :isHandle='true'
-      :tableData='tableData'
-      :tableHeader='tableHeader'
-      :tableAttr="tableAttr"
-      :tableHandles='tableHandles'
-      :pagination.sync='pagination'
-      v-bind="tableFuns"
-    >
-      <div slot="Slot">
-        <el-table-column
-          prop="province"
-          label="省份"
-          width="120">
-        </el-table-column>
-        <el-table-column
-          prop="city"
-          label="市区"
-          width="120">
-        </el-table-column>
-        <el-table-column
-          prop="address"
-          label="地址"
-          width="300">
-        </el-table-column>
-        <el-table-column
-          prop="zip"
-          label="邮编"
-          width="120">
-        </el-table-column>
-      </div>
-    </diy-table>
+    <el-card>
+      <diy-search-form
+        :searchData="searchData"
+        :searchForm="searchForm"
+        :searchHandle="searchHandle"
+        :formAttr="formAttr"
+      ></diy-search-form>
+      <diy-table
+        :isSelection='true'
+        :isIndex='true'
+        :isPagination='true'
+        :isHandle='true'
+        :tableData='tableData'
+        :tableHeader='tableHeader'
+        :tableAttr="tableAttr"
+        :tableHandles='tableHandles'
+        :pagination.sync='pagination'
+        v-bind="tableFuns"
+      >
+        <div slot="Slot">
+          <el-table-column
+            prop="province"
+            label="省份"
+            width="120">
+          </el-table-column>
+          <el-table-column
+            prop="city"
+            label="市区"
+            width="120">
+          </el-table-column>
+        </div>
+      </diy-table>
+    </el-card>
   </div>
 </template>
 
@@ -79,13 +71,13 @@ export default {
       },
       // 表格
       tableData: [
-        { name: '张三', age: '12', sex: 1, province: '广东' },
-        { name: '李四', age: '27', sex: 2, province: '广东' },
-        { name: '张三', age: '12', sex: 1, province: '广东' },
-        { name: '筱华', age: '27', sex: 2, province: '广东' },
-        { name: '筱华', age: '27', sex: 2, province: '广东' },
-        { name: '筱华', age: '27', sex: 2, province: '广东' },
-        { name: '筱华', age: '27', sex: 2, province: '广东' }
+        { name: '张三', age: '12', text:'', sex: 1, province: '广东', image: 'https://s3.pstatp.com/toutiao/xitu_juejin_web/img/wechat.63e1ce0.svg' },
+        { name: '李四', age: '27', text:'', sex: 2, province: '广东', image: 'https://s3.pstatp.com/toutiao/xitu_juejin_web/img/wechat.63e1ce0.svg' },
+        { name: '张三', age: '12', text:'', sex: 1, province: '广东', image: 'https://s3.pstatp.com/toutiao/xitu_juejin_web/img/wechat.63e1ce0.svg' },
+        { name: '筱华', age: '27', text:'', sex: 2, province: '广东', image: 'https://s3.pstatp.com/toutiao/xitu_juejin_web/img/wechat.63e1ce0.svg' },
+        { name: '筱华', age: '27', text:'', sex: 2, province: '广东', image: 'https://s3.pstatp.com/toutiao/xitu_juejin_web/img/wechat.63e1ce0.svg' },
+        { name: '筱华', age: '27', text:'', sex: 2, province: '广东', image: 'https://s3.pstatp.com/toutiao/xitu_juejin_web/img/wechat.63e1ce0.svg' },
+        { name: '筱华', age: '27', text:'', sex: 2, province: '广东', image: 'https://s3.pstatp.com/toutiao/xitu_juejin_web/img/wechat.63e1ce0.svg' }
       ],
       tableAttr: {
         border: true,
@@ -95,13 +87,25 @@ export default {
         sortChange: row => console.log('sortChange', row)
       },
       tableHeader: [
-        { label: '姓名', prop: 'name' },
+        { label: '姓名', prop: 'name', option: { align: 'center', class: 'stylestyle' } },
         { label: '年龄', prop: 'age', option: { sortable: 'custom' } },
         { label: '性别', prop: 'sex', option: { sortable: 'custom' }, formatData: (val) => {return val === 1 ? '男' : '女' } },
         {
           label: '定位',
           prop: 'location',
           type: 'Slot'
+        },
+        {
+          label: '图片',
+          prop: 'image',
+          type: 'Image',
+          option: { align: 'center', 'width': '50px' }
+        },
+        {
+          label: '输入',
+          prop: 'text',
+          type: 'Input',
+          option: { align: 'center', 'width': '100px' }
         },
         {
           label: '操作', type: 'Button', oper: [
