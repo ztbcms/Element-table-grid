@@ -1,87 +1,92 @@
 # DiyElementuiTable
 
 ## Installation
-```
+
+``` 
 npm install cpy-elementui-table --save
 ```
+
 ## 说明
 
 ### 使用
-```
+
+``` 
 <div class="cpy-main">
-  <diy-search-form
-		:isHandle='true'
-    :searchData="searchData"
-    :searchForm="searchForm"
-    :searchHandle="searchHandle"
-    :formAttr="formAttr"
-  ></diy-search-form>
+  <diy-search-form v-bind="formConfig"></diy-search-form>
   <diy-table
-    :isSelection='true'
-    :isIndex='true'
-    :isPagination='true'
-    :isHandle='true'
     :tableData='tableData'
-    :tableHeader='tableHeader'
-    :tableAttr="tableAttr"
-    :tableHandles='tableHandles'
-    :pagination='pagination'
-    v-bind="tableFuns"
+    :pagination.sync='pagination'
+    v-bind="tableConfig"
   >
   </diy-table>
 </div>
 ```
 
 ## 数据说明
-```
-// 表单数据
-searchData [Object]
 
-// 表单设置
-searchForm [Array]
+``` 
+// 表单配置
+formConfig: {
+  // 是否显示表单按钮
+  isHandle: true,
 
-// 表单按钮方法设置
-searchHandle [Array]
+  // 表单数据
+  searchData [Object]
 
-// 表单属性设置(elementui form组件的Attr)
-formAttr [Object]
+  // 表单设置
+  searchForm [Array]
+
+  // 表单按钮方法设置
+  searchHandle [Array]
+
+  // 表单属性设置(elementui form组件的Attr)
+  formAttr [Object]
+}
+
+// 表格配置
+tableConfig: {
+  // 表格属性设置(elementui table组件的Attr)
+  tableAttr [Object]
+
+  // 表格方法设置(elementui table组件的Events)
+  select: () => {}
+  ....
+
+  // 表格头设置
+  tableHeader [Array]
+
+  // 表格头按钮设置
+  tableHandles [Array]
+
+  // 是否设置表格，表单按钮
+  isHandle [Boolean]
+
+  // 是否分页
+  isPagination [Boolean]
+
+  // 是否显示表格索引
+  isIndex [Boolean]
+
+  // 表格索引名称
+  indexLabel [String]
+
+  // 是否显示表格复选框
+  isSelection [Boolean]
+
+  // 是否加载
+  loading [Boolean]
+}
 
 // 表格数据
 tableData [Array]
 
-// 表格属性设置(elementui table组件的Attr)
-tableAttr [Object]
-
-// 表格方法设置(elementui table组件的Events)
-tableFuns [Object]
-
-// 表格头设置
-tableHeader [Array]
-
-// 表格头按钮设置
-tableHandles [Array]
-
 // 分页
 pagination [Object]
-
-// 是否设置表格，表单按钮
-isHandle [Boolean]
-
-// 是否分页
-isPagination [Boolean]
-
-// 是否显示表格索引
-isIndex [Boolean]
-
-// 表格索引名称
-indexLabel [String]
-
-// 是否加载
-loading [Boolean]
 ```
 
 ### 表单数据searchData
-```
+
+``` 
 // 需要绑定的属性
 searchData: {
 	name: null,
@@ -91,7 +96,8 @@ searchData: {
 ```
 
 ### 表单设置searchForm
-```
+
+``` 
 // searchForm为Array类型
 // type：控制其类型（目前支持Input，Select，Date, Time）（判断调用element的组件）
 // prop：与searchData的key相对应
@@ -106,8 +112,9 @@ searchForm: [
 ]
 ```
 
-### 表单按钮方法设置
-```
+### 表单按钮方法设置searchHandle
+
+``` 
 searchHandle: [
 	{ label: '查询', type: 'primary', handle: (searchForm) => console.log('searchForm', searchForm) },
 	{ label: '重置', type: 'primary', handle: () => '' }
@@ -115,59 +122,167 @@ searchHandle: [
 ```
 
 ### 表格数据tableData 
-```
+
+``` 
 // tableData为Array类型
 tableData: [
-	{ name: '张三', age: '12', sex: '男', interst: '女' },
-	{ name: '李四', age: '27', sex: '女', interst: '羽毛球' }
-]
+  { id: 1, name: '张三', age: '12', text: '', sex: 1, province: '广东', rate: 4.7, checkbox: [], image: 'https://s3.pstatp.com/toutiao/xitu_juejin_web/img/wechat.63e1ce0.svg' },
+  { id: 7, name: '李四', age: '27', text: '', sex: 2, province: '广东', rate: 4.7, checkbox: [], image: 'https://s3.pstatp.com/toutiao/xitu_juejin_web/img/wechat.63e1ce0.svg', children: [{ id: 8, name: '李四', age: '27', text: '', sex: 2, province: '广东', rate: 4.7, checkbox: [], image: 'https://s3.pstatp.com/toutiao/xitu_juejin_web/img/wechat.63e1ce0.svg'}] }
+],
 ```
 
 ### 表格头设置tableHeader
-```
+
+``` 
 // tableHeader为Array类型
 // type：控制其类型（目前支持Text, Html, Button, Select, Radio, Checkbox, Rate, Switch, Image, Slider, Link, Popover）（判断调用element的组件）
 // prop：与tableData的key相对应
-// scopeoption： 根据type的不同改变，为elementui组件的Attr
-// option： elementui el-table-column组件的Attr
+// {...}Attr： 根据type的不同改变，为elementui组件的Attr  例：tableColumnAttr，selectAttr
 // label: 标题名
 // formatData方法： type为Text或null时存在formatData方法用于过滤信息
 // 组件的Events方法（根据type的不同改变）如下
 tableHeader: [
-	{ label: '姓名', prop: 'name' },
-	{ label: '年龄', prop: 'age', option: { sortable: 'custom' } },
-	{ label: '性别', prop: 'sex', option: { sortable: 'custom' }, formatData: (val) => {return val === 1 ? '男' : '女'} },
-	{ label: '爱好',type: 'Html', prop: 'interst', scopeoption: {} },
-	{
-		label: '操作', type: 'Button', oper: [
-			{ type: 'primary', name: '编辑', click: row => console.log('tag', row), scopeoption: {type: 'success'} },
-			{ type: 'danger', name: '删除', click: row => console.log('tag', row) }
-		]
-	}
+	{ label: '姓名', prop: 'name', tableColumnAttr: { align: 'center', class: 'stylestyle' } },
+  { label: '年龄', prop: 'age', tableColumnAttr: { sortable: 'custom' } },
+  { label: '性别', prop: 'sex', tableColumnAttr: { sortable: 'custom' }, formatData: (val) => { return val === 1 ? '男' : '女' } },
+  {
+    label: '定位',
+    prop: 'location',
+    type: 'Slot'
+  },
+  {
+    label: '滑块',
+    prop: 'slider',
+    type: 'Slider',
+    tableColumnAttr: { align: 'center', 'width': '100px' },
+    sliderAttr: {
+    },
+    change: (txt, row) => console.log('change', txt, row)
+  },
+  {
+    label: '图片',
+    prop: 'image',
+    type: 'Image',
+    tableColumnAttr: { align: 'center', 'width': '50px' }
+  },
+  {
+    label: '输入',
+    prop: 'text',
+    type: 'Input',
+    tableColumnAttr: { align: 'center', 'width': '100px' },
+    inputAttr: {}
+  },
+  {
+    label: '下拉框',
+    prop: 'select',
+    type: 'Select',
+    tableColumnAttr: { align: 'center', 'width': '150px' },
+    selectAttr: {},
+    optionAttr: {
+      placeholder: '请选择...'
+    },
+    options: sexs,
+    props: sexProps,
+    change: (txt, row) => console.log('change', txt, row)
+  },
+  {
+    label: '单选',
+    prop: 'radio',
+    type: 'Radio',
+    tableColumnAttr: { align: 'center', 'width': '150px' },
+    radioAttr: {
+      disabled: false
+    },
+    radios: sexs,
+    change: (txt, row) => console.log('change', txt, row)
+  },
+  {
+    label: '复选框',
+    prop: 'checkbox',
+    type: 'Checkbox',
+    tableColumnAttr: { align: 'center', 'width': '150px' },
+    checkboxAttr: {},
+    checkboxGroupAttr: {},
+    checkboxs: sexs,
+    change: (txt, row) => console.log('change', txt, row)
+  },
+  {
+    label: '评价',
+    prop: 'rate',
+    type: 'Rate',
+    tableColumnAttr: { align: 'center', 'width': '150px' },
+    rateAttr: {
+      disabled: true
+    },
+    change: (txt, row) => console.log('change', txt, row)
+  },
+  {
+    label: '开关',
+    prop: 'switch',
+    type: 'Switch',
+    tableColumnAttr: { align: 'center', 'width': '100px' },
+    switchAttr: {
+    },
+    change: (txt, row) => console.log('change', txt, row)
+  },
+  {
+    label: '链接',
+    prop: 'image',
+    type: 'Link',
+    tableColumnAttr: { align: 'center', 'width': '100px' },
+    linkAttr: {}
+  },
+  {
+    label: '长文本',
+    prop: 'image',
+    type: 'Popover',
+    tableColumnAttr: { align: 'center', 'width': '100px' },
+    popoverAttr: {
+      trigger: "hover"
+    }
+  },
+  {
+    label: '操作', type: 'Button',
+    tableColumnAttr: { fixed: 'right', align: 'center', 'width': '200px', 'z-index': '' },
+    buttonGroup: [
+      { name: '编辑', click: row => console.log('tag', row), buttonAttr: { type: 'primary' } },
+      { name: '删除', click: row => console.log('tag', row), buttonAttr: { type: 'danger' } }
+    ]
+  }
 ]
 ```
 
 ### 表格头按钮设置tableHandles
-```
-// option： elementui button组件的Attr
+
+``` 
+// buttonAttr elementui button组件的Attr
 tableHandles: [
-	{ label: '新增', type: 'primary', click: () => console.log('tag'), option: { type: 'success' } }
+  { label: '新增', click: () => console.log('tag'), buttonAttr: { type: 'success' } },
+  {
+    label: '查看',
+    click: () => this.Look(),
+    buttonAttr: { type: 'primary' }
+  }
 ]
 ```
 
 ### 分页pagination
-```
+
+``` 
 pagination: {
 	pageSize: 10, // 页条数
-	pageNum: 1, // 当前页
-	total: 17, // 总条数
-	sizeChange: () => {}, // 页条数大小改变触发
-	currentChange: () => {} // 当前页改变触发
+  pageNum: 1, // 当前页
+  total: 17, // 总条数
+  sizeChange: () => console.log('handleSizeChange'), // 页条数大小改变触发
+  currentChange: () => console.log('handleCurrentChange'), // 当前页改变触发
+  layout: 'total,sizes ,prev, pager, next,jumper',
+  style: 'display: flex;justify-content: center;height: 100%;align-items: center;'
 }
 ```
 
 ### 支持slot自定义
-```
+
+``` 
 <diy-table>
   <div slot="Slot">
     <el-table-column
@@ -177,7 +292,7 @@ pagination: {
     </el-table-column>
   </div>
 </diy-table>
-
+// name: ['first', 'before', 'Text', 'Html', 'Button', 'Input', 'Select', 'Radio', 'Checkbox', 'Rate', 'Switch', 'Image', 'Slider', 'Link', 'Popover', 'Slot', 'later']
 tableHeader: [
   {
     label: '定位',
@@ -187,5 +302,4 @@ tableHeader: [
 ]
 ```
 
-#### 注意：该组件的方法全部采用驼峰命名 例:sort-change 修改为 sortChange
-
+#### 注意：该组件的方法全部采用驼峰命名 例:sort-change 修改为 sortChange, 但是属性名与elementui相同

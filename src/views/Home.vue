@@ -1,34 +1,31 @@
 <template>
   <div class="cpy-main">
     <el-card>
-      <diy-search-form
-        :searchData="searchData"
-        :searchForm="searchForm"
-        :searchHandle="searchHandle"
-        :formAttr="formAttr"
-      ></diy-search-form>
+      <diy-search-form v-bind="formConfig"></diy-search-form>
       <diy-table
-        :isSelection='true'
-        :isIndex='true'
-        :isPagination='true'
-        :isHandle='true'
         :tableData='tableData'
-        :tableHeader='tableHeader'
-        :tableAttr="tableAttr"
-        :tableHandles='tableHandles'
         :pagination.sync='pagination'
-        v-bind="tableFuns"
+        v-bind="tableConfig"
       >
+        <div slot="before">
+          <el-table-column type="expand">
+            <template slot-scope="props">
+              展开行 {{ props.$index }}
+            </template>
+          </el-table-column>
+        </div>
         <div slot="Slot">
           <el-table-column
             prop="province"
             label="省份"
-            width="120">
+            width="120"
+          >
           </el-table-column>
           <el-table-column
             prop="city"
             label="市区"
-            width="120">
+            width="120"
+          >
           </el-table-column>
         </div>
       </diy-table>
@@ -44,79 +41,183 @@ let sexProps = { label: 'label', value: 'value' }
 export default {
   data () {
     return {
-      // 表单数据
-      searchData: {
-        name: null,
-        age: null,
-        sex: null,
-        interst: null
-      },
-      // 表单设置
-      searchForm: [
-        { type: 'Input', label: '', prop: 'name', width: '180px', placeholder: '请输入姓名...', option: {}, formoption: {} },
-        { type: 'Input', label: '', prop: 'age', width: '180px', placeholder: '请输入年龄...' },
-        { type: 'Select', label: '', prop: 'sex', width: '180px', options: sexs, props: sexProps, change: row => console.log('tag', row), placeholder: '请选择性别...' },
-        // { type: 'Checkbox', label: '', width: '180px', prop: 'interst', checkboxs: intersts, props: interstProps }
-      ],
-      // 表单按钮方法设置
-      searchHandle: [
-        { label: '查询', type: 'primary', handle: (searchForm) => console.log('searchForm', searchForm) },
-        { label: '重置', type: 'primary', handle: () => '' }
-      ],
-      // 表单
-      formAttr: {
-        size: 'mini',
-        labelWidth: '100px',
-        inline: true
-      },
-      // 表格
-      tableData: [
-        { name: '张三', age: '12', text:'', sex: 1, province: '广东', image: 'https://s3.pstatp.com/toutiao/xitu_juejin_web/img/wechat.63e1ce0.svg' },
-        { name: '李四', age: '27', text:'', sex: 2, province: '广东', image: 'https://s3.pstatp.com/toutiao/xitu_juejin_web/img/wechat.63e1ce0.svg' },
-        { name: '张三', age: '12', text:'', sex: 1, province: '广东', image: 'https://s3.pstatp.com/toutiao/xitu_juejin_web/img/wechat.63e1ce0.svg' },
-        { name: '筱华', age: '27', text:'', sex: 2, province: '广东', image: 'https://s3.pstatp.com/toutiao/xitu_juejin_web/img/wechat.63e1ce0.svg' },
-        { name: '筱华', age: '27', text:'', sex: 2, province: '广东', image: 'https://s3.pstatp.com/toutiao/xitu_juejin_web/img/wechat.63e1ce0.svg' },
-        { name: '筱华', age: '27', text:'', sex: 2, province: '广东', image: 'https://s3.pstatp.com/toutiao/xitu_juejin_web/img/wechat.63e1ce0.svg' },
-        { name: '筱华', age: '27', text:'', sex: 2, province: '广东', image: 'https://s3.pstatp.com/toutiao/xitu_juejin_web/img/wechat.63e1ce0.svg' }
-      ],
-      tableAttr: {
-        border: true,
-        align: 'center'
-      },
-      tableFuns: {
-        sortChange: row => console.log('sortChange', row)
-      },
-      tableHeader: [
-        { label: '姓名', prop: 'name', option: { align: 'center', class: 'stylestyle' } },
-        { label: '年龄', prop: 'age', option: { sortable: 'custom' } },
-        { label: '性别', prop: 'sex', option: { sortable: 'custom' }, formatData: (val) => {return val === 1 ? '男' : '女' } },
-        {
-          label: '定位',
-          prop: 'location',
-          type: 'Slot'
+      // 表单配置
+      formConfig: {
+        // 是否显示表单按钮
+        isHandle: true,
+        // 表单数据
+        searchData: {
+          name: null,
+          age: null,
+          sex: null,
+          interst: null
         },
-        {
-          label: '图片',
-          prop: 'image',
-          type: 'Image',
-          option: { align: 'center', 'width': '50px' }
-        },
-        {
-          label: '输入',
-          prop: 'text',
-          type: 'Input',
-          option: { align: 'center', 'width': '100px' }
-        },
-        {
-          label: '操作', type: 'Button', oper: [
-            { type: 'primary', name: '编辑', click: row => console.log('tag', row), scopeoption: {type: 'success'} },
-            { type: 'danger', name: '删除', click: row => console.log('tag', row) }
-          ]
+        // 表单设置
+        searchForm: [
+          { type: 'Input', label: '', prop: 'name', width: '180px', placeholder: '请输入姓名...', option: {}, formoption: {} },
+          { type: 'Input', label: '', prop: 'age', width: '180px', placeholder: '请输入年龄...' },
+          { type: 'Select', label: '', prop: 'sex', width: '180px', options: sexs, props: sexProps, change: row => console.log('tag', row), placeholder: '请选择性别...' },
+          // { type: 'Checkbox', label: '', width: '180px', prop: 'interst', checkboxs: intersts, props: interstProps }
+        ],
+        // 表单按钮方法设置
+        searchHandle: [
+          { label: '查询', type: 'primary', handle: (searchForm) => console.log('searchForm', searchForm) },
+          { label: '重置', type: 'primary', handle: () => '' }
+        ],
+        // 表单
+        formAttr: {
+          size: 'mini',
+          labelWidth: '100px',
+          inline: true
         }
+      },
+      // 表格数据
+      tableData: [
+        { id: 1, name: '张三', age: '12', text: '', sex: 1, province: '广东', rate: 4.7, checkbox: [], image: 'https://s3.pstatp.com/toutiao/xitu_juejin_web/img/wechat.63e1ce0.svg' },
+        { id: 2, name: '李四', age: '27', text: '', sex: 2, province: '广东', rate: 4.7, checkbox: [], image: 'https://s3.pstatp.com/toutiao/xitu_juejin_web/img/wechat.63e1ce0.svg' },
+        { id: 3, name: '张三', age: '12', text: '', sex: 1, province: '广东', rate: 4.7, checkbox: [], image: 'https://s3.pstatp.com/toutiao/xitu_juejin_web/img/wechat.63e1ce0.svg' },
+        { id: 4, name: '筱华', age: '27', text: '', sex: 2, province: '广东', rate: 4.7, checkbox: [], image: 'https://s3.pstatp.com/toutiao/xitu_juejin_web/img/wechat.63e1ce0.svg' },
+        { id: 5, name: '筱华', age: '27', text: '', sex: 2, province: '广东', rate: 4.7, checkbox: [], image: 'https://s3.pstatp.com/toutiao/xitu_juejin_web/img/wechat.63e1ce0.svg' },
+        { id: 6, name: '筱华', age: '27', text: '', sex: 2, province: '广东', rate: 4.7, checkbox: [], image: 'https://s3.pstatp.com/toutiao/xitu_juejin_web/img/wechat.63e1ce0.svg' },
+        { id: 7, name: '筱华', age: '27', text: '', sex: 2, province: '广东', rate: 4.7, checkbox: [], image: 'https://s3.pstatp.com/toutiao/xitu_juejin_web/img/wechat.63e1ce0.svg', children: [{ id: 8, name: '筱华', age: '27', text: '', sex: 2, province: '广东', rate: 4.7, checkbox: [], image: 'https://s3.pstatp.com/toutiao/xitu_juejin_web/img/wechat.63e1ce0.svg'}] }
       ],
-      tableHandles: [
-        { label: '新增', type: 'primary', click: () => console.log('tag'), option: { type: 'success' } }
-      ],
+      // table配置
+      tableConfig: {
+        // 
+        ref: 'diytable',
+        isSelection: true,
+        isIndex: true,
+        isPagination: true,
+        isHandle: true,
+        indexLabel: '序号',
+        tableAttr: {
+          ref: 'cpytable',
+          border: true,
+          align: 'center',
+          'row-key': "id",
+          'tree-props': {children: 'children', hasChildren: 'hasChildren'}
+        },
+        // 排序事件回调
+        sortChange: row => console.log('sortChange', row),
+        tableHeader: [
+          { label: '姓名', prop: 'name', tableColumnAttr: { align: 'center', class: 'stylestyle' } },
+          { label: '年龄', prop: 'age', tableColumnAttr: { sortable: 'custom' } },
+          { label: '性别', prop: 'sex', tableColumnAttr: { sortable: 'custom' }, formatData: (val) => { return val === 1 ? '男' : '女' } },
+          {
+            label: '定位',
+            prop: 'location',
+            type: 'Slot'
+          },
+          {
+            label: '滑块',
+            prop: 'slider',
+            type: 'Slider',
+            tableColumnAttr: { align: 'center', 'width': '100px' },
+            sliderAttr: {
+            },
+            change: (txt, row) => console.log('change', txt, row)
+          },
+          {
+            label: '图片',
+            prop: 'image',
+            type: 'Image',
+            tableColumnAttr: { align: 'center', 'width': '50px' }
+          },
+          {
+            label: '输入',
+            prop: 'text',
+            type: 'Input',
+            tableColumnAttr: { align: 'center', 'width': '100px' },
+            inputAttr: {}
+          },
+          {
+            label: '下拉框',
+            prop: 'select',
+            type: 'Select',
+            tableColumnAttr: { align: 'center', 'width': '150px' },
+            selectAttr: {},
+            optionAttr: {
+              placeholder: '请选择...'
+            },
+            options: sexs,
+            props: sexProps,
+            change: (txt, row) => console.log('change', txt, row)
+          },
+          {
+            label: '单选',
+            prop: 'radio',
+            type: 'Radio',
+            tableColumnAttr: { align: 'center', 'width': '150px' },
+            radioAttr: {
+              disabled: false
+            },
+            radios: sexs,
+            change: (txt, row) => console.log('change', txt, row)
+          },
+          {
+            label: '复选框',
+            prop: 'checkbox',
+            type: 'Checkbox',
+            tableColumnAttr: { align: 'center', 'width': '150px' },
+            checkboxAttr: {},
+            checkboxGroupAttr: {},
+            checkboxs: sexs,
+            change: (txt, row) => console.log('change', txt, row)
+          },
+          {
+            label: '评价',
+            prop: 'rate',
+            type: 'Rate',
+            tableColumnAttr: { align: 'center', 'width': '150px' },
+            rateAttr: {
+              disabled: true
+            },
+            change: (txt, row) => console.log('change', txt, row)
+          },
+          {
+            label: '开关',
+            prop: 'switch',
+            type: 'Switch',
+            tableColumnAttr: { align: 'center', 'width': '100px' },
+            switchAttr: {
+            },
+            change: (txt, row) => console.log('change', txt, row)
+          },
+          {
+            label: '链接',
+            prop: 'image',
+            type: 'Link',
+            tableColumnAttr: { align: 'center', 'width': '100px' },
+            linkAttr: {}
+          },
+          {
+            label: '长文本',
+            prop: 'image',
+            type: 'Popover',
+            tableColumnAttr: { align: 'center', 'width': '100px' },
+            popoverAttr: {
+              trigger: "hover"
+            }
+          },
+          {
+            label: '操作', type: 'Button',
+            tableColumnAttr: { fixed: 'right', align: 'center', 'width': '200px', 'z-index': '' },
+            buttonGroup: [
+              { name: '编辑', click: row => console.log('tag', row), buttonAttr: { type: 'primary' } },
+              { name: '删除', click: row => console.log('tag', row), buttonAttr: { type: 'danger' } }
+            ]
+          }
+        ],
+        tableHandles: [
+          { label: '新增', click: () => console.log('tag'), buttonAttr: { type: 'success' } },
+          {
+            label: '查看',
+            click: () => this.Look(),
+            buttonAttr: { type: 'primary' }
+          }
+        ]
+      },
+      // 分页配置
       pagination: {
         pageSize: 10, // 页条数
         pageNum: 1, // 当前页
@@ -131,6 +232,10 @@ export default {
   methods: {
     GetList () {
 
+    },
+    // 查看选择
+    Look () {
+      console.log(this.$refs.diytable.$refs.cpytable.selection)
     }
   }
 }

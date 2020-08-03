@@ -8,7 +8,7 @@
     >
       <el-button
         v-for='(item, key) in tableHandles'
-        v-bind="item.option"
+        v-bind="item.buttonAttr"
         @click="item.click()"
         :key="key"
       >{{item.label}}</el-button>
@@ -36,8 +36,8 @@
         @header-dragend="headerDragend"
         @expand-change="expandChange"
         v-loading='loading'
-        ref="cpyTable"
       >
+        <slot name="first"></slot>
         <el-table-column
           v-if="isSelection"
           type="selection"
@@ -55,7 +55,7 @@
         <el-table-column
           v-for="(th, key) in tableHeader"
           :key="key+'column'+th.id"
-          v-bind="th.option"
+          v-bind="th.tableColumnAttr"
           :label="th.label"
           :prop="th.prop"
         >
@@ -83,10 +83,10 @@
             <template v-else-if="th.type === 'Button'">
               <slot name="Button">
                 <el-button
-                  v-for="(o, k) in th.oper"
+                  v-for="(o, k) in th.buttonGroup"
                   :key="k"
                   @click.stop="o.click(scope)"
-                  v-bind="o.scopeoption"
+                  v-bind="o.buttonAttr"
                 >{{scope.row[o.prop] || o.name}}</el-button>
               </slot>
             </template>
@@ -95,9 +95,12 @@
               <slot name="Input">
                 <el-input
                   v-model="scope.row[th.prop]"
-                  v-bind="th.scopeoption"
-                  @focus="th.focus && th.focus(scope.row)"
-                  @blur="th.blur && th.blur(scope.row)"
+                  v-bind="th.inputAttr"
+                  @focus="th.focus && th.focus($event, scope.row)"
+                  @blur="th.blur && th.blur($event, scope.row)"
+                  @change="th.change && th.change($event, scope.row)"
+                  @input="th.input && th.input($event, scope.row)"
+                  @clear="th.clear && th.clear(scope.row)"
                 ></el-input>
               </slot>
             </template>
@@ -106,14 +109,22 @@
               <slot name="Select">
                 <el-select
                   v-model="scope.row[th.prop]"
-                  v-bind="th.scopeoption"
-                  @change='th.change && th.change(scope.row)'
+                  v-bind="th.selectAttr"
+                  @change='th.change && th.change($event, scope.row)'
+                  @visible-change="th.visibleChange && th.visibleChange($event, scope.row)"
+                  @remove-tag="th.removeTag && th.removeTag($event, scope.row)"
+                  @clear="th.clear && th.clear($event, scope.row)"
+                  @blur="th.blur && th.blur($event, scope.row)"
+                  @focus="th.focus && th.focus($event, scope.row)"
                 >
                   <el-option
                     v-for="op in th.options"
                     :label="op[th.props.label]"
                     :value="op[th.props.value]"
                     :key="op[th.props.value]"
+                    v-bind="op.optionAttr || th.optionAttr"
+                    @blur="op.blur && op.blur(op)"
+                    @focus="op.focus && op.focus(op)"
                   ></el-option>
                 </el-select>
               </slot>
@@ -123,11 +134,12 @@
               <slot name="Radio">
                 <el-radio-group
                   v-model="scope.row[th.prop]"
-                  v-bind="th.scopeoption"
-                  @change='th.change && th.change(scope.row)'
+                  v-bind="th.radioGroupAttr"
+                  @change='th.change && th.change($event, scope.row)'
                 >
                   <el-radio
                     v-for="ra in th.radios"
+                    v-bind="ra.radioAttr || th.radioAttr"
                     :label="ra.value"
                     :key="ra.value"
                   >{{ra.label}}</el-radio>
@@ -139,13 +151,14 @@
               <slot name="Checkbox">
                 <el-checkbox-group
                   v-model="scope.row[th.prop]"
-                  v-bind="th.scopeoption"
-                  @change='th.change && th.change(scope.row)'
+                  v-bind="th.checkboxGroupAttr"
+                  @change='th.change && th.change($event, scope.row)'
                 >
                   <el-checkbox
                     v-for="ra in th.checkboxs"
                     :label="ra.value"
                     :key="ra.value"
+                    v-bind="ra.checkboxAttr || th.checkboxAttr"
                   >{{ra.label}}</el-checkbox>
                 </el-checkbox-group>
               </slot>
@@ -155,8 +168,8 @@
               <slot name="Rate">
                 <el-rate
                   v-model="scope.row[th.prop]"
-                  v-bind="th.scopeoption"
-                  @change='th.change && th.change(scope.row)'
+                  v-bind="th.rateAttr"
+                  @change='th.change && th.change($event, scope.row)'
                 ></el-rate>
               </slot>
             </template>
@@ -165,8 +178,8 @@
               <slot name="Switch">
                 <el-switch
                   v-model="scope.row[th.prop]"
-                  v-bind="th.scopeoption"
-                  @change='th.change && th.change(scope.row)'
+                  v-bind="th.switchAttr"
+                  @change='th.change && th.change($event, scope.row)'
                 ></el-switch>
               </slot>
             </template>
@@ -175,7 +188,7 @@
               <slot name="Image">
                 <el-image
                   :src="scope.row[th.prop]"
-                  v-bind="th.scopeoption"
+                  v-bind="th.imageAttr"
                   @click.stop="th.click && th.click(scope.row)"
                 >
                 </el-image>
@@ -186,8 +199,8 @@
               <slot name="Slider">
                 <el-slider
                   v-model="scope.row[th.prop]"
-                  v-bind="th.scopeoption"
-                  @change='th.change && th.change(scope.row)'
+                  v-bind="th.sliderAttr"
+                  @change='th.change && th.change($event, scope.row)'
                 ></el-slider>
               </slot>
             </template>
@@ -197,15 +210,15 @@
                 <el-link
                   :href="scope.row[th.prop]"
                   target="_blank"
-                  v-bind="th.scopeoption"
-                >{{ th.scopeoption['name'] || '链接'}}</el-link>
+                  v-bind="th.linkAttr"
+                >{{ th.linkAttr['name'] || '链接'}}</el-link>
               </slot>
             </template>
             <!-- 长文本 -->
             <template v-else-if="th.type === 'Popover'">
               <slot name="Popover">
                 <el-popover
-                  v-bind="th.scopeoption"
+                  v-bind="th.popoverAttr"
                   :content="scope.row[th.prop]"
                 >
                   <div
@@ -356,10 +369,10 @@ export default {
   },
   methods: {
     sizeChange (val) {
-      this.$emit('update:pagination', {...this.pagination, pageSize: val})
+      this.$emit('update:pagination', { ...this.pagination, pageSize: val })
     },
     CurrentChange (val) {
-      this.$emit('update:pagination', {...this.pagination, pageNum: val})
+      this.$emit('update:pagination', { ...this.pagination, pageNum: val })
       this.pagination.getList ? this.pagination.getList() : this.DefGetList()
     },
     DefGetList () {
