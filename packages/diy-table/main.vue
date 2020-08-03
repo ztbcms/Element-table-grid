@@ -231,7 +231,7 @@
           </template>
           <!-- 自定义 -->
           <template v-if="th.type === 'Slot'">
-            <slot name="Slot"></slot>
+            <slot :name="th.slot"></slot>
           </template>
         </el-table-column>
         <slot name="later"></slot>

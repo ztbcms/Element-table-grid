@@ -14,7 +14,7 @@
             </template>
           </el-table-column>
         </div>
-        <div slot="Slot">
+        <div slot="lo">
           <el-table-column
             prop="province"
             label="省份"
@@ -38,6 +38,7 @@ let sexs = [{ label: '男', value: 'M' }, { label: '女', value: 'F' }]
 let sexProps = { label: 'label', value: 'value' }
 // let intersts = [{ label: '羽毛球', value: 'badminton' }, { label: '篮球', value: 'basketball' }]
 // let interstProps = { label: 'label', value: 'value' }
+import data from './data'
 export default {
   data () {
     return {
@@ -72,15 +73,7 @@ export default {
         }
       },
       // 表格数据
-      tableData: [
-        { id: 1, name: '张三', age: '12', text: '', sex: 1, province: '广东', rate: 4.7, checkbox: [], image: 'https://s3.pstatp.com/toutiao/xitu_juejin_web/img/wechat.63e1ce0.svg' },
-        { id: 2, name: '李四', age: '27', text: '', sex: 2, province: '广东', rate: 4.7, checkbox: [], image: 'https://s3.pstatp.com/toutiao/xitu_juejin_web/img/wechat.63e1ce0.svg' },
-        { id: 3, name: '张三', age: '12', text: '', sex: 1, province: '广东', rate: 4.7, checkbox: [], image: 'https://s3.pstatp.com/toutiao/xitu_juejin_web/img/wechat.63e1ce0.svg' },
-        { id: 4, name: '筱华', age: '27', text: '', sex: 2, province: '广东', rate: 4.7, checkbox: [], image: 'https://s3.pstatp.com/toutiao/xitu_juejin_web/img/wechat.63e1ce0.svg' },
-        { id: 5, name: '筱华', age: '27', text: '', sex: 2, province: '广东', rate: 4.7, checkbox: [], image: 'https://s3.pstatp.com/toutiao/xitu_juejin_web/img/wechat.63e1ce0.svg' },
-        { id: 6, name: '筱华', age: '27', text: '', sex: 2, province: '广东', rate: 4.7, checkbox: [], image: 'https://s3.pstatp.com/toutiao/xitu_juejin_web/img/wechat.63e1ce0.svg' },
-        { id: 7, name: '筱华', age: '27', text: '', sex: 2, province: '广东', rate: 4.7, checkbox: [], image: 'https://s3.pstatp.com/toutiao/xitu_juejin_web/img/wechat.63e1ce0.svg', children: [{ id: 8, name: '筱华', age: '27', text: '', sex: 2, province: '广东', rate: 4.7, checkbox: [], image: 'https://s3.pstatp.com/toutiao/xitu_juejin_web/img/wechat.63e1ce0.svg'}] }
-      ],
+      tableData: data,
       // table配置
       tableConfig: {
         // 
@@ -94,6 +87,7 @@ export default {
           ref: 'cpytable',
           border: true,
           align: 'center',
+          height: '500px',
           'row-key': "id",
           'tree-props': {children: 'children', hasChildren: 'hasChildren'}
         },
@@ -106,7 +100,8 @@ export default {
           {
             label: '定位',
             prop: 'location',
-            type: 'Slot'
+            type: 'Slot',
+            slot: 'lo'
           },
           {
             label: '滑块',
@@ -225,7 +220,7 @@ export default {
         sizeChange: () => console.log('handleSizeChange'), // 页条数大小改变触发
         currentChange: () => console.log('handleCurrentChange'), // 当前页改变触发
         layout: 'total,sizes ,prev, pager, next,jumper',
-        style: 'display: flex;justify-content: center;height: 100%;align-items: center;'
+        style: 'display: flex;justify-content: flex-end;height: 100%;align-items: center;margin-top: 10px;'
       }
     }
   },

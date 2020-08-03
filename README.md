@@ -284,7 +284,7 @@ pagination: {
 
 ``` 
 <diy-table>
-  <div slot="Slot">
+  <div slot="location">
     <el-table-column
       prop="province"
       label="省份"
@@ -292,12 +292,15 @@ pagination: {
     </el-table-column>
   </div>
 </diy-table>
-// name: ['first', 'before', 'Text', 'Html', 'Button', 'Input', 'Select', 'Radio', 'Checkbox', 'Rate', 'Switch', 'Image', 'Slider', 'Link', 'Popover', 'Slot', 'later']
+// 预设置slot
+// name: ['first', 'before', 'Text', 'Html', 'Button', 'Input', 'Select', 'Radio', 'Checkbox', 'Rate', 'Switch', 'Image', 'Slider', 'Link', 'Popover', 'later']
+// 自定义插槽name(以tableHeader子项的slot字段设置为名)
 tableHeader: [
   {
     label: '定位',
     prop: 'location',
-    type: 'Slot'
+    type: 'Slot',
+    slot: 'location'
   }
 ]
 ```
