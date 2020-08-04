@@ -73,13 +73,13 @@ export default {
         }
       },
       // 表格数据
-      tableData: data,
+      tableData: [],
       // table配置
       tableConfig: {
         // 
         ref: 'diytable',
-        isSelection: true,
-        isIndex: true,
+        isSelection: false,
+        isIndex: false,
         isPagination: true,
         isHandle: true,
         indexLabel: '序号',
@@ -94,8 +94,8 @@ export default {
         // 排序事件回调
         sortChange: row => console.log('sortChange', row),
         tableHeader: [
-          { label: '姓名', prop: 'name', tableColumnAttr: { align: 'center', class: 'stylestyle' } },
-          { label: '年龄', prop: 'age', tableColumnAttr: { sortable: 'custom' } },
+          { label: 'ID', prop: 'id', tableColumnAttr: { sortable: 'custom', align: 'center' } },
+          { label: '姓名', prop: 'name', tableColumnAttr: { align: 'center' } },
           { label: '性别', prop: 'sex', tableColumnAttr: { sortable: 'custom' }, formatData: (val) => { return val === 1 ? '男' : '女' } },
           {
             label: '定位',
@@ -196,7 +196,7 @@ export default {
           },
           {
             label: '操作', type: 'Button',
-            tableColumnAttr: { fixed: 'right', align: 'center', 'width': '200px', 'z-index': '' },
+            tableColumnAttr: { fixed: 'right', align: 'center', 'width': '200px' },
             buttonGroup: [
               { name: '编辑', click: row => console.log('tag', row), buttonAttr: { type: 'primary' } },
               { name: '删除', click: row => console.log('tag', row), buttonAttr: { type: 'danger' } }
@@ -217,8 +217,8 @@ export default {
         pageSize: 10, // 页条数
         pageNum: 1, // 当前页
         total: 17, // 总条数
-        sizeChange: () => console.log('handleSizeChange'), // 页条数大小改变触发
-        currentChange: () => console.log('handleCurrentChange'), // 当前页改变触发
+        sizeChange: (...args) => this.sizeChange.apply(this, args), // 页条数大小改变触发
+        currentChange: (...args) => this.currentChange.apply(this, args), // 当前页改变触发
         layout: 'total,sizes ,prev, pager, next,jumper',
         style: 'display: flex;justify-content: flex-end;height: 100%;align-items: center;margin-top: 10px;'
       }
@@ -226,12 +226,29 @@ export default {
   },
   methods: {
     GetList () {
-
+      this.tableData = data.slice((this.pagination.pageNum - 1) * this.pagination.pageSize, this.pagination.pageNum * this.pagination.pageSize)
+    },
+    ResetList () {
+      this.pagination.pageNum = 1
+      this.tableData = []
+      this.GetList()
+    },
+    sizeChange (val) {
+      console.log('sizeChange', val)
+      this.pagination.pageSize = val
+    },
+    currentChange (val) {
+      console.log('currentChange', val)
+      this.pagination.pageNum = val
+      this.GetList()
     },
     // 查看选择
     Look () {
       console.log(this.$refs.diytable.$refs.cpytable.selection)
     }
+  },
+  created () {
+    this.ResetList()
   }
 }
 </script>

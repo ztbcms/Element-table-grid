@@ -17,7 +17,7 @@
     <section class="cpy-table">
       <el-table
         v-bind="tableAttr"
-        :data='tableData'
+        :data="tableData"
         @select="select"
         @select-all="selectAll"
         @selection-change="selectionChange"
@@ -35,7 +35,7 @@
         @current-change="currentChange"
         @header-dragend="headerDragend"
         @expand-change="expandChange"
-        v-loading='loading'
+        v-loading="loading"
       >
         <slot name="first"></slot>
         <el-table-column
@@ -240,7 +240,7 @@
     <!-- 分页 -->
     <section
       class="cpy-pagination"
-      v-if='isPagination'
+      v-if="isPagination"
     >
       <el-pagination
         v-bind="pagination"
@@ -277,7 +277,7 @@ export default {
     isPagination: { type: Boolean, default: true },
     // 分页数据
     pagination: { type: Object, default: () => ({ pageSize: 10, pageNum: 1, total: 0 }) },
-    // 表单方法
+    // 表格方法
     select: {
       type: Function,
       default: (selection, row) => { that.$emit('select', selection, row) }
@@ -365,18 +365,6 @@ export default {
       if (typeof (format) === 'function') {
         return format(val)
       } else return val
-    }
-  },
-  methods: {
-    sizeChange (val) {
-      this.$emit('update:pagination', { ...this.pagination, pageSize: val })
-    },
-    CurrentChange (val) {
-      this.$emit('update:pagination', { ...this.pagination, pageNum: val })
-      this.pagination.getList ? this.pagination.getList() : this.DefGetList()
-    },
-    DefGetList () {
-      console.log('DefGetList')
     }
   },
   mounted () {

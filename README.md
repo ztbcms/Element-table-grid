@@ -10,7 +10,7 @@ npm install cpy-elementui-table --save
 
 ### 使用
 
-``` 
+``` html
 <div class="cpy-main">
   <diy-search-form v-bind="formConfig"></diy-search-form>
   <diy-table
@@ -24,7 +24,7 @@ npm install cpy-elementui-table --save
 
 ## 数据说明
 
-``` 
+``` javascript
 // 表单配置
 formConfig: {
   // 是否显示表单按钮
@@ -86,7 +86,7 @@ pagination [Object]
 
 ### 表单数据searchData
 
-``` 
+``` javascript
 // 需要绑定的属性
 searchData: {
 	name: null,
@@ -97,7 +97,7 @@ searchData: {
 
 ### 表单设置searchForm
 
-``` 
+``` javascript
 // searchForm为Array类型
 // type：控制其类型（目前支持Input，Select，Date, Time）（判断调用element的组件）
 // prop：与searchData的key相对应
@@ -114,7 +114,7 @@ searchForm: [
 
 ### 表单按钮方法设置searchHandle
 
-``` 
+``` javascript
 searchHandle: [
 	{ label: '查询', type: 'primary', handle: (searchForm) => console.log('searchForm', searchForm) },
 	{ label: '重置', type: 'primary', handle: () => '' }
@@ -123,7 +123,7 @@ searchHandle: [
 
 ### 表格数据tableData 
 
-``` 
+``` javascript
 // tableData为Array类型
 tableData: [
   { id: 1, name: '张三', age: '12', text: '', sex: 1, province: '广东', rate: 4.7, checkbox: [], image: 'https://s3.pstatp.com/toutiao/xitu_juejin_web/img/wechat.63e1ce0.svg' },
@@ -133,7 +133,7 @@ tableData: [
 
 ### 表格头设置tableHeader
 
-``` 
+``` javascript
 // tableHeader为Array类型
 // type：控制其类型（目前支持Text, Html, Button, Select, Radio, Checkbox, Rate, Switch, Image, Slider, Link, Popover）（判断调用element的组件）
 // prop：与tableData的key相对应
@@ -254,7 +254,7 @@ tableHeader: [
 
 ### 表格头按钮设置tableHandles
 
-``` 
+``` javascript
 // buttonAttr elementui button组件的Attr
 tableHandles: [
   { label: '新增', click: () => console.log('tag'), buttonAttr: { type: 'success' } },
@@ -268,7 +268,7 @@ tableHandles: [
 
 ### 分页pagination
 
-``` 
+``` javascript
 pagination: {
 	pageSize: 10, // 页条数
   pageNum: 1, // 当前页
@@ -282,7 +282,7 @@ pagination: {
 
 ### 支持slot自定义
 
-``` 
+``` html
 <diy-table>
   <div slot="location">
     <el-table-column
@@ -292,6 +292,8 @@ pagination: {
     </el-table-column>
   </div>
 </diy-table>
+```
+```javascript
 // 预设置slot
 // name: ['first', 'before', 'Text', 'Html', 'Button', 'Input', 'Select', 'Radio', 'Checkbox', 'Rate', 'Switch', 'Image', 'Slider', 'Link', 'Popover', 'later']
 // 自定义插槽name(以tableHeader子项的slot字段设置为名)

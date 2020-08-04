@@ -1,6 +1,6 @@
 {
   "name": "cpy-elementui-table",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "基于 element table 的二次封装",
   "main": "lib/diyelementtable.umd.js",
   "keyword": "elementTable table element-table",
@@ -19,18 +19,19 @@
     "vue": "^2.6.11"
   },
   "devDependencies": {
-    "eslint": "^7.5.0",
-    "vue-router": "^3.2.0",
-    "vuex": "^3.4.0",
     "@vue/cli-plugin-babel": "~4.4.0",
     "@vue/cli-plugin-eslint": "~4.4.0",
     "@vue/cli-plugin-router": "^4.4.6",
     "@vue/cli-plugin-vuex": "^4.4.6",
     "@vue/cli-service": "~4.4.0",
+    "axios": "^0.19.2",
     "babel-eslint": "^10.1.0",
+    "eslint": "^7.5.0",
     "eslint-plugin-vue": "^6.2.2",
     "vue-cli-plugin-element": "^1.0.1",
-    "vue-template-compiler": "^2.6.11"
+    "vue-router": "^3.2.0",
+    "vue-template-compiler": "^2.6.11",
+    "vuex": "^3.4.0"
   },
   "eslintConfig": {
     "root": true,
