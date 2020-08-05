@@ -1,0 +1,59 @@
+{
+  "status": true,
+  "data": {
+    "series": [
+      {
+        "name": "完成率",
+        "data": 0.85,
+        "color": "#1890ff"
+      },
+      {
+        "name": "完成率",
+        "data": 0.85,
+        "color": "#1890ff"
+      },
+      {
+        "name": "完成率",
+        "data": 0.85,
+        "color": "#1890ff"
+      },
+      {
+        "name": "完成率",
+        "data": 0.85,
+        "color": "#1890ff"
+      },
+      {
+        "name": "完成率",
+        "data": 0.85,
+        "color": "#1890ff"
+      },
+      {
+        "name": "完成率",
+        "data": 0.85,
+        "color": "#1890ff"
+      },
+      {
+        "name": "完成率",
+        "data": 0.85,
+        "color": "#1890ff"
+      },
+      {
+        "name": "完成率",
+        "data": 0.85,
+        "color": "#1890ff"
+      },
+      {
+        "name": "完成率",
+        "data": 0.85,
+        "color": "#1890ff"
+      },
+      {
+        "name": "完成率",
+        "data": 0.85,
+        "color": "#1890ff"
+      }
+    ],
+    "total": 10,
+    "msg": "请求成功"
+  }
+}

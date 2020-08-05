@@ -9,6 +9,11 @@ Vue.use(VueRouter)
     path: '/',
     name: 'Home',
     component: Home
+  },
+  {
+    path: '/DetaultRequest',
+    name: 'DetaultRequest',
+    component: () => import( "@/views/DetaultRequest")
   }
 ]
 

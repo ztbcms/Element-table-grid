@@ -75,6 +75,9 @@ tableConfig: {
 
   // 是否加载
   loading [Boolean]
+
+  // 默认请求配置
+  requestConfig [Object]
 }
 
 // 表格数据
@@ -305,6 +308,20 @@ tableHeader: [
     slot: 'location'
   }
 ]
+```
+
+### requestConfig 默认请求配置
+``` javascript
+// 若存在apiurl便开启默认请求
+requestConfig: {
+  apiurl: 'https://xxxx.com/GetList',
+  data: {
+    'name': ''
+  },
+  headers: {
+    'content-type': 'text/json; charset=utf-8'
+  }
+}
 ```
 
 #### 注意：该组件的方法全部采用驼峰命名 例:sort-change 修改为 sortChange, 但是属性名与elementui相同

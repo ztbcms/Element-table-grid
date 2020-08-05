@@ -86,7 +86,6 @@ export default {
         tableAttr: {
           ref: 'cpytable',
           border: true,
-          align: 'center',
           height: '500px',
           'row-key': "id",
           'tree-props': {children: 'children', hasChildren: 'hasChildren'}

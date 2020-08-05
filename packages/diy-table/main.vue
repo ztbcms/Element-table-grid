@@ -17,7 +17,7 @@
     <section class="cpy-table">
       <el-table
         v-bind="tableAttr"
-        :data="tableData"
+        :data="tableData || detaultData"
         @select="select"
         @select-all="selectAll"
         @selection-change="selectionChange"
@@ -35,7 +35,7 @@
         @current-change="currentChange"
         @header-dragend="headerDragend"
         @expand-change="expandChange"
-        v-loading="loading"
+        v-loading="loading || detaultLoading"
       >
         <slot name="first"></slot>
         <el-table-column
@@ -242,19 +242,69 @@
       class="cpy-pagination"
       v-if="isPagination"
     >
-      <el-pagination
-        v-bind="pagination"
-        @current-change="pagination.currentChange && pagination.currentChange($event)"
-        @size-change="pagination.sizeChange && pagination.sizeChange($event)"
-      ></el-pagination>
+      <template v-if="!requestConfig.apiurl">
+        <el-pagination
+          v-bind="pagination"
+          @current-change="pagination.currentChange && pagination.currentChange($event)"
+          @size-change="pagination.sizeChange && pagination.sizeChange($event)"
+        ></el-pagination>
+      </template>
+      <template v-else>
+        <el-pagination
+          v-bind="detaultPagination"
+          @current-change="detaultCurrentChange"
+          @size-change="detaultSizeChange"
+        ></el-pagination>
+      </template>
     </section>
   </section>
 </template>
 
 <script>
 let that = null
+import Axios from 'axios'
+import qs from 'qs'
+
+// get请求
+const Get = ({ url, data, header }) => {
+  return new Promise((resolve, reject) => {
+    Axios.get(url, {
+      params: data,
+      headers: header
+    }).then(res => {
+      resolve(res)
+    }).catch(res => {
+      reject(res)
+    })
+  })
+}
+
+const Post = ({ url, data, header }) => {
+  return new Promise((resolve, reject) => {
+    Axios.post(url, qs.stringify(data), {
+      headers: header
+    }).then(res => {
+      resolve(res)
+    }).catch(res => {
+      reject(res)
+    })
+  })
+}
 export default {
   name: 'DiyTable',
+  data () {
+    return {
+      detaultPagination: {
+        pageSize: 10, // 页条数
+        pageNum: 1, // 当前页
+        total: 0, // 总条数
+        layout: 'total,sizes ,prev, pager, next,jumper',
+        style: 'display: flex;justify-content: flex-end;height: 100%;align-items: center;margin-top: 10px;'
+      },
+      detaultLoading: false,
+      detaultData: []
+    }
+  },
   props: {
     // 表格属性
     tableAttr: [Object],
@@ -264,7 +314,7 @@ export default {
     isHandle: { type: Boolean, default: false },
     tableHandles: { type: Array, default: () => [] },
     // 表格数据
-    tableData: { type: Array, default: () => [] },
+    tableData: [Array],
     // 表格列配置
     tableHeader: { type: Array, default: () => [] },
     // 是否显示表格复选框
@@ -275,6 +325,10 @@ export default {
     indexLabel: { type: String, default: '序号' },
     // 是否显示分页
     isPagination: { type: Boolean, default: true },
+    // 默认请求配置
+    requestConfig: { type: Object, default: () => ({}) },
+    // 表单数据
+    searchData: { type: Object, default: () => ({}) },
     // 分页数据
     pagination: { type: Object, default: () => ({ pageSize: 10, pageNum: 1, total: 0 }) },
     // 表格方法
@@ -367,8 +421,51 @@ export default {
       } else return val
     }
   },
+  methods: {
+    detaultGetList () {
+      this.detaultLoading = true
+      let fun = null
+      if (this.requestConfig.method === 'post') {
+        fun = Post
+      } else {
+        fun = Get
+      }
+      fun({
+        url: this.requestConfig.apiurl,
+        data: {
+          page: this.detaultPagination.pageNum,
+          limit: this.detaultPagination.pageSize,
+          ...(this.requestConfig.data || {}),
+          ...(this.searchData || {})
+        },
+        header: this.requestConfig.headers || {}
+      }).then(({data}) => {
+        if (data.status) {
+          let resdata = data.data
+            this.detaultPagination.total = resdata.total_pages
+            this.detaultData = resdata.items
+        } else {
+          this.$message.error(data.msg);
+        }
+        this.detaultLoading = false
+      }).catch(() => {
+        this.$message.error('请求失败')
+        this.detaultLoading = false
+      })
+    },
+    detaultCurrentChange (val) {
+      this.detaultPagination.pageNum = val
+      this.detaultGetList()
+    },
+    detaultSizeChange (val) {
+      this.detaultPagination.pageSize = val
+    }
+  },
   mounted () {
     that = this
+    if (this.requestConfig.apiurl) {
+      this.detaultGetList()
+    }
   }
 }
 </script>
