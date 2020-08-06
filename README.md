@@ -1,10 +1,14 @@
 # DiyElementuiTable
+> DIY表格
 
 ## Installation
 
 ``` 
 npm install cpy-elementui-table --save
 ```
+
+演示请参考 `examples/es5/demo.html`
+
 
 ## 说明
 
