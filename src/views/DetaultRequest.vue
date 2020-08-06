@@ -58,7 +58,10 @@ export default {
           apiurl: 'https://admin.shidiaoquan.com/User/Matter/matterList',
           method: 'post',
           data: {},
-          headers: {}
+          headers: {},
+          datakeys: ['data', 'items'],
+          totalkeys: ['data', 'total_pages'],
+          resCodes: [200, 1]
         }
       }
     }

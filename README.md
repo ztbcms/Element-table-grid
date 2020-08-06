@@ -328,7 +328,10 @@ requestConfig: {
   },
   headers: { // 请求头配置
     'content-type': 'text/json; charset=utf-8'
-  }
+  },
+  datakeys: ['data', 'items'], // 追踪列表数据字段
+  totalkeys: ['data', 'total_pages'], // 追踪列表条数字段
+  resCodes: [200, 1] // 成功码
 }
 ```
 

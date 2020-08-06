@@ -242,20 +242,22 @@
       class="cpy-pagination"
       v-if="isPagination"
     >
-      <template v-if="!requestConfig.apiurl">
-        <el-pagination
-          v-bind="pagination"
-          @current-change="pagination.currentChange && pagination.currentChange($event)"
-          @size-change="pagination.sizeChange && pagination.sizeChange($event)"
-        ></el-pagination>
-      </template>
-      <template v-else>
-        <el-pagination
-          v-bind="detaultPagination"
-          @current-change="detaultCurrentChange"
-          @size-change="detaultSizeChange"
-        ></el-pagination>
-      </template>
+      <slot name="pagination">
+        <template v-if="!requestConfig.apiurl">
+          <el-pagination
+            v-bind="pagination"
+            @current-change="pagination.currentChange && pagination.currentChange($event)"
+            @size-change="pagination.sizeChange && pagination.sizeChange($event)"
+          ></el-pagination>
+        </template>
+        <template v-else>
+          <el-pagination
+            v-bind="detaultPagination"
+            @current-change="detaultCurrentChange"
+            @size-change="detaultSizeChange"
+          ></el-pagination>
+        </template>
+      </slot>
     </section>
   </section>
 </template>
@@ -422,6 +424,7 @@ export default {
     }
   },
   methods: {
+    // 默认获取列表
     detaultGetList () {
       this.detaultLoading = true
       let fun = null
@@ -439,11 +442,12 @@ export default {
           ...(this.searchData || {})
         },
         header: this.requestConfig.headers || {}
-      }).then(({data}) => {
-        if (data.status) {
-          let resdata = data.data
-            this.detaultPagination.total = resdata.total_pages
-            this.detaultData = resdata.items
+      }).then(({ data }) => {
+        let resCodes = this.requestConfig.resCodes || []
+        let codeStatus = resCodes.findIndex(item => item === data.code) != -1
+        if (data.status || codeStatus) {
+          this.detaultPagination.total = this.setListTotal(data)
+          this.detaultData = this.setListData(data)
         } else {
           this.$message.error(data.msg);
         }
@@ -453,10 +457,34 @@ export default {
         this.detaultLoading = false
       })
     },
+    // set列表数据
+    setListData (res) {
+      if (this.requestConfig.datakeys && this.requestConfig.datakeys.length) {
+        this.requestConfig.datakeys.forEach(item => {
+          res = res[item]
+        })
+        return res
+      } else {
+        return res.data.items
+      }
+    },
+    // set列表total
+    setListTotal (res) {
+      if (this.requestConfig.totalkeys && this.requestConfig.totalkeys.length) {
+        this.requestConfig.totalkeys.forEach(item => {
+          res = res[item]
+        })
+        return res
+      } else {
+        return res.data.total_pages
+      }
+    },
+    // 默认页码变化
     detaultCurrentChange (val) {
       this.detaultPagination.pageNum = val
       this.detaultGetList()
     },
+    // 默认单页个数
     detaultSizeChange (val) {
       this.detaultPagination.pageSize = val
     }
