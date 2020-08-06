@@ -14,20 +14,10 @@
             </template>
           </el-table-column>
         </div>
-        <div slot="lo">
-          <el-table-column
-            prop="province"
-            label="省份"
-            width="120"
-          >
-          </el-table-column>
-          <el-table-column
-            prop="city"
-            label="市区"
-            width="120"
-          >
-          </el-table-column>
-        </div>
+
+        <template slot="location" slot-scope="scope">
+          {{scope.row.id}} / {{scope.row.name}}
+        </template>
       </diy-table>
     </el-card>
   </div>
@@ -98,9 +88,9 @@ export default {
           { label: '性别', prop: 'sex', tableColumnAttr: { sortable: 'custom' }, formatData: (val) => { return val === 1 ? '男' : '女' } },
           {
             label: '定位',
-            prop: 'location',
             type: 'Slot',
-            slot: 'lo'
+            prop: 'location',
+            slot: 'location'
           },
           {
             label: '滑块',

@@ -228,10 +228,10 @@
                 </el-popover>
               </slot>
             </template>
-          </template>
-          <!-- 自定义 -->
-          <template v-if="th.type === 'Slot'">
-            <slot :name="th.slot"></slot>
+            <!-- 自定义 -->
+            <template v-if="th.type === 'Slot'">
+              <slot :name="th.slot" v-bind="scope"></slot>
+            </template>
           </template>
         </el-table-column>
         <slot name="later"></slot>
