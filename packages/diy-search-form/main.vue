@@ -1,6 +1,6 @@
 <!-- 搜索表单 -->
 <template>
-  <div class="ces-search">
+  <div class="cpy-search">
     <el-form v-bind="formAttr">
       <el-form-item
         v-for='item in searchForm'
@@ -14,11 +14,11 @@
           v-model="searchData[item.prop]"
           v-bind="item.option"
           :placeholder="item.placeholder"
-					@blur="item.blur && item.blur($event, searchData[item.prop])"
-					@focus="item.focus && item.focus($event, searchData[item.prop])"
-					@input="item.input && item.input($event, searchData[item.prop])"
-					@change="item.change && item.change($event, searchData[item.prop])"
-					@clear="item.clear && item.clear($event, searchData[item.prop])"
+          @blur="item.blur && item.blur($event, searchData[item.prop])"
+          @focus="item.focus && item.focus($event, searchData[item.prop])"
+          @input="item.input && item.input($event, searchData[item.prop])"
+          @change="item.change && item.change($event, searchData[item.prop])"
+          @clear="item.clear && item.clear($event, searchData[item.prop])"
         ></el-input>
         <!-- 下拉框 -->
         <el-select
@@ -27,11 +27,11 @@
           v-bind="item.option"
           :placeholder="item.placeholder"
           @change="item.change && item.change($event, searchData[item.prop])"
-					@visible-change="item.visibleChange && item.visibleChange($event, searchData[item.prop])"
-					@remove-tag="item.removeTag && item.removeTag($event, searchData[item.prop])"
-					@clear="item.clear && item.clear($event, searchData[item.prop])"
-					@blur="item.blur && item.blur($event, searchData[item.prop])"
-					@focus="item.focus && item.focus($event, searchData[item.prop])"
+          @visible-change="item.visibleChange && item.visibleChange($event, searchData[item.prop])"
+          @remove-tag="item.removeTag && item.removeTag($event, searchData[item.prop])"
+          @clear="item.clear && item.clear($event, searchData[item.prop])"
+          @blur="item.blur && item.blur($event, searchData[item.prop])"
+          @focus="item.focus && item.focus($event, searchData[item.prop])"
         >
           <el-option
             v-for="op in item.options"
@@ -86,18 +86,18 @@
           v-if="item.type==='Date'"
           v-bind="item.option"
           v-model="searchData[item.prop]"
-					@change="item.change && item.change($event, searchData[item.prop])"
-					@blur="item.blur && item.blur($event, searchData[item.prop])"
-					@focus="item.focus && item.focus($event, searchData[item.prop])"
+          @change="item.change && item.change($event, searchData[item.prop])"
+          @blur="item.blur && item.blur($event, searchData[item.prop])"
+          @focus="item.focus && item.focus($event, searchData[item.prop])"
         ></el-date-picker>
         <!-- 时间 -->
         <el-time-select
           v-if="item.type==='Time'"
           v-bind="item.option"
           v-model="searchData[item.prop]"
-					@change="item.change && item.change($event, searchData[item.prop])"
-					@blur="item.blur && item.blur($event, searchData[item.prop])"
-					@focus="item.focus && item.focus($event, searchData[item.prop])"
+          @change="item.change && item.change($event, searchData[item.prop])"
+          @blur="item.blur && item.blur($event, searchData[item.prop])"
+          @focus="item.focus && item.focus($event, searchData[item.prop])"
         ></el-time-select>
         <!-- 日期时间 -->
         <el-date-picker
@@ -105,9 +105,9 @@
           v-bind="item.option"
           type='datetime'
           v-model="searchData[item.prop]"
-					@change="item.change && item.change($event, searchData[item.prop])"
-					@blur="item.blur && item.blur($event, searchData[item.prop])"
-					@focus="item.focus && item.focus($event, searchData[item.prop])"
+          @change="item.change && item.change($event, searchData[item.prop])"
+          @blur="item.blur && item.blur($event, searchData[item.prop])"
+          @focus="item.focus && item.focus($event, searchData[item.prop])"
         ></el-date-picker>
         <!-- 开关 -->
         <el-switch
@@ -115,20 +115,25 @@
           v-bind="item.option"
           v-model="searchData[item.prop]"
         ></el-switch>
+        <el-button
+          v-if="item.type==='Button'"
+          v-bind="item.option"
+          @click="item.click && item.click(searchData[item.prop])"
+        >{{item.name}}</el-button>
       </el-form-item>
     </el-form>
     <el-form
-      inline
+      v-bind="formAttr"
       v-if='isHandle'
     >
       <el-form-item
         v-for='item in searchHandle'
-        :key="item.label"
+        :key="item.name"
       >
         <el-button
           v-bind="item.option"
-          @click='item.handle(searchData)'
-        >{{item.label}}</el-button>
+          @click='item.click && item.click(searchData[item.prop])'
+        >{{item.name}}</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -140,7 +145,7 @@ export default {
   props: {
     isHandle: {
       type: Boolean,
-      default: true
+      default: false
     },
     formAttr: [Object],
     searchForm: {
@@ -166,4 +171,7 @@ export default {
 </script>
 
 <style>
+.cpy-search {
+
+}
 </style>

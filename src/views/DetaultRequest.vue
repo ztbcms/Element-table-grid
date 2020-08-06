@@ -9,6 +9,8 @@
 </template>
 
 <script>
+let sexs = [{ label: '男', value: 'M' }, { label: '女', value: 'F' }]
+let sexProps = { label: 'label', value: 'value' }
 export default {
   data () {
     return {
@@ -20,20 +22,26 @@ export default {
         searchData: {
           name: null,
           age: null,
+          sex: null,
+          date: null
         },
         // 表单设置
         searchForm: [
           { type: 'Input', label: '', prop: 'name', width: '180px', placeholder: '请输入姓名...', option: {}, formoption: {} },
-          { type: 'Input', label: '', prop: 'age', width: '180px', placeholder: '请输入年龄...' }
+          { type: 'Input', label: '', prop: 'age', width: '180px', placeholder: '请输入年龄...' },
+          { type: 'Select', label: '', prop: 'sex', width: '180px', options: sexs, props: sexProps, change: row => console.log('tag', row), placeholder: '请选择性别...' },
+          { type: 'Date', label: '', width: '180px', propcs: 'date', option: { "value-format": "yyyy-MM-dd", placeholder: '请选择时间...' } },
+          { type: 'Button', label: '', name: '查询', prop: 'button', option: { type: 'primary', icon: "el-icon-search" }, click: () => this.$refs.diytable.detaultGetList() }
         ],
         // 表单按钮方法设置
         searchHandle: [
-          { label: '查询', type: 'primary', handle: () => this.$refs.diytable.detaultGetList() }
+          { name: '查询', option: { type: 'primary' }, click: () => this.$refs.diytable.detaultGetList() }
         ],
         // 表单
         formAttr: {
           labelWidth: '100px',
-          inline: true
+          inline: true,
+          size: 'small'
         }
       },
       // table配置

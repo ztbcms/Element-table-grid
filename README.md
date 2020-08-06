@@ -28,7 +28,7 @@ npm install cpy-elementui-table --save
 // 表单配置
 formConfig: {
   // 是否显示表单按钮
-  isHandle: true,
+  isHandle [Boolean],
 
   // 表单数据
   searchData [Object]
@@ -79,6 +79,9 @@ tableConfig: {
   // 默认请求配置
   requestConfig [Object]
 }
+
+// 默认请求附加筛选数据(requestConfig筛选失效即有效)
+searchData [Object]
 
 // 表格数据
 tableData [Array]
