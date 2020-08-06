@@ -119,7 +119,7 @@
           v-if="item.type==='Button'"
           v-bind="item.option"
           @click="item.click && item.click(searchData[item.prop])"
-        >{{item.name}}</el-button>
+        >{{item.name}}{{searchData[item.prop] || ''}}</el-button>
       </el-form-item>
     </el-form>
     <el-form
@@ -133,7 +133,7 @@
         <el-button
           v-bind="item.option"
           @click='item.click && item.click(searchData[item.prop])'
-        >{{item.name}}</el-button>
+        >{{item.name}}{{searchData[item.prop] || ''}}</el-button>
       </el-form-item>
     </el-form>
   </div>

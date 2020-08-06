@@ -62,8 +62,8 @@ export default {
         ],
         // 表单按钮方法设置
         searchHandle: [
-          { label: '查询', type: 'primary', handle: (searchForm) => console.log('searchForm', searchForm) },
-          { label: '重置', type: 'primary', handle: () => '' }
+          { name: '查询', option: { type: 'primary' }, click: (searchForm) => console.log('searchForm', searchForm) },
+          { name: '重置', option: { type: 'primary' }, click: () => '' }
         ],
         // 表单
         formAttr: {
