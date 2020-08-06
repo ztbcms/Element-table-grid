@@ -27,7 +27,7 @@ npm install cpy-elementui-table --save
 ``` javascript
 // 表单配置
 formConfig: {
-  // 是否显示表单按钮
+  // 是否显示表单按钮组行
   isHandle [Boolean],
 
   // 表单数据
@@ -317,11 +317,12 @@ tableHeader: [
 ``` javascript
 // 若存在apiurl便开启默认请求
 requestConfig: {
-  apiurl: 'https://xxxx.com/GetList',
-  data: {
+  apiurl: 'https://xxxx.com/GetList', // 请求api
+  method: 'post', // 请求方式
+  data: { // 请求data数据
     'name': ''
   },
-  headers: {
+  headers: { // 请求头配置
     'content-type': 'text/json; charset=utf-8'
   }
 }

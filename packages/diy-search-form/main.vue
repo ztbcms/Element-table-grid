@@ -171,7 +171,4 @@ export default {
 </script>
 
 <style>
-.cpy-search {
-
-}
 </style>

@@ -470,10 +470,6 @@ export default {
 }
 </script>
 <style>
-.cpy-table-require::before {
-  content: '*';
-  color: red;
-}
 .line-lcump2 {
   display: -webkit-box;
   -webkit-line-clamp: 2;

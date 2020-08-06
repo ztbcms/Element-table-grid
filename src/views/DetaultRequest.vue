@@ -39,7 +39,6 @@ export default {
         ],
         // 表单
         formAttr: {
-          labelWidth: '100px',
           inline: true,
           size: 'small'
         }
