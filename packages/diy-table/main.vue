@@ -299,7 +299,7 @@ export default {
         pageNum: 1, // 当前页
         total: 0, // 总条数
         layout: 'total,sizes ,prev, pager, next,jumper',
-        style: 'display: flex;justify-content: flex-end;height: 100%;align-items: center;margin-top: 10px;'
+        style: 'display: flex;justify-content: flex-end;align-items: center;margin-top: 10px;'
       },
       detaultLoading: false,
       detaultData: []

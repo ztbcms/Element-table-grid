@@ -219,7 +219,7 @@ export default {
         sizeChange: (...args) => this.sizeChange.apply(this, args), // 页条数大小改变触发
         currentChange: (...args) => this.currentChange.apply(this, args), // 当前页改变触发
         layout: 'total,sizes ,prev, pager, next,jumper',
-        style: 'display: flex;justify-content: flex-end;height: 100%;align-items: center;margin-top: 10px;'
+        style: 'display: flex;justify-content: flex-end;align-items: center;margin-top: 10px;'
       }
     }
   },

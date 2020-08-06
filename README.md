@@ -122,8 +122,8 @@ searchForm: [
 
 ``` javascript
 searchHandle: [
-	{ label: '查询', type: 'primary', handle: (searchForm) => console.log('searchForm', searchForm) },
-	{ label: '重置', type: 'primary', handle: () => '' }
+  { name: '查询', option: { type: 'primary' }, click: (searchForm) => console.log('searchForm', searchForm) },
+  { name: '重置', option: { type: 'primary' }, click: () => '' }
 ]
 ```
 
@@ -282,7 +282,7 @@ pagination: {
   sizeChange: () => console.log('handleSizeChange'), // 页条数大小改变触发
   currentChange: () => console.log('handleCurrentChange'), // 当前页改变触发
   layout: 'total,sizes ,prev, pager, next,jumper',
-  style: 'display: flex;justify-content: center;height: 100%;align-items: center;'
+  style: 'display: flex;justify-content: center;align-items: center;'
 }
 ```
 

@@ -1,0 +1,86 @@
+<meta charset="utf-8">
+<title>diyelementtable demo</title>
+<script src="https://cdn.staticfile.org/vue/2.4.2/vue.min.js"></script>
+<script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+<!-- 引入样式 -->
+<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+<!-- 引入组件库 -->
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<script src="./diyelementtable.umd.min.js"></script>
+<link rel="stylesheet" href="./diyelementtable.css">
+
+<body>
+  <div id="app">
+    <el-card>
+      <diy-search-form v-bind="formConfig"></diy-search-form>
+      <diy-table v-bind="tableConfig" :searchData="formConfig.searchData">
+      </diy-table>
+    </el-card>
+  </div>
+</body>
+
+<script>
+  var sexs = [{ label: '男', value: 'M' }, { label: '女', value: 'F' }]
+  var sexProps = { label: 'label', value: 'value' }
+  $(document).ready(function () {
+    var app = new Vue({
+      el: '#app',
+      data: {
+        // 表单配置
+        formConfig: {
+          // 表单数据
+          searchData: {
+            name: null,
+            age: null,
+            sex: null,
+            date: null
+          },
+          // 表单设置
+          searchForm: [
+            { type: 'Input', label: '', prop: 'name', width: '180px', placeholder: '请输入姓名...', option: {}, formoption: {} },
+            { type: 'Input', label: '', prop: 'age', width: '180px', placeholder: '请输入年龄...' },
+            { type: 'Select', label: '', prop: 'sex', width: '180px', options: sexs, props: sexProps, change: row => console.log('tag', row), placeholder: '请选择性别...' },
+            { type: 'Date', label: '', width: '180px', propcs: 'date', option: { "value-format": "yyyy-MM-dd", placeholder: '请选择时间...' } },
+            {
+              type: 'Button', label: '', name: '查询', prop: 'button', option: { type: 'primary', icon: "el-icon-search" },
+              click: function () {
+                return app.inquire.apply(app, arguments)
+              }
+            }
+          ],
+          // 表单
+          formAttr: {
+            inline: true,
+            size: 'small'
+          }
+        },
+        // table配置
+        tableConfig: {
+          ref: 'diytable',
+          height: '600px',
+          tableHeader: [
+            { label: 'ID', prop: 'id' },
+            { label: '名称', prop: 'title' },
+            { label: '说明', prop: 'materials_desc' }
+          ],
+          tableAttr: {
+            border: true
+          },
+          requestConfig: {
+            apiurl: 'https://admin.shidiaoquan.com/User/Matter/matterList',
+            method: 'get',
+            data: {},
+            headers: {}
+          }
+        }
+      },
+      methods: {
+        inquire: function () {
+          console.log('tag', this, arguments)
+          var that = this;
+          that.$refs.diytable.detaultGetList()
+        }
+      }
+    })
+  })
+</script>
