@@ -105,6 +105,7 @@ export default {
             label: '图片',
             prop: 'image',
             type: 'Image',
+            imgPreview: true,
             tableColumnAttr: { align: 'center', 'width': '50px' }
           },
           {
@@ -167,16 +168,15 @@ export default {
             switchAttr: {
             },
             change: (txt, row, th) => {
-              // 行id
-              const id = row.id
+              console.log('change', txt, row, th)
               // 这个是当前行的开关状态
-              const type = row[th.prop]
+              // const type = row[th.prop]
               // 异步控制开关
-              setTimeout(() => {
+              // setTimeout(() => {
                 // 如果原数据，没有返回开关的false和true就进行绑定，需要调用set来进行异步设置开关
-                this.$set(row, th.prop, !type)
-                console.log(id)
-              }, 2000)
+                // this.$set(row, th.prop, !type)
+                // console.log(id)
+              // }, 2000)
             }
           },
           {

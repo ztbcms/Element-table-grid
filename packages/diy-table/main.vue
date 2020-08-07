@@ -131,6 +131,7 @@
             </template>
             <!-- 单选 -->
             <template v-else-if="th.type === 'Radio'">
+              {{scope.row[th.prop]}}
               <slot name="Radio">
                 <el-radio-group
                   v-model="scope.row[th.prop]"
@@ -195,6 +196,7 @@
                   :src="scope.row[th.prop]"
                   v-bind="th.imageAttr"
                   @click.stop="th.click && th.click(scope.row)"
+                  :preview-src-list="th.imgPreview ? [scope.row[th.prop]] : []"
                 >
                 </el-image>
               </slot>
