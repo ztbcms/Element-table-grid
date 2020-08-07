@@ -112,6 +112,7 @@ export default {
             label: '输入',
             prop: 'text',
             type: 'Input',
+            disabled: 'inputDisabled',
             tableColumnAttr: { align: 'center', 'width': '100px' },
             inputAttr: {}
           },

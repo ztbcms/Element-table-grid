@@ -96,6 +96,7 @@
                 <el-input
                   v-model="scope.row[th.prop]"
                   v-bind="th.inputAttr"
+                  :disabled="scope.row[th.disabled]"
                   @focus="th.focus && th.focus($event, scope.row)"
                   @blur="th.blur && th.blur($event, scope.row)"
                   @change="th.change && th.change($event, scope.row)"
