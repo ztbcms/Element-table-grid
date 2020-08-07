@@ -211,6 +211,7 @@
               <slot name="Slider">
                 <el-slider
                   v-model="scope.row[th.prop]"
+                  :disabled="scope.row[th.disabled]"
                   v-bind="th.sliderAttr"
                   @change='th.change && th.change($event, scope.row)'
                 ></el-slider>

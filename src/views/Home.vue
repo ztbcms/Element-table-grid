@@ -96,6 +96,7 @@ export default {
             label: '滑块',
             prop: 'slider',
             type: 'Slider',
+            disabled: 'sliderDisabled',
             tableColumnAttr: { align: 'center', 'width': '100px' },
             sliderAttr: {
             },
