@@ -124,6 +124,7 @@
                     :label="op[th.props.label]"
                     :value="op[th.props.value]"
                     :key="op[th.props.value]"
+                    :disabled="op[th.props.disabled]"
                     v-bind="op.optionAttr || th.optionAttr"
                     @blur="op.blur && op.blur(op)"
                     @focus="op.focus && op.focus(op)"

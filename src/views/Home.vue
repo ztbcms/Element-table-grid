@@ -24,8 +24,8 @@
 </template>
 
 <script>
-let sexs = [{ label: '男', value: 'M' }, { label: '女', value: 'F' }]
-let sexProps = { label: 'label', value: 'value' }
+let sexs = [{ label: '男', value: 'M', disabled: true }, { label: '女', value: 'F' }]
+let sexProps = { label: 'label', value: 'value', disabled: 'disabled' }
 // let intersts = [{ label: '羽毛球', value: 'badminton' }, { label: '篮球', value: 'basketball' }]
 // let interstProps = { label: 'label', value: 'value' }
 import data from './data'
