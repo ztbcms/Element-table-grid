@@ -175,7 +175,7 @@
             </template>
             <!-- 开关 -->
             <template v-else-if="th.type === 'Switch'">
-              <div @click="th.change && th.change($event, scope.row, th)" v-if="th.async">
+              <div @click="!scope.row[th.disabled] && th.change && th.change($event, scope.row, th)" v-if="th.async">
                 <el-switch
                   :value="scope.row[th.prop]"
                   v-bind="th.switchAttr"
