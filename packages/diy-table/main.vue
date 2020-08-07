@@ -179,6 +179,7 @@
                 <el-switch
                   :value="scope.row[th.prop]"
                   v-bind="th.switchAttr"
+                  :disabled="scope.row[th.disabled]"
                 ></el-switch>
               </div>
               <el-switch
@@ -186,6 +187,7 @@
                 @change='th.change && th.change($event, scope.row, th)'
                 v-model="scope.row[th.prop]"
                 v-bind="th.switchAttr"
+                :disabled="scope.row[th.disabled]"
               ></el-switch>
             </template>
             <!-- 图像 -->

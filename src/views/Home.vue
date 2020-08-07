@@ -163,6 +163,7 @@ export default {
             label: '开关',
             prop: 'switch',
             type: 'Switch',
+            disabled: 'SwitchDisabled',
             async: false,
             tableColumnAttr: { align: 'center', 'width': '100px' },
             switchAttr: {
