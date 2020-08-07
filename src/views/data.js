@@ -9,6 +9,7 @@ export default [
     rate: 4.7,
     checkbox: [],
     SwitchDisabled: true,
+    radioDisabled: true,
     image:
       "https://s3.pstatp.com/toutiao/xitu_juejin_web/img/wechat.63e1ce0.svg"
   },

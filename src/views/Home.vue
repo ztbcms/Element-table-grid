@@ -132,6 +132,7 @@ export default {
             label: '单选',
             prop: 'radio',
             type: 'Radio',
+            disabled: 'radioDisabled',
             tableColumnAttr: { align: 'center', 'width': '150px' },
             radioAttr: {
               disabled: false

@@ -135,6 +135,7 @@
                 <el-radio-group
                   v-model="scope.row[th.prop]"
                   v-bind="th.radioGroupAttr"
+                  :disabled="scope.row[th.disabled]"
                   @change='th.change && th.change($event, scope.row)'
                 >
                   <el-radio
