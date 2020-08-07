@@ -119,6 +119,7 @@ export default {
             label: '下拉框',
             prop: 'select',
             type: 'Select',
+            disabled: 'selectDisabled',
             tableColumnAttr: { align: 'center', 'width': '150px' },
             selectAttr: {},
             optionAttr: {

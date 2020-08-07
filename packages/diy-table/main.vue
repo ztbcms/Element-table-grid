@@ -110,6 +110,7 @@
                 <el-select
                   v-model="scope.row[th.prop]"
                   v-bind="th.selectAttr"
+                  :disabled="scope.row[th.disabled]"
                   @change='th.change && th.change($event, scope.row)'
                   @visible-change="th.visibleChange && th.visibleChange($event, scope.row)"
                   @remove-tag="th.removeTag && th.removeTag($event, scope.row)"
