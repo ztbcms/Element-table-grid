@@ -144,6 +144,7 @@ export default {
             label: '复选框',
             prop: 'checkbox',
             type: 'Checkbox',
+            disabled: 'checkboxDisabled',
             tableColumnAttr: { align: 'center', 'width': '150px' },
             checkboxAttr: {},
             checkboxGroupAttr: {},

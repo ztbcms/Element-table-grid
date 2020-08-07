@@ -153,6 +153,7 @@
                 <el-checkbox-group
                   v-model="scope.row[th.prop]"
                   v-bind="th.checkboxGroupAttr"
+                  :disabled="scope.row[th.disabled]"
                   @change='th.change && th.change($event, scope.row)'
                 >
                   <el-checkbox
