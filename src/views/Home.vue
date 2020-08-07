@@ -159,8 +159,9 @@ export default {
             prop: 'rate',
             type: 'Rate',
             tableColumnAttr: { align: 'center', 'width': '150px' },
+            disabled: 'RateDisabled',
             rateAttr: {
-              disabled: true
+              'allow-half': true
             },
             change: (txt, row) => console.log('change', txt, row)
           },

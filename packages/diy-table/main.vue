@@ -174,6 +174,7 @@
                 <el-rate
                   v-model="scope.row[th.prop]"
                   v-bind="th.rateAttr"
+                  :disabled="scope.row[th.disabled]"
                   @change='th.change && th.change($event, scope.row)'
                 ></el-rate>
               </slot>
