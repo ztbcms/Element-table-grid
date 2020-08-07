@@ -175,12 +175,18 @@
             </template>
             <!-- 开关 -->
             <template v-else-if="th.type === 'Switch'">
-              <div @click="th.change && th.change($event, scope.row, th)">
+              <div @click="th.change && th.change($event, scope.row, th)" v-if="th.async">
                 <el-switch
                   :value="scope.row[th.prop]"
                   v-bind="th.switchAttr"
                 ></el-switch>
               </div>
+              <el-switch
+                v-else
+                @change='th.change && th.change($event, scope.row, th)'
+                v-model="scope.row[th.prop]"
+                v-bind="th.switchAttr"
+              ></el-switch>
             </template>
             <!-- 图像 -->
             <template v-else-if="th.type === 'Image'">

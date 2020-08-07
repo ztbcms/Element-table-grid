@@ -162,6 +162,7 @@ export default {
             label: '开关',
             prop: 'switch',
             type: 'Switch',
+            async: false,
             tableColumnAttr: { align: 'center', 'width': '100px' },
             switchAttr: {
             },
@@ -172,6 +173,7 @@ export default {
               const type = row[th.prop]
               // 异步控制开关
               setTimeout(() => {
+                // 如果原数据，没有返回开关的false和true就进行绑定，需要调用set来进行异步设置开关
                 this.$set(row, th.prop, !type)
                 console.log(id)
               }, 2000)
