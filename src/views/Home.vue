@@ -165,7 +165,17 @@ export default {
             tableColumnAttr: { align: 'center', 'width': '100px' },
             switchAttr: {
             },
-            change: (txt, row) => console.log('change', txt, row)
+            change: (txt, row, th) => {
+              // 行id
+              const id = row.id
+              // 这个是当前行的开关状态
+              const type = row[th.prop]
+              // 异步控制开关
+              setTimeout(() => {
+                this.$set(row, th.prop, !type)
+                console.log(id)
+              }, 2000)
+            }
           },
           {
             label: '链接',
