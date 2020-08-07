@@ -131,7 +131,6 @@
             </template>
             <!-- 单选 -->
             <template v-else-if="th.type === 'Radio'">
-              {{scope.row[th.prop]}}
               <slot name="Radio">
                 <el-radio-group
                   v-model="scope.row[th.prop]"
