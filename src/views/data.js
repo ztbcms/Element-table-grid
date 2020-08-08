@@ -17,7 +17,45 @@ export default [
     RateDisabled: true,
     buttonHid: true,
     image:
-      "https://s3.pstatp.com/toutiao/xitu_juejin_web/img/wechat.63e1ce0.svg"
+      "https://s3.pstatp.com/toutiao/xitu_juejin_web/img/wechat.63e1ce0.svg",
+    children: [
+      {
+        id: 15646,
+        name: "筱华",
+        age: "27",
+        text: "",
+        sex: 2,
+        province: "广东",
+        rate: 4.7,
+        checkbox: [],
+        image:
+          "https://s3.pstatp.com/toutiao/xitu_juejin_web/img/wechat.63e1ce0.svg"
+      },
+      {
+        id: 15246,
+        name: "筱华",
+        age: "27",
+        text: "",
+        sex: 2,
+        province: "广东",
+        rate: 4.7,
+        checkbox: [],
+        image:
+          "https://s3.pstatp.com/toutiao/xitu_juejin_web/img/wechat.63e1ce0.svg"
+      },
+      {
+        id: 11646,
+        name: "筱华",
+        age: "27",
+        text: "",
+        sex: 2,
+        province: "广东",
+        rate: 4.7,
+        checkbox: [],
+        image:
+          "https://s3.pstatp.com/toutiao/xitu_juejin_web/img/wechat.63e1ce0.svg"
+      }
+    ]
   },
   {
     id: 2,

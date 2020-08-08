@@ -84,22 +84,6 @@
                 <div v-html="th.html(scope.row[th.prop])"></div>
               </slot>
             </template>
-            <!-- 按钮 -->
-            <template v-else-if="th.type === 'Button'">
-              <slot name="Button">
-                <template
-                  v-for="(o, k) in th.buttonGroup"
-                >
-                  <el-button
-                    :key="k"
-                    :size="o.size || 'mini'"
-                    @click.stop="o.click(scope)"
-                    v-bind="o.buttonAttr"
-                    v-if="!scope.row[o.hidKey]"
-                  >{{scope.row[o.prop] || o.name}}</el-button>
-                </template>
-              </slot>
-            </template>
             <!-- 输入框 -->
             <template v-else-if="th.type === 'Input'">
               <slot name="Input">
@@ -253,6 +237,23 @@
                 </el-popover>
               </slot>
             </template>
+            <!-- 按钮 -->
+            <template v-else-if="th.type === 'Button' || (multistage && key === tableHeader.length - 1)">
+              <slot name="Button">
+                <el-button v-if="multistage" size='mini' @click="multistageFn(scope.row)">查看</el-button>
+                <template
+                  v-for="(o, k) in th.buttonGroup"
+                >
+                  <el-button
+                    :key="k"
+                    :size="o.size || 'mini'"
+                    @click.stop="o.click(scope)"
+                    v-bind="o.buttonAttr"
+                    v-if="!scope.row[o.hidKey]"
+                  >{{scope.row[o.prop] || o.name}}</el-button>
+                </template>
+              </slot>
+            </template>
             <!-- 自定义 -->
             <template v-if="th.type === 'Slot'">
               <slot :name="th.slot" v-bind="scope"></slot>
@@ -262,31 +263,55 @@
         <slot name="later"></slot>
       </el-table>
     </section>
-    <div>
-      <el-checkbox :value="checkAll" @click.native="handleCheckAllChange" v-if="checkProp">全选</el-checkbox>
+    <div class="functional">
+      <div class="leftFunctional">
+        <el-checkbox :value="checkAll" @click.native="handleCheckAllChange" v-if="checkProp">全选</el-checkbox>
+        <div class="functionalBtn">
+          <el-button
+            v-for="(item, index) in allselect['buttonGroup']"
+            v-bind="item.buttonAttr"
+            :size="item.size || 'mini'"
+            :key="index"
+          >{{item.name}}</el-button>
+        </div>
+      </div>
+      <!-- 分页 -->
+      <section
+        class="cpy-pagination"
+        v-if="isPagination"
+      >
+        <slot name="pagination">
+          <template v-if="!requestConfig.apiurl">
+            <el-pagination
+              v-bind="pagination"
+              @current-change="pagination.currentChange && pagination.currentChange($event)"
+              @size-change="pagination.sizeChange && pagination.sizeChange($event)"
+            ></el-pagination>
+          </template>
+          <template v-else>
+            <el-pagination
+              v-bind="detaultPagination"
+              @current-change="detaultCurrentChange"
+              @size-change="detaultSizeChange"
+            ></el-pagination>
+          </template>
+        </slot>
+      </section>
     </div>
-    <!-- 分页 -->
-    <section
-      class="cpy-pagination"
-      v-if="isPagination"
+    <!-- 递归组件 -->
+    <diyMultistage
+      :Recursion="Recursion"
+      :show.sync="multistageShow"
+      v-if="multistageShow"
     >
-      <slot name="pagination">
-        <template v-if="!requestConfig.apiurl">
-          <el-pagination
-            v-bind="pagination"
-            @current-change="pagination.currentChange && pagination.currentChange($event)"
-            @size-change="pagination.sizeChange && pagination.sizeChange($event)"
-          ></el-pagination>
-        </template>
-        <template v-else>
-          <el-pagination
-            v-bind="detaultPagination"
-            @current-change="detaultCurrentChange"
-            @size-change="detaultSizeChange"
-          ></el-pagination>
-        </template>
-      </slot>
-    </section>
+      <DiyTable
+        :Recursion="false"
+        :tableData='multistageData'
+        :allselect="allselect"
+        v-bind="childrenConfig || tableConfig"
+        v-if="Recursion"
+      ></DiyTable>
+    </diyMultistage>
   </section>
 </template>
 
@@ -294,6 +319,7 @@
 let that = null
 import Axios from 'axios'
 import qs from 'qs'
+import diyMultistage from '../diy-multistage/diy-multistage'
 
 // get请求
 const Get = ({ url, data, header }) => {
@@ -322,6 +348,9 @@ const Post = ({ url, data, header }) => {
 }
 export default {
   name: 'DiyTable',
+  components: {
+    diyMultistage
+  },
   data () {
     return {
       detaultPagination: {
@@ -332,14 +361,24 @@ export default {
         style: 'display: flex;justify-content: flex-end;align-items: center;margin-top: 10px;'
       },
       detaultLoading: false,
-      detaultData: []
+      detaultData: [],
+      multistageShow: false,
+      multistageData: []
     }
   },
   props: {
+    // 表单配置
+    tableConfig: { type: Object, default: () => {} },
+    // 弹窗表单配置
+    childrenConfig: { type: Object, default: () => {} },
     // 表格属性
     tableAttr: [Object],
     // 是否加载
     loading: { type: Boolean, default: false },
+    // 是否开启多选
+    multistage: {
+      default: false
+    },
     // 表格操作
     isHandle: { type: Boolean, default: false },
     tableHandles: { type: Array, default: () => [] },
@@ -361,6 +400,8 @@ export default {
     searchData: { type: Object, default: () => ({}) },
     // 分页数据
     pagination: { type: Object, default: () => ({ pageSize: 10, pageNum: 1, total: 0 }) },
+    // 全选相关配置
+    allselect: { type: Object, default: () => ({ buttonGroup: [] }) },
     // 表格方法
     select: {
       type: Function,
@@ -429,6 +470,9 @@ export default {
     expandChange: {
       type: Function,
       default: (row, expandedRows) => { that.$emit('expandChange', row, expandedRows) }
+    },
+    Recursion: {
+      default: true
     }
   },
   watch: {
@@ -452,6 +496,11 @@ export default {
     }
   },
   methods: {
+    multistageFn(data) {
+      this.multistageShow = true
+      this.multistageData = data.children
+      console.log(this.tableAttr)
+    },
     radiosClick(e, data, th, value) {
       // 绑定点击事件，第一次在label会触发，第二次在input标签上也会触发，去除input触发的事件
       // 判断本次点击是否和上次点击的一样
@@ -560,7 +609,7 @@ export default {
       var prop = this.checkProp
       var status = false
       if(prop) {
-        const checkIndex = this.tableData.findIndex((el, index) => {
+        const checkIndex = (this.tableData || []).findIndex((el, index) => {
           var childrenIndex = 0
           if(!el[prop]) {
             childrenIndex = index + 1
@@ -593,5 +642,19 @@ export default {
   overflow: hidden;
   text-overflow: ellipsis;
   word-break: break-all;
+}
+.functional{
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.leftFunctional{
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+.functionalBtn{
+  margin-left: 10px;
 }
 </style>
