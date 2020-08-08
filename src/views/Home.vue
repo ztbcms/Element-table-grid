@@ -83,6 +83,7 @@ export default {
         // 排序事件回调
         sortChange: row => console.log('sortChange', row),
         tableHeader: [
+          { label: '', prop: 'check', type: 'check', tableColumnAttr: { align: 'center' } },
           { label: 'ID', prop: 'id', tableColumnAttr: { sortable: 'custom', align: 'center' } },
           { label: '姓名', prop: 'name', tableColumnAttr: { align: 'center' } },
           { label: '性别', prop: 'sex', tableColumnAttr: { sortable: 'custom' }, formatData: (val) => { return val === 1 ? '男' : '女' } },

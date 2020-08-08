@@ -73,6 +73,11 @@
                 >{{ scope.row[th.prop] | formatters(th.formatData) }}</span>
               </slot>
             </template>
+             <!-- 全选 -->
+            <template v-else-if="th.type === 'check'">
+              <!-- {{scope.row}} -->
+              <el-checkbox v-model="scope.row[th.prop]"></el-checkbox>
+            </template>
             <!-- html -->
             <template v-else-if="th.type === 'Html'">
               <slot name="Html">
@@ -252,6 +257,9 @@
         <slot name="later"></slot>
       </el-table>
     </section>
+    <div>
+      <el-checkbox :value="checkAll" @click.native="handleCheckAllChange">全选</el-checkbox>
+    </div>
     <!-- 分页 -->
     <section
       class="cpy-pagination"
@@ -513,6 +521,55 @@ export default {
     // 默认单页个数
     detaultSizeChange (val) {
       this.detaultPagination.pageSize = val
+    },
+    handleCheckAllChange(e) {
+      // 绑定点击事件，第一次在label会触发，第二次在input标签上也会触发，去除input触发的事件
+      // 判断本次点击是否和上次点击的一样
+      if (e.target.tagName === 'INPUT') {
+        return false
+      }
+      var prop = this.tableHeader.find(el => el.type === 'check')
+      var off = true
+      if(this.checkAll) {
+        off = false
+      }
+      this.tableData.forEach(el => {
+        if(el.children) {
+          el.children.forEach(val => {
+            this.$set(val, prop.prop, off)
+          })
+        }
+        this.$set(el, prop.prop, off)
+      })
+    }
+  },
+  computed: {
+    checkProp() {
+      var check = this.tableHeader.find(el => el.type === 'check')
+      if(check.prop) {
+        return check.prop
+      }
+      return false
+    },
+    checkAll() {
+      var prop = this.checkProp
+      var status = false
+      if(prop) {
+        const checkIndex = this.tableData.findIndex((el, index) => {
+          var childrenIndex = 0
+          if(!el[prop]) {
+            childrenIndex = index + 1
+          }
+          if(el.children && childrenIndex === 0) {
+            childrenIndex = el['children'].findIndex(children => children[prop])
+          }
+          return childrenIndex
+        })
+        if(checkIndex === -1) {
+          status = true
+        }
+      }
+      return status
     }
   },
   mounted () {
