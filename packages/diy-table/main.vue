@@ -258,7 +258,7 @@
       </el-table>
     </section>
     <div>
-      <el-checkbox :value="checkAll" @click.native="handleCheckAllChange">全选</el-checkbox>
+      <el-checkbox :value="checkAll" @click.native="handleCheckAllChange" v-if="checkProp">全选</el-checkbox>
     </div>
     <!-- 分页 -->
     <section
@@ -546,7 +546,7 @@ export default {
   computed: {
     checkProp() {
       var check = this.tableHeader.find(el => el.type === 'check')
-      if(check.prop) {
+      if(check) {
         return check.prop
       }
       return false
