@@ -136,12 +136,21 @@ export default {
             prop: 'radio',
             type: 'Radio',
             disabled: 'radioDisabled',
+            async: false,
             tableColumnAttr: { align: 'center', 'width': '150px' },
             radioAttr: {
               disabled: false
             },
             radios: sexs,
-            change: (txt, row) => console.log('change', txt, row)
+            change: (txt, row, th) => {
+              // 异步需要注意
+              // 没有数据进行绑定就直接进行更改使用this.$set来进行变动
+              // 有数据进行绑定可以使用row[this.prop] = txt进行变动
+              // setTimeout(() => {
+                // this.$set(row, th.prop, txt)
+              // }, 2000)
+              console.log('change', txt, row, th)
+            }
           },
           {
             label: '复选框',
@@ -179,7 +188,7 @@ export default {
               // const type = row[th.prop]
               // 异步控制开关
               // setTimeout(() => {
-                // 如果原数据，没有返回开关的false和true就进行绑定，需要调用set来进行异步设置开关
+                // 如果原数据，没有开关的false和true就进行绑定，需要调用set来进行异步设置开关
                 // this.$set(row, th.prop, !type)
                 // console.log(id)
               // }, 2000)

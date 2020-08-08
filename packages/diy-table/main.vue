@@ -136,12 +136,12 @@
             <template v-else-if="th.type === 'Radio'">
               <slot name="Radio">
                 <el-radio-group
-                  v-model="scope.row[th.prop]"
+                  :value="scope.row[th.prop]"
                   v-bind="th.radioGroupAttr"
                   :disabled="scope.row[th.disabled]"
-                  @change='th.change && th.change($event, scope.row)'
                 >
                   <el-radio
+                    @click.native="radiosClick($event, scope.row, th, ra.value)"
                     v-for="ra in th.radios"
                     v-bind="ra.radioAttr || th.radioAttr"
                     :label="ra.value"
@@ -438,6 +438,17 @@ export default {
     }
   },
   methods: {
+    radiosClick(e, data, th, value) {
+      // 绑定点击事件，第一次在label会触发，第二次在input标签上也会触发，去除input触发的事件
+      // 判断本次点击是否和上次点击的一样
+      if (e.target.tagName === 'INPUT' || value === data[th.prop]) {
+        return false
+      }
+      if(!th.async) {
+        this.$set(data, th.prop, value)
+      }
+      th.change && th.change(value, data, th)
+    },
     // 默认获取列表
     detaultGetList () {
       this.detaultLoading = true
