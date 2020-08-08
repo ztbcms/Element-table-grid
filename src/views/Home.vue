@@ -83,7 +83,7 @@ export default {
         // 排序事件回调
         sortChange: row => console.log('sortChange', row),
         tableHeader: [
-          { label: '', prop: 'check', type: 'check', tableColumnAttr: { align: 'center' } },
+          { label: '', prop: 'check', type: 'check' },
           { label: 'ID', prop: 'id', tableColumnAttr: { sortable: 'custom', align: 'center' } },
           { label: '姓名', prop: 'name', tableColumnAttr: { align: 'center' } },
           { label: '性别', prop: 'sex', tableColumnAttr: { sortable: 'custom' }, formatData: (val) => { return val === 1 ? '男' : '女' } },
@@ -213,11 +213,13 @@ export default {
             }
           },
           {
-            label: '操作', type: 'Button',
+            label: '操作',
+            type: 'Button',
+
             tableColumnAttr: { fixed: 'right', align: 'center', 'width': '200px' },
             buttonGroup: [
-              { name: '编辑', click: row => console.log('tag', row), buttonAttr: { type: 'primary' } },
-              { name: '删除', click: row => console.log('tag', row), buttonAttr: { type: 'danger' } }
+              { name: '编辑', size: '', click: row => console.log('tag', row), buttonAttr: { type: 'primary' } },
+              { name: '删除', size: '', click: row => console.log('tag', row), buttonAttr: { type: 'danger' } }
             ]
           }
         ],

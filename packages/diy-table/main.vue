@@ -55,7 +55,7 @@
         <el-table-column
           v-for="(th, key) in tableHeader"
           :key="key+'column'+th.id"
-          v-bind="th.tableColumnAttr"
+          v-bind="th.tableColumnAttr || { align: 'center' }"
           :label="th.label"
           :prop="th.prop"
         >
@@ -90,6 +90,7 @@
                 <el-button
                   v-for="(o, k) in th.buttonGroup"
                   :key="k"
+                  :size="o.size || 'mini'"
                   @click.stop="o.click(scope)"
                   v-bind="o.buttonAttr"
                 >{{scope.row[o.prop] || o.name}}</el-button>
