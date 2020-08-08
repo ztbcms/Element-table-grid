@@ -87,13 +87,17 @@
             <!-- 按钮 -->
             <template v-else-if="th.type === 'Button'">
               <slot name="Button">
-                <el-button
+                <template
                   v-for="(o, k) in th.buttonGroup"
-                  :key="k"
-                  :size="o.size || 'mini'"
-                  @click.stop="o.click(scope)"
-                  v-bind="o.buttonAttr"
-                >{{scope.row[o.prop] || o.name}}</el-button>
+                >
+                  <el-button
+                    :key="k"
+                    :size="o.size || 'mini'"
+                    @click.stop="o.click(scope)"
+                    v-bind="o.buttonAttr"
+                    v-if="!scope.row[o.hidKey]"
+                  >{{scope.row[o.prop] || o.name}}</el-button>
+                </template>
               </slot>
             </template>
             <!-- 输入框 -->

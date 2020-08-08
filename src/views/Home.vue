@@ -218,8 +218,8 @@ export default {
 
             tableColumnAttr: { fixed: 'right', align: 'center', 'width': '200px' },
             buttonGroup: [
-              { name: '编辑', size: '', click: row => console.log('tag', row), buttonAttr: { type: 'primary' } },
-              { name: '删除', size: '', click: row => console.log('tag', row), buttonAttr: { type: 'danger' } }
+              { name: '编辑', size: '', click: row => console.log('tag', row), buttonAttr: { type: 'primary' }, hidKey: 'buttonHid' },
+              { name: '删除', size: '', click: row => console.log('tag', row), buttonAttr: { type: 'danger' }, hidKey: '' }
             ]
           }
         ],
