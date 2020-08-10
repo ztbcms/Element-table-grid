@@ -2,43 +2,6 @@
   <div class="div-popup" v-if="Recursion">
     <div class="content">
         <slot></slot>
-      <!-- <el-table
-        :data="tableData"
-        style="width: 100%;flex:1"
-        size="medium"
-        border
-      >
-        <el-table-column
-          label="日期"
-        >
-            <template slot-scope="scope">
-                <el-checkbox v-model="scope.row.check"></el-checkbox>
-            </template>
-        </el-table-column>
-        <el-table-column
-          prop="date"
-          label="日期"
-          width="380"
-        >
-        </el-table-column>
-        <el-table-column
-          prop="name"
-          label="姓名"
-          width="180"
-        >
-        </el-table-column>
-        <el-table-column
-          prop="address"
-          label="地址"
-        >
-        </el-table-column>
-      </el-table>
-      <div class="leftFunctional">
-        <el-checkbox :value="checkAll" @click.native="handleCheckAllChange">全选</el-checkbox>
-        <div class="functionalBtn">
-          <el-button type="primary" size="mini">获取已选</el-button>
-        </div>
-      </div> -->
     </div>
     <div class="mask" @click="$emit('update:show', false)"></div>
   </div>

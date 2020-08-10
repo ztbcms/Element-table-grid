@@ -3,10 +3,8 @@
     <el-card>
       <diy-search-form v-bind="formConfig"></diy-search-form>
       <diy-table
-        :childrenConfig="childrenConfig"
         :tableData='tableData'
         :pagination.sync='pagination'
-        :tableConfig="tableConfig"
         :allselect="allselect"
         v-bind="tableConfig"
       >
@@ -70,10 +68,11 @@ export default {
       // table配置
       tableConfig: {
         // 
-        ref: 'diytable',
-        // 二级开启
-        multistage: true,
-        isSelection: false,
+        ref: 'diytabe',
+        // 是否开启全选
+        isSelection: true,
+        // 是否开启单选
+        isSingle: false,
         isIndex: false,
         isPagination: true,
         isHandle: true,
@@ -84,10 +83,79 @@ export default {
           'row-key': "id",
           'tree-props': {children: 'children', hasChildren: 'hasChildren'}
         },
+        // 二级开启
+        multistage: {
+          turnOn: true,
+          name: '查看',
+          prop: 'children',
+          buttonAttr: { type: 'danger' },
+          // 二级多选配置
+          childrenConfig: {
+            ref: 'diytabe2',
+            isSelection: true,
+            isIndex: false,
+            isPagination: true,
+            isHandle: true,
+            indexLabel: '序号',
+            tableAttr: {
+              ref: 'cpytable',
+              border: true,
+              'row-key': "id",
+              'tree-props': {children: 'children', hasChildren: 'hasChildren'}
+            },
+            // 排序事件回调
+            sortChange: row => console.log('sortChange', row),
+            tableHeader: [
+              { label: 'ID', prop: 'id', tableColumnAttr: { sortable: 'custom', align: 'center' } },
+              { label: '姓名', prop: 'name', tableColumnAttr: { align: 'center' } },
+              { label: '性别', prop: 'sex', tableColumnAttr: { sortable: 'custom' }, formatData: (val) => { return val === 1 ? '男' : '女' } },
+              {
+                label: '定位',
+                type: 'Slot',
+                prop: 'location',
+                slot: 'location'
+              },
+              {
+                label: '滑块',
+                prop: 'slider',
+                type: 'Slider',
+                disabled: 'sliderDisabled',
+                tableColumnAttr: { align: 'center', 'width': '100px' },
+                sliderAttr: {
+                },
+                change: (txt, row) => console.log('change', txt, row)
+              },
+              {
+                label: '图片',
+                prop: 'image',
+                type: 'Image',
+                imgPreview: true,
+                tableColumnAttr: { align: 'center', 'width': '50px' }
+              },
+              {
+                label: '操作',
+                type: 'Button',
+
+                tableColumnAttr: { fixed: 'right', align: 'center', 'width': '250px' },
+                buttonGroup: [
+                  { name: '编辑', size: '', click: row => console.log('tag', row), buttonAttr: { type: 'primary' }, hidKey: 'buttonHid' },
+                  { name: '删除', size: '', click: row => console.log('tag', row), buttonAttr: { type: 'danger' }, hidKey: '' }
+                ]
+              }
+            ],
+            tableHandles: [
+              { label: '新增', click: () => console.log('tag'), buttonAttr: { type: 'success' } },
+              {
+                label: '查看',
+                click: () => this.Look(),
+                buttonAttr: { type: 'primary' }
+              }
+            ]
+          },
+        },
         // 排序事件回调
         sortChange: row => console.log('sortChange', row),
         tableHeader: [
-          { label: '', prop: 'check', type: 'check' },
           { label: 'ID', prop: 'id', tableColumnAttr: { sortable: 'custom', align: 'center' } },
           { label: '姓名', prop: 'name', tableColumnAttr: { align: 'center' } },
           { label: '性别', prop: 'sex', tableColumnAttr: { sortable: 'custom' }, formatData: (val) => { return val === 1 ? '男' : '女' } },
@@ -236,109 +304,6 @@ export default {
           }
         ]
       },
-      // 二级多选配置
-      childrenConfig: {
-        // 
-        ref: 'diytable',
-        isSelection: false,
-        isIndex: false,
-        isPagination: true,
-        isHandle: true,
-        indexLabel: '序号',
-        tableAttr: {
-          ref: 'cpytable',
-          border: true,
-          'row-key': "id",
-          'tree-props': {children: 'children', hasChildren: 'hasChildren'}
-        },
-        // 排序事件回调
-        sortChange: row => console.log('sortChange', row),
-        tableHeader: [
-          { label: '', prop: 'check', type: 'check' },
-          { label: 'ID', prop: 'id', tableColumnAttr: { sortable: 'custom', align: 'center' } },
-          { label: '姓名', prop: 'name', tableColumnAttr: { align: 'center' } },
-          { label: '性别', prop: 'sex', tableColumnAttr: { sortable: 'custom' }, formatData: (val) => { return val === 1 ? '男' : '女' } },
-          {
-            label: '定位',
-            type: 'Slot',
-            prop: 'location',
-            slot: 'location'
-          },
-          {
-            label: '滑块',
-            prop: 'slider',
-            type: 'Slider',
-            disabled: 'sliderDisabled',
-            tableColumnAttr: { align: 'center', 'width': '100px' },
-            sliderAttr: {
-            },
-            change: (txt, row) => console.log('change', txt, row)
-          },
-          {
-            label: '图片',
-            prop: 'image',
-            type: 'Image',
-            imgPreview: true,
-            tableColumnAttr: { align: 'center', 'width': '50px' }
-          },
-          {
-            label: '输入',
-            prop: 'text',
-            type: 'Input',
-            disabled: 'inputDisabled',
-            tableColumnAttr: { align: 'center', 'width': '100px' },
-            inputAttr: {}
-          },
-          {
-            label: '下拉框',
-            prop: 'select',
-            type: 'Select',
-            disabled: 'selectDisabled',
-            tableColumnAttr: { align: 'center', 'width': '150px' },
-            selectAttr: {},
-            optionAttr: {
-              placeholder: '请选择...'
-            },
-            options: sexs,
-            props: sexProps,
-            change: (txt, row) => console.log('change', txt, row)
-          },
-          {
-            label: '链接',
-            prop: 'image',
-            type: 'Link',
-            tableColumnAttr: { align: 'center', 'width': '100px' },
-            linkAttr: {}
-          },
-          {
-            label: '长文本',
-            prop: 'image',
-            type: 'Popover',
-            tableColumnAttr: { align: 'center', 'width': '100px' },
-            popoverAttr: {
-              trigger: "hover"
-            }
-          },
-          {
-            label: '操作',
-            type: 'Button',
-
-            tableColumnAttr: { fixed: 'right', align: 'center', 'width': '200px' },
-            buttonGroup: [
-              { name: '编辑', size: '', click: row => console.log('tag', row), buttonAttr: { type: 'primary' }, hidKey: 'buttonHid' },
-              { name: '删除', size: '', click: row => console.log('tag', row), buttonAttr: { type: 'danger' }, hidKey: '' }
-            ]
-          }
-        ],
-        tableHandles: [
-          { label: '新增', click: () => console.log('tag'), buttonAttr: { type: 'success' } },
-          {
-            label: '查看',
-            click: () => this.Look(),
-            buttonAttr: { type: 'primary' }
-          }
-        ]
-      },
       // 分页配置
       pagination: {
         pageSize: 10, // 页条数
@@ -349,12 +314,10 @@ export default {
         layout: 'total,sizes ,prev, pager, next,jumper',
         style: 'display: flex;justify-content: flex-end;align-items: center;margin-top: 10px;'
       },
-      allselect: {
-        select: true,
-        buttonGroup: [
-          { name: '删除', size: '', click: row => console.log('tag', row), buttonAttr: { type: 'danger' }, hidKey: '' }
-        ]
-      }
+      // 右下功能区
+      allselect: [
+        { name: '删除', size: '', click: row => console.log('tag', row), buttonAttr: { type: 'danger' }, prop: 'id' }
+      ]
     }
   },
   methods: {
