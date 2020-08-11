@@ -24,6 +24,7 @@
 | sortChange | 排序事件回调 | Function | - | - | 回调参数`row`, 参数说明：倒叙或正序或默认 |
 | <a href="#basic?id=渲染列与行">tableHeader</a> | 用于渲染行和列的配置 | Array | - | - | - |
 | <a href="#basic?id=分页配置">pagination</a> | 分页配置 | Object | - | - | - |
+| <a href="#basic?id=表单左下按钮配置">allselect</a> | 左下按钮 | Array | - | - | - |
 | <a href="#basic?id=通过配置requestconfig请求表单数据">requestConfig</a> | 配置表单请求数据 | Object | - | - | - |
 
 ## 渲染列与行
@@ -76,11 +77,13 @@
 
 **pagination说明**
 
-| 参数 | 说明 | 类型 | 类型 | 可选参数 | 
-| :------------ | :------------ | :------------ | :------------ |
-| pageSize | 每页条数 | Number | - | - |
-| currentPage | 当前页数 | Number | - | - |
+| 参数 | 说明 | 类型 | 默认 | 可选参数 | 
+| :------------ | :------------ | :------------ | :------------ | :------------ |
+| pageSize | 每页条数 | Number | 1 | - |
+| currentPage | 当前页数 | Number | 10 | - |
 | total | 总页数 | Number | - | - |
+
+## 表单左下按钮配置
 
 ## 通过配置requestConfig请求表单数据
 
