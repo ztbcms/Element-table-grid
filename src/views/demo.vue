@@ -21,7 +21,7 @@ export default {
                     'tree-props': {children: 'children', hasChildren: 'hasChildren'}
                 },
                 // 排序事件回调
-                sortChange: row => console.log('sortChange', row),
+                sortChange: ({sortData, sort}) => console.log('sortChange', sortData, sort),
                 tableHeader: [
                     { label: 'ID', prop: 'id', tableColumnAttr: { sortable: 'custom', align: 'center' } },
                     { label: '姓名', prop: 'name', tableColumnAttr: { align: 'center' } },
@@ -83,7 +83,7 @@ export default {
                 ],
                 // 分页配置
                 pagination: {
-                    pageSize: 10, // 页条数
+                    pageSize: 20, // 页条数
                     pageNum: 1, // 当前页
                     total: 17, // 总条数
                     sizeChange: (...args) => this.sizeChange.apply(this, args), // 页条数大小改变触发

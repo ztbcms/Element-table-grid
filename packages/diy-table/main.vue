@@ -30,7 +30,7 @@
         @row-dblclick="rowDblclick"
         @header-click="headerClick"
         @header-contextmenu="headerContextmenu"
-        @sort-change="sortChange"
+        @sort-change="integratedSort"
         @filter-change="filterChange"
         @current-change="currentChange"
         @header-dragend="headerDragend"
@@ -360,7 +360,8 @@ export default {
       },
       detaultLoading: false,
       detaultData: [],
-      selectionList: []
+      selectionList: [],
+      sortData: {}
     }
   },
   props: {
@@ -484,6 +485,9 @@ export default {
           this.$refs.cpyTable.toggleRowSelection(val)
         }
       })
+    },
+    tableData() {
+      this.detaultData = Object.assign([], this.tableData)
     }
   },
   filters: {
@@ -494,6 +498,20 @@ export default {
     }
   },
   methods: {
+    // 记录排序列
+    integratedSort({ column, prop, order }) {
+        this.sortData = {}
+        this.sortData[prop] = order
+        this.detaultGetList()
+        this.sortChange({
+          sortData: this.sortData,
+          sort: {
+            column,
+            prop,
+            order
+          }
+        })
+    },
     toggleSelection(e) {
       if (e.target.tagName === 'INPUT') {
         return false
@@ -584,7 +602,8 @@ export default {
           page: this.detaultPagination.pageNum,
           limit: this.detaultPagination.pageSize,
           ...(this.requestConfig.data || {}),
-          ...(this.searchData || {})
+          ...(this.searchData || {}),
+          ...this.sortData
         },
         header: this.requestConfig.headers || {}
       }).then(({ data }) => {
@@ -619,7 +638,7 @@ export default {
         this.requestConfig.totalkeys.forEach(item => {
           res = res[item]
         })
-        return res * 10
+        return res * this.detaultPagination.pageSize
       } else {
         return res.data.total_pages
       }
@@ -632,6 +651,7 @@ export default {
     // 默认单页个数
     detaultSizeChange (val) {
       this.detaultPagination.pageSize = val
+      this.detaultGetList()
     },
   },
   computed: {
@@ -669,6 +689,9 @@ export default {
   },
   mounted () {
     that = this
+    if(this.pagination) {
+      this.detaultPagination = this.pagination
+    }
     if (this.requestConfig.apiurl) {
       this.detaultGetList()
     } else if(this.tableData.length !== 0) {
