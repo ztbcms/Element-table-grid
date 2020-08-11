@@ -17,7 +17,7 @@
     <section class="cpy-table">
       <el-table
         v-bind="tableAttr"
-        :data="tableData || detaultData"
+        :data="tableData.length !== 0 ? tableData : detaultData"
         @select="select"
         @select-all="selectAll"
         @selection-change="selectionChange"
@@ -350,6 +350,8 @@ export default {
   name: 'DiyTable',
   data () {
     return {
+      // 数据
+      tableData: [],
       multipleSelection: [],
       detaultPagination: {
         pageSize: 10, // 页条数
@@ -377,8 +379,6 @@ export default {
     // 表格操作
     isHandle: { type: Boolean, default: false },
     tableHandles: { type: Array, default: () => [] },
-    // 表格数据
-    tableData: [Array],
     // 表格列配置
     tableHeader: { type: Array, default: () => [] },
     // 是否显示表格复选框
@@ -394,7 +394,9 @@ export default {
     // 是否显示分页
     isPagination: { type: Boolean, default: true },
     // 默认请求配置
-    requestConfig: { type: Object, default: () => ({}) },
+    requestConfig: { type: Object, default: () => ({
+      method: 'get'
+    }) },
     // 表单数据
     searchData: { type: Object, default: () => ({}) },
     // 分页数据
@@ -623,7 +625,7 @@ export default {
         this.requestConfig.totalkeys.forEach(item => {
           res = res[item]
         })
-        return res
+        return res * 10
       } else {
         return res.data.total_pages
       }

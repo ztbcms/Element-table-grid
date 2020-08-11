@@ -1,52 +1,14 @@
-#### 表单
+# [vue-data-tables](https://github.com/njleonzhang/vue-data-tables/)
 
-##### 表单配置
-| 参数  |  说明 | 类型  | 默认值  | 可选值  |
-| :------------ | :------------ | :------------ | :------------ | :------------ |
-| tableConfig | 配置 | Object | - | - |
+> A simple, customizable and pageable table, based on vue2 and element-ui.
 
-**tableConfig参数**
+本库是基于[element-ui](http://element.eleme.io/)的封装，依赖于以下的[element-ui](http://element.eleme.io/)组件:
 
-| 参数  |  说明 | 类型  | 默认值  | 可选值  |
-| :------------ | :------------ | :------------ | :------------ | :------------ |
-| multistage | 二级弹窗配置 | Object | - | - |
-| isSelection | 是否开启多选 | Boolean | false | - |
-| isSingle | 是否开启单选 | Boolean | false | - |
+* el-table
+* el-table-column
+* el-button
+* el-pagination
 
-**multistage参数**
+本库导出了2个组件 `data-tables` 和 `data-tables-server`. 在一些业务场景中，数据量并不大（比如500条数据），可以把所有数据加载到前台，甚至于直接写在前台代码里，此时数据分页和过滤均发生在前台，`data-tables` 适用于这种场景。在另外的业务场景中，数据量很大，不可能一次性的返回给前台，此时数据分页和过滤均发生在后台，`data-tables-server` 则适用于这种场景。
 
-| 参数  |  说明 | 类型  | 默认值  | 可选值  |
-| :------------ | :------------ | :------------ | :------------ | :------------ |
-| turnOn | 是否开启二级弹窗(如果设置`true`在操作列会默认出现一个查看按钮 | Boolean | false | - |
-| prop | 在一级数据里面指定某个`key`的`value`作为二级数据 | String | - | - |
-| name | 默认查看按钮内容 | String | - | - |
-| buttonAttr | 默认查看按钮配置，和element一样 [传送门](https://element.eleme.cn/#/zh-CN/component/button) | Boolean | - | - |
-| childrenConfig | 二级弹窗表单配置，配置和一级表单配置一样，如果不填默认以一级配置为准 | Boolean | false | - |
-
-&emsp;&emsp;
-##### 功能区域（表单左下按钮列表
-**属性说明**
-
-| 参数  |  说明 | 类型  | 默认值  | 可选值  |
-| :------------ | :------------ | :------------ | :------------ | :------------ |
-| allselect | 按钮列表 | Array | - | - |
-
-**allselect**
-
-| 参数  |  说明 | 类型  | 默认值  | 可选值  |
-| :------------ | :------------ | :------------ | :------------ | :------------ |
-| name | 按钮内容 | String | - | - |
-| size | 按钮大小 | String | mini | medium / small / mini |
-| buttonAttr | 按钮配置和element一样 [传送门](https://element.eleme.cn/#/zh-CN/component/button) | Object | - | - |
-| prop | 设置click返回列表数据的key | String | - | - |
-| click | 按钮被点击之后的函数，返回已选列表的数据 | Function | - | - |
-
-**数据格式**
-```javascript
-allselect: [
-  { name: '删除', size: '', click: row => console.log('tag', row), buttonAttr: { type: 'danger' }, prop: 'id' }
-]
-```
-&emsp;&emsp;
-##### 二级弹窗
-和一级弹窗配置一样
+> 在后文中，如果提到组件 `vue-data-tables`，则指的是 `data-tables` 或者 `data-tables-server`.
