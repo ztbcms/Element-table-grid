@@ -23,6 +23,7 @@
 | tableAttr | 表格属性，与`el-table`属性一致[传送门](https://element.eleme.cn/#/zh-CN/component/table#table-attributes) | Object | - | - | - |
 | sortChange | 排序事件回调 | Function | - | - | 回调参数`row`, 参数说明：倒叙或正序或默认 |
 | <a href="#basic?id=渲染列与行">tableHeader</a> | 用于渲染行和列的配置 | Array | - | - | - |
+| <a href="#basic?id=分页配置">pagination</a> | 分页配置 | Object | - | - | - |
 | <a href="#basic?id=通过配置requestconfig请求表单数据">requestConfig</a> | 配置表单请求数据 | Object | - | - | - |
 
 ## 渲染列与行
@@ -64,6 +65,22 @@
 | size | 按钮大小 | String | medium / small / mini |
 | buttonAttr | 按钮类型配置参数，参数与element一样[传送门](https://element.eleme.cn/#/zh-CN/component/button) | Object | size / type / plain / round / circle / loading / disabled / icon / autofocus / native-type |
 | click | 按钮被点击之后需要触发的事件 | fuction | - |
+
+## 分页配置
+通过配置 `pagination` 为表单传入`当前页` `总页数` `每页条数`，通过[el-eagination](https://element.eleme.cn/#/zh-CN/component/pagination#pagination-fen-ye)展示数据。
+主要功能：
+  - 只需要正确配置`requestConfig`的`totalkeys`就可以帮你完成分页功能。
+  - 通过传入api自动生成`pagination`,并使之与表格联动。
+    - 翻页的时候，展示的元素也会根据 `pageSize`（每页的数量） 和 `pageNum`（当前页的index）与设置的排序自动生成。
+<br/>
+
+**pagination说明**
+
+| 参数 | 说明 | 类型 | 类型 | 可选参数 | 
+| :------------ | :------------ | :------------ | :------------ |
+| pageSize | 每页条数 | Number | - | - |
+| currentPage | 当前页数 | Number | - | - |
+| total | 总页数 | Number | - | - |
 
 ## 通过配置requestConfig请求表单数据
 
@@ -153,9 +170,9 @@ export default {
         // 
         ref: 'diytabe',
         // 是否开启全选
-        isSelection: false,
+        isSelection: true,
         // 是否开启单选
-        isSingle: true,
+        isSingle: false,
         isIndex: false,
         isPagination: true,
         isHandle: true,
@@ -186,7 +203,7 @@ export default {
             tableColumnAttr: { align: 'center', 'width': '100px' },
             sliderAttr: {
             },
-            change: (txt, row) => console.log('change', txt, row)
+            change: (row, index, event) => console.log('change', row, index, event)
           },
           {
             label: '图片',
@@ -215,7 +232,7 @@ export default {
             },
             options: sexs,
             props: sexProps,
-            change: (txt, row) => console.log('change', txt, row)
+            change: (row, index, event) => console.log('change', row, index, event)
           },
           {
             label: '单选',
@@ -228,8 +245,9 @@ export default {
               disabled: false
             },
             radios: sexs,
-            change: (txt, row, th) => {
-              console.log('change', txt, row, th)
+            change: (row, index, event, th) => {
+              console.log('change', row, index , event, th)
+              // this.$set(row, th.prop, event)
             }
           },
           {
@@ -241,7 +259,7 @@ export default {
             checkboxAttr: {},
             checkboxGroupAttr: {},
             checkboxs: sexs,
-            change: (txt, row) => console.log('change', txt, row)
+            change: (row, index, event) => console.log('change', row, index, event)
           },
           {
             label: '评价',
@@ -252,7 +270,7 @@ export default {
             rateAttr: {
               'allow-half': true
             },
-            change: (txt, row) => console.log('change', txt, row)
+            change: (row, index, event) => console.log('change', row, index, event)
           },
           {
             label: '开关',
@@ -263,8 +281,9 @@ export default {
             tableColumnAttr: { align: 'center', 'width': '100px' },
             switchAttr: {
             },
-            change: (txt, row, th) => {
-              console.log('change', txt, row, th)
+            change: (row, index, event, th) => {
+              console.log('change', row, index, event, th)
+              // this.$set(row, th.prop, event)
             }
           },
           {
@@ -289,8 +308,8 @@ export default {
 
             tableColumnAttr: { fixed: 'right', align: 'center', 'width': '250px' },
             buttonGroup: [
-              { name: '编辑', size: '', click: row => console.log('tag', row), buttonAttr: { type: 'primary' }, hidKey: 'buttonHid' },
-              { name: '删除', size: '', click: row => console.log('tag', row), buttonAttr: { type: 'danger' }, hidKey: '' }
+              { name: '编辑', size: '', click: (row, index) => console.log('tag', row, index), buttonAttr: { type: 'primary' }, hidKey: 'buttonHid' },
+              { name: '删除', size: '', click: (row, index) => console.log('tag', row, index), buttonAttr: { type: 'danger' }, hidKey: '' }
             ]
           }
         ],
@@ -302,26 +321,27 @@ export default {
             buttonAttr: { type: 'primary' }
           }
         ],
-        // 分页配置
-        pagination: {
-          pageSize: 10, // 页条数
-          pageNum: 1, // 当前页
-          total: 17, // 总条数
-          sizeChange: (...args) => this.sizeChange.apply(this, args), // 页条数大小改变触发
-          currentChange: (...args) => this.currentChange.apply(this, args), // 当前页改变触发
-          layout: 'total,sizes ,prev, pager, next,jumper',
-          style: 'display: flex;justify-content: flex-end;align-items: center;margin-top: 10px;'
-        },
-        // 右下功能区
-        allselect: [
-          { name: '删除', size: '', click: row => console.log('tag', row), buttonAttr: { type: 'danger' }, prop: 'id' }
-        ]
       },
+      // 分页配置
+      pagination: {
+        pageSize: 10, // 页条数
+        pageNum: 1, // 当前页
+        total: 17, // 总条数
+        sizeChange: (...args) => this.sizeChange.apply(this, args), // 页条数大小改变触发
+        currentChange: (...args) => this.currentChange.apply(this, args), // 当前页改变触发
+        layout: 'total,sizes ,prev, pager, next,jumper',
+        style: 'display: flex;justify-content: flex-end;align-items: center;margin-top: 10px;'
+      },
+      // 右下功能区
+      allselect: [
+        { name: '删除', size: '', click: row => console.log('tag', row), buttonAttr: { type: 'danger' }, prop: 'id' }
+      ]
     }
   },
   methods: {
     GetList () {
       this.tableData = data.slice((this.pagination.pageNum - 1) * this.pagination.pageSize, this.pagination.pageNum * this.pagination.pageSize)
+      console.log(this.tableData)
     },
     ResetList () {
       this.pagination.pageNum = 1

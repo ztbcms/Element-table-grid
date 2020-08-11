@@ -353,7 +353,7 @@ export default {
       multipleSelection: [],
       detaultPagination: {
         pageSize: 10, // 页条数
-        pageNum: 1, // 当前页
+        currentPage: 2, // 当前页
         total: 0, // 总条数
         layout: 'total,sizes ,prev, pager, next,jumper',
         style: 'display: flex;justify-content: flex-end;align-items: center;margin-top: 10px;'
@@ -401,7 +401,7 @@ export default {
     // 表单数据
     searchData: { type: Object, default: () => ({}) },
     // 分页数据
-    pagination: { type: Object, default: () => ({ pageSize: 10, pageNum: 1, total: 0 }) },
+    pagination: { type: Object, default: () => ({ pageSize: 10, currentPage: 1, total: 0 }) },
     // 全选相关配置
     allselect: { type: Array, default: () => [] },
     // 表格方法
@@ -599,7 +599,7 @@ export default {
       fun({
         url: this.requestConfig.apiurl,
         data: {
-          page: this.detaultPagination.pageNum,
+          page: this.detaultPagination.currentPage,
           limit: this.detaultPagination.pageSize,
           ...(this.requestConfig.data || {}),
           ...(this.searchData || {}),
@@ -645,7 +645,7 @@ export default {
     },
     // 默认页码变化
     detaultCurrentChange (val) {
-      this.detaultPagination.pageNum = val
+      this.detaultPagination.currentPage = val
       this.detaultGetList()
     },
     // 默认单页个数
@@ -689,9 +689,9 @@ export default {
   },
   mounted () {
     that = this
-    if(this.pagination) {
-      this.detaultPagination = this.pagination
-    }
+    // for(var k in this.pagination){
+    //   this.detaultPagination[k] = this.pagination[k]
+    // }
     if (this.requestConfig.apiurl) {
       this.detaultGetList()
     } else if(this.tableData.length !== 0) {

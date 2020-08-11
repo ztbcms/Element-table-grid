@@ -225,7 +225,7 @@ export default {
       // 分页配置
       pagination: {
         pageSize: 10, // 页条数
-        pageNum: 1, // 当前页
+        currentPage: 1, // 当前页
         total: 17, // 总条数
         sizeChange: (...args) => this.sizeChange.apply(this, args), // 页条数大小改变触发
         currentChange: (...args) => this.currentChange.apply(this, args), // 当前页改变触发
