@@ -84,6 +84,19 @@
 | total | 总页数 | Number | - | - |
 
 ## 表单左下按钮配置
+主要功能:
+  - 返回已勾选的数据
+
+`allselect`类型为`Array`,以下参数用`{}`将其包裹，最终格式为`tableHeader:[{label:xxx, prop:xxx}]`。
+
+**allselect说明**
+
+| 参数 | 说明 | 类型 | 默认 | 可选参数 | 其他 | 
+| :------------ | :------------ | :------------ | :------------ | :------------ | :------------ |
+| name | 按钮显示的文字 | String | - | - | - |
+| size | 按钮大小 | String - | mini | medium / small / mini | - |
+| buttonAttr | 按钮类型配置参数，参数与element一样[传送门](https://element.eleme.cn/#/zh-CN/component/button) | Object | - | size / type / plain / round / circle / loading / disabled / icon / autofocus / native-type | - |
+| click | 按钮被点击之后需要触发的事件 | fuction | - | - | 回调参数`row`,是勾选行的数据 |
 
 ## 通过配置requestConfig请求表单数据
 
