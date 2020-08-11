@@ -43,18 +43,18 @@
 
 | 参数 | 说明 | 额外参数 | 参数类型 | 参数说明 | 回调事件 | 回调参数 | 参数说明 |
 | :------------ | :------------ | :------------ | :------------ | :------------ | :------------ | :------------ | :------------ |
-| location | <div style="width:80px">定位</div> | - | - | <div style="width:150px">-</div>  | - | <div style="width:70px">-</div> | <div style="width:100px">-</div> |
-| Slider | 滑块 | disabled | String | 是否禁用（填写说明：行数据key值 | change | txt, row | 当前滑块数值<br/>行数据 |
+| location | <div style="width:80px">定位</div> | - | - | <div style="width:150px">-</div>  | - | <div style="width:70px">-</div> | <div style="width:110px">-</div> |
+| Slider | 滑块 | disabled | String | 是否禁用（填写说明：行数据key值 | change | row<br/>index<br/>event | 行数据<br/>行索引<br/>当前滑块数值 |
 | Image | 图片 | imgPreview | Boolean | - | - | - | - |
 | Input | 输入框 | disabled | String | 是否禁用（填写说明：行数据key值 | - | - | - | - |
-| Select | 下拉框 | disabled | String | 是否禁用（填写说明：行数据key值 | change | txt, row | 选中的数据<br/>行数据 | - |
-| Radio | 单选 | 1.disabled<br/>2.async | 1.String<br/>2.Boolean | 1.是否禁用（填写说明：行数据key值<br/>2.是否开启异步执行 | change **如果开启了异步，不会主动触发视图更新，需要异步执行后手动执行以下代码`this.$set(row, th.prop, txt)`** | txt, row, th | 选中的数据<br/>行数据<br/>列数据 | - |
-| Checkbox | 多选 | disabled | - | 是否禁用（填写说明：行数据key值 | change | txt, row | 选中的数据，行数据 |
-| Rate | 评价 | disabled | String | 是否禁用（填写说明：行数据key值 | change | txt, row | 本次评价的数据<br/>行数据 |
-| Switch | 开关 | 1.disabled<br/>2.async | 1.String<br/>2.Boolean | 1.是否禁用（填写说明：行数据key值<br/>2.是否异步执行 | change **如果开启了异步，不会主动触发视图更新，需要异步执行后手动执行以下代码`this.$set(row, th.prop, !type)`** | txt, row, th | 当前switch状态<br/>行数据<br/>列数据 |
+| Select | 下拉框 | disabled | String | 是否禁用（填写说明：行数据key值 | change | row<br/>index<br/>event | 行数据<br/>行索引<br/>选中的数据 | - |
+| Radio | 单选 | 1.disabled<br/>2.async | 1.String<br/>2.Boolean | 1.是否禁用（填写说明：行数据key值<br/>2.是否开启异步执行 | change<br/>**如果开启了异步，不会主动触发视图更新，需要异步执行后手动执行以下代码`this.$set(row, th.prop, txt)`** | row<br/>index<br/>event<br/>th | 行数据<br/>行索引<br/>当前选中的值<br/>列数据 | - |
+| Checkbox | 多选 | disabled | - | 是否禁用（填写说明：行数据key值 | change | row<br/>index<br/>event | 行数据<br/>行索引<br/>选中的数据，行数据 |
+| Rate | 评价 | disabled | String | 是否禁用（填写说明：行数据key值 | change | row<br/>index<br/>event | 行数据<br/>行索引<br/>本次评价的数据 |
+| Switch | 开关 | 1.disabled<br/>2.async | 1.String<br/>2.Boolean | 1.是否禁用（填写说明：行数据key值<br/>2.是否异步执行 | change<br/>**如果开启了异步，不会主动触发视图更新，需要异步执行后手动执行以下代码`this.$set(row, th.prop, !type)`** | row<br/>index<br/>event<br/>th | 行数据<br/>行索引<br/>当前switch状态<br/>列数据 |
 | Link | 链接 | - | - | - | - | - | - |
 | Popover | 长文本 | - | - | - | - | - | - |
-| Button | 按钮 | buttonGroup | Array | 按钮配置 | click | row | 行数据 |
+| Button | 按钮 | buttonGroup | Array | 按钮配置 | click | row<br/>index | 行数据<br/>行索引 |
 
 **Button说明**
 

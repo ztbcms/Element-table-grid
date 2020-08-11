@@ -70,9 +70,9 @@ export default {
         // 
         ref: 'diytabe',
         // 是否开启全选
-        isSelection: false,
+        isSelection: true,
         // 是否开启单选
-        isSingle: true,
+        isSingle: false,
         isIndex: false,
         isPagination: true,
         isHandle: true,
@@ -103,7 +103,7 @@ export default {
             tableColumnAttr: { align: 'center', 'width': '100px' },
             sliderAttr: {
             },
-            change: (txt, row) => console.log('change', txt, row)
+            change: (row, index, event) => console.log('change', row, index, event)
           },
           {
             label: '图片',
@@ -132,7 +132,7 @@ export default {
             },
             options: sexs,
             props: sexProps,
-            change: (txt, row) => console.log('change', txt, row)
+            change: (row, index, event) => console.log('change', row, index, event)
           },
           {
             label: '单选',
@@ -145,8 +145,9 @@ export default {
               disabled: false
             },
             radios: sexs,
-            change: (txt, row, th) => {
-              console.log('change', txt, row, th)
+            change: (row, index, event, th) => {
+              console.log('change', row, index , event, th)
+              // this.$set(row, th.prop, event)
             }
           },
           {
@@ -158,7 +159,7 @@ export default {
             checkboxAttr: {},
             checkboxGroupAttr: {},
             checkboxs: sexs,
-            change: (txt, row) => console.log('change', txt, row)
+            change: (row, index, event) => console.log('change', row, index, event)
           },
           {
             label: '评价',
@@ -169,7 +170,7 @@ export default {
             rateAttr: {
               'allow-half': true
             },
-            change: (txt, row) => console.log('change', txt, row)
+            change: (row, index, event) => console.log('change', row, index, event)
           },
           {
             label: '开关',
@@ -180,8 +181,9 @@ export default {
             tableColumnAttr: { align: 'center', 'width': '100px' },
             switchAttr: {
             },
-            change: (txt, row, th) => {
-              console.log('change', txt, row, th)
+            change: (row, index, event, th) => {
+              console.log('change', row, index, event, th)
+              // this.$set(row, th.prop, event)
             }
           },
           {
@@ -206,8 +208,8 @@ export default {
 
             tableColumnAttr: { fixed: 'right', align: 'center', 'width': '250px' },
             buttonGroup: [
-              { name: '编辑', size: '', click: row => console.log('tag', row), buttonAttr: { type: 'primary' }, hidKey: 'buttonHid' },
-              { name: '删除', size: '', click: row => console.log('tag', row), buttonAttr: { type: 'danger' }, hidKey: '' }
+              { name: '编辑', size: '', click: (row, index) => console.log('tag', row, index), buttonAttr: { type: 'primary' }, hidKey: 'buttonHid' },
+              { name: '删除', size: '', click: (row, index) => console.log('tag', row, index), buttonAttr: { type: 'danger' }, hidKey: '' }
             ]
           }
         ],
@@ -219,26 +221,27 @@ export default {
             buttonAttr: { type: 'primary' }
           }
         ],
-        // 分页配置
-        pagination: {
-          pageSize: 10, // 页条数
-          pageNum: 1, // 当前页
-          total: 17, // 总条数
-          sizeChange: (...args) => this.sizeChange.apply(this, args), // 页条数大小改变触发
-          currentChange: (...args) => this.currentChange.apply(this, args), // 当前页改变触发
-          layout: 'total,sizes ,prev, pager, next,jumper',
-          style: 'display: flex;justify-content: flex-end;align-items: center;margin-top: 10px;'
-        },
-        // 右下功能区
-        allselect: [
-          { name: '删除', size: '', click: row => console.log('tag', row), buttonAttr: { type: 'danger' }, prop: 'id' }
-        ]
       },
+      // 分页配置
+      pagination: {
+        pageSize: 10, // 页条数
+        pageNum: 1, // 当前页
+        total: 17, // 总条数
+        sizeChange: (...args) => this.sizeChange.apply(this, args), // 页条数大小改变触发
+        currentChange: (...args) => this.currentChange.apply(this, args), // 当前页改变触发
+        layout: 'total,sizes ,prev, pager, next,jumper',
+        style: 'display: flex;justify-content: flex-end;align-items: center;margin-top: 10px;'
+      },
+      // 右下功能区
+      allselect: [
+        { name: '删除', size: '', click: row => console.log('tag', row), buttonAttr: { type: 'danger' }, prop: 'id' }
+      ]
     }
   },
   methods: {
     GetList () {
       this.tableData = data.slice((this.pagination.pageNum - 1) * this.pagination.pageSize, this.pagination.pageNum * this.pagination.pageSize)
+      console.log(this.tableData)
     },
     ResetList () {
       this.pagination.pageNum = 1

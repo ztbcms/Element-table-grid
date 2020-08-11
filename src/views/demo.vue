@@ -8,7 +8,7 @@ export default {
         return{
             tableConfig: {
                 ref: 'diytabe',
-                isSelection: false,
+                isSelection: true,
                 isSingle: false,
                 isIndex: false,
                 isPagination: true,

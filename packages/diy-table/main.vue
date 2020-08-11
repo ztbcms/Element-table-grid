@@ -17,7 +17,7 @@
     <section class="cpy-table">
       <el-table
         v-bind="tableAttr"
-        :data="tableData.length !== 0 ? tableData : detaultData"
+        :data="detaultData"
         @select="select"
         @select-all="selectAll"
         @selection-change="selectionChange"
@@ -116,7 +116,7 @@
                     v-model="scope.row[th.prop]"
                     v-bind="th.selectAttr"
                     :disabled="scope.row[th.disabled]"
-                    @change='th.change && th.change($event, scope.row)'
+                    @change='th.change && th.change(scope.row, scope.$index, $event)'
                     @visible-change="th.visibleChange && th.visibleChange($event, scope.row)"
                     @remove-tag="th.removeTag && th.removeTag($event, scope.row)"
                     @clear="th.clear && th.clear($event, scope.row)"
@@ -145,7 +145,7 @@
                     :disabled="scope.row[th.disabled]"
                   >
                     <el-radio
-                      @click.native="radiosClick($event, scope.row, th, ra.value)"
+                      @click.native="radiosClick(scope.row, scope.$index, ra.value, th, $event)"
                       v-for="ra in th.radios"
                       v-bind="ra.radioAttr || th.radioAttr"
                       :label="ra.value"
@@ -161,7 +161,7 @@
                     v-model="scope.row[th.prop]"
                     v-bind="th.checkboxGroupAttr"
                     :disabled="scope.row[th.disabled]"
-                    @change='th.change && th.change($event, scope.row)'
+                    @change='th.change && th.change(scope.row, scope.$index, $event)'
                   >
                     <el-checkbox
                       v-for="ra in th.checkboxs"
@@ -179,13 +179,13 @@
                     v-model="scope.row[th.prop]"
                     v-bind="th.rateAttr"
                     :disabled="scope.row[th.disabled]"
-                    @change='th.change && th.change($event, scope.row)'
+                    @change='th.change && th.change(scope.row, scope.$index, $event)'
                   ></el-rate>
                 </slot>
               </template>
               <!-- 开关 -->
               <template v-else-if="th.type === 'Switch'">
-                <div @click="!scope.row[th.disabled] && th.change && th.change($event, scope.row, th)" v-if="th.async">
+                <div @click="!scope.row[th.disabled] && th.change && th.change(scope.row, scope.$index, !scope.row[th.prop], th)" v-if="th.async">
                   <el-switch
                     :value="scope.row[th.prop]"
                     v-bind="th.switchAttr"
@@ -194,7 +194,7 @@
                 </div>
                 <el-switch
                   v-else
-                  @change='th.change && th.change($event, scope.row, th)'
+                  @change='th.change && th.change(scope.row, scope.$index, $event, th)'
                   v-model="scope.row[th.prop]"
                   v-bind="th.switchAttr"
                   :disabled="scope.row[th.disabled]"
@@ -219,7 +219,7 @@
                     v-model="scope.row[th.prop]"
                     :disabled="scope.row[th.disabled]"
                     v-bind="th.sliderAttr"
-                    @change='th.change && th.change($event, scope.row)'
+                    @change='th.change && th.change(scope.row, scope.$index, $event)'
                   ></el-slider>
                 </slot>
               </template>
@@ -257,7 +257,7 @@
                     <el-button
                       :key="k"
                       :size="o.size || 'mini'"
-                      @click.stop="o.click(scope)"
+                      @click.stop="o.click(scope.row, scope.$index)"
                       v-bind="o.buttonAttr"
                       v-if="!scope.row[o.hidKey]"
                     >{{scope.row[o.prop] || o.name}}</el-button>
@@ -350,8 +350,6 @@ export default {
   name: 'DiyTable',
   data () {
     return {
-      // 数据
-      tableData: [],
       multipleSelection: [],
       detaultPagination: {
         pageSize: 10, // 页条数
@@ -378,6 +376,8 @@ export default {
     loading: { type: Boolean, default: false },
     // 表格操作
     isHandle: { type: Boolean, default: false },
+    // 表格数据
+    tableData: {type: Array, default: () => []},
     tableHandles: { type: Array, default: () => [] },
     // 表格列配置
     tableHeader: { type: Array, default: () => [] },
@@ -502,7 +502,7 @@ export default {
       var checkAll = this.checkAll
       list.clearSelection();
       if(!checkAll) {
-        this.tableData.forEach(el => {
+        this.detaultData.forEach(el => {
           list.toggleRowSelection(el);
         })
       }
@@ -511,11 +511,10 @@ export default {
       var check = {}
       if(this.isSelection) {
         const list = this.$refs[this.tableConfig.ref].selection
-        // const prop = data.prop
         const indexs = []
         const ids = []
         const checkData = []
-        this.tableData.map((el, index) => {
+        this.detaultData.map((el, index) => {
           list.forEach(val => {
             if(el.id === val.id) {
               indexs.push(index)
@@ -530,41 +529,36 @@ export default {
           ids
         }
       } else if(this.isSingle) {
-        const checkData = this.tableData.find(el => el._checkBox)
+        const checkData = this.detaultData.find(el => el._checkBox)
         check = {
-          index: this.tableData.findIndex(el => el._checkBox),
+          index: this.detaultData.findIndex(el => el._checkBox),
           checkData,
-          ids: checkData.id
+          ids: checkData ? checkData.id : ''
         }
       }
-      if(data.click) {
-        data.click(check)
+      if((this.isSingle && check.index >= 0) || (this.isSelection && check.index.length >= 1)) {
+        const stringData = JSON.stringify(check.checkData)
+        this.$alert(`<p>index: ${check.index}</p><p>ids: ${check.ids}</p><p>数据: ${stringData}</p>`, 'HTML 片段', {
+          dangerouslyUseHTMLString: true
+        }).then(() => {
+          if(data.click) {
+            data.click(check)
+          }
+        })
       }
-      this.$alert(``, '筛选出来的id', {
-        confirmButtonText: '确定',
-        callback: action => {
-          this.$message({
-            type: 'info',
-            message: `action: ${ action }`
-          });
-        }
-      })
-      const stringData = JSON.stringify(check.checkData)
-      this.$alert(`<p>index: ${check.index}</p><p>ids: ${check.ids}</p><p>数据: ${stringData}</p>`, 'HTML 片段', {
-        dangerouslyUseHTMLString: true
-      });
     },
     singlecheckBox(e, data) {
       if(!e) {
         this.$set(data, '_checkBox', false)
       } else {
-        this.tableData.forEach(el => {
+        this.detaultData.forEach(el => {
           this.$set(el, '_checkBox', false)
         })
         this.$set(data, '_checkBox', true)
       }
     },
-    radiosClick(e, data, th, value) {
+    radiosClick(data, index, value, th, e) {
+      // console.log(data, index, value, th)
       // 绑定点击事件，第一次在label会触发，第二次在input标签上也会触发，去除input触发的事件
       // 判断本次点击是否和上次点击的一样
       if (e.target.tagName === 'INPUT' || value === data[th.prop]) {
@@ -573,7 +567,7 @@ export default {
       if(!th.async) {
         this.$set(data, th.prop, value)
       }
-      th.change && th.change(value, data, th)
+      th.change && th.change(data, index, value, th)
     },
     // 默认获取列表
     detaultGetList () {
@@ -643,7 +637,7 @@ export default {
   computed: {
     checkAll() {
       var list = this.selectionList
-      var tableDataLength = this.tableData.length
+      var tableDataLength = this.detaultData.length
       if(list) {
         var selectionLength = list.length
         if(selectionLength === tableDataLength) {
@@ -654,7 +648,7 @@ export default {
     },
     indeterminate() {
       var list = this.selectionList
-      var tableDataLength = this.tableData.length
+      var tableDataLength = this.detaultData.length
       var condition = false
       if(list) {
         var selectionLength = list.length
@@ -677,6 +671,8 @@ export default {
     that = this
     if (this.requestConfig.apiurl) {
       this.detaultGetList()
+    } else if(this.tableData.length !== 0) {
+      this.detaultData = Object.assign([], this.tableData)
     }
   }
 }
