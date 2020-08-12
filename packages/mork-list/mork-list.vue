@@ -15,6 +15,7 @@
     </section>
     <!-- 数据表格 -->
     <section class="cpy-table" :style="style">
+        <!-- :row-key="getRowKey" -->
       <el-table
         v-bind="tableAttr"
         :data="scrollList"
@@ -43,11 +44,18 @@
         <slot name="first"></slot>
         <el-table-column
           v-if="isSelection"
-          prop="_chex"
-          type="selection"
           align="center"
+          prop="_check"
           :reserve-selection="true"
-        ></el-table-column>
+          :value="true"
+          :render-header="renderHeader"
+        >
+           <template slot-scope="scope">
+              <slot>
+                <el-checkbox v-model="scope.row['_check']"></el-checkbox>
+              </slot>
+            </template>
+        </el-table-column>
         <el-table-column
           v-if="isIndex"
           type="index"
@@ -67,7 +75,8 @@
           >
             <template slot-scope="scope">
               <slot>
-                <el-checkbox v-model="scope.row['_checkBox']" @change="singlecheckBox($event, scope.row)"></el-checkbox>
+                  {{scope.row}}
+                <!-- <el-checkbox v-model="scope.row['_checkBox']"></el-checkbox> -->
               </slot>
             </template>
           </el-table-column>
@@ -454,11 +463,19 @@ export default {
     },
     selectAll: {
       type: Function,
-      default: (selection) => { that.$emit('selectAll', selection) }
+      default: (selection) => {
+          that.toggleSelection()
+          that.$emit('selectAll', selection)
+        }
     },
     selectionChange: {
       type: Function,
-      default: (selection) => { that.selectionList = selection, that.$emit('selectionChange', selection) }
+      default: (selection, e) => {
+          console.log(selection)
+          console.log(e)
+        //  that.selectionList = selection,
+         that.$emit('selectionChange', selection)
+      }
     },
     cellMouseEnter: {
       type: Function,
@@ -547,6 +564,13 @@ export default {
     }
   },
   methods: {
+    renderHeader(){
+        return (
+            <div>
+                <el-checkbox value={this.checkAll} indeterminate={this.indeterminate}></el-checkbox>
+            </div>
+        )
+    },
     // 合计
     getSummaries(param) {
       const tableHeader = this.tableHeader.filter(item => item.showSummary).map(item => item.prop)
@@ -595,11 +619,12 @@ export default {
           }
         })
     },
-    toggleSelection(e) {
-      if (e.target.tagName === 'INPUT') {
-        return false
-      }
+    toggleSelection() {
+    //   if (e.target.tagName === 'INPUT') {
+    //     return false
+    //   }
       var list = this.$refs[this.tableConfig.ref]
+    //   console.log(list)
       var checkAll = this.checkAll
       list.clearSelection();
       if(!checkAll) {
@@ -761,11 +786,11 @@ export default {
       this.detaultPagination.pageSize = val
       this.detaultGetList()
     },
+    getRowKey () {
+      return null
+    }
   },
   computed: {
-    getRowKey (row) {
-      return row._chex
-    },
     checkAll() {
       var list = this.selectionList
       var tableDataLength = this.detaultData.length
@@ -778,26 +803,31 @@ export default {
       return false
     },
     indeterminate() {
-      var list = this.selectionList
-      var tableDataLength = this.detaultData.length
-      var condition = false
-      if(list) {
-        var selectionLength = list.length
-        switch(selectionLength) {
-          case tableDataLength:
-            condition = false
-          break;
-          case 0:
-            condition = false
-          break;
-          default:
-            condition = true
-          break;
-        }
-      }
-      return condition
+    //   var list = this.selectionList
+    //   var tableDataLength = this.detaultData.length
+    //   var condition = false
+    //   if(list) {
+    //     var selectionLength = list.length
+    //     switch(selectionLength) {
+    //       case tableDataLength:
+    //         condition = false
+    //       break;
+    //       case 0:
+    //         condition = false
+    //       break;
+    //       default:
+    //         condition = true
+    //       break;
+    //     }
+    //   }
+        const list = this.detaultData
+        const index = list.findIndex(item => item._check)
+        console.log(index)
+        return true
+    //   return condition
     },
     scrollList() {
+        // console.log(this.detaultData.slice(this.startIndex, this.endIndex))
         return this.detaultData.slice(this.startIndex, this.endIndex)
     },
     style() {
