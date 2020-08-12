@@ -86,7 +86,7 @@
                     v-else
                     @click.stop="th.click && th.click(scope.row)"
                   >{{ scope.row[th.prop] | formatters(th.formatData) }}</span>
-                  <i class="_diyTable el-icon-edit" @click="dialogDataUpdate(scope.row, scope.$index, th)" v-if="th.editType"></i>
+                  <i class="_diyTable el-icon-edit" @click="dialogDataUpdate(scope.row, scope.$index, th)" v-if="th.edit"></i>
                 </slot>
               </template>
               <!-- html -->
@@ -601,16 +601,17 @@ export default {
     dialogDataUpdate(data, index, th) {
       this.dialogData = {
         title: '修改' + th.label,
-        type: th.editType,
+        type: th.edit.type,
         value: data[th.prop],
         show: true,
         index,
         th,
         row: data,
-        option: th.option,
-        optionLabel: th.optionLabel,
-        optionValue: th.optionValue
+        option: th.edit.option,
+        optionLabel: th.edit.optionLabel,
+        optionValue: th.edit.optionValue
       }
+      console.log(this.dialogData)
     },
     dialogDataSuccess() {
       this.dialogData.show = false
@@ -620,7 +621,7 @@ export default {
         value,
         th
       } = this.dialogData
-      th.edit && th.edit(row, index, value)
+      th.edit.change && th.edit.change(row, index, value)
     },
     singlecheckBox(e, data) {
       if(!e) {

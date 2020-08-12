@@ -28,10 +28,11 @@ export default {
                         label: '姓名',
                         prop: 'name',
                         tableColumnAttr: { align: 'center' },
-                        editType: 'Input',
-                        edit: (row, index, event) => {
-                            this.$refs.diyTable.detaultGetList()
-                            console.log('change', row, index, event)
+                        edit: {
+                            type: 'Input',
+                            change: (row, index, event) => {
+                                console.log('change', row, index, event)
+                            }
                         }
                     },
                     {
@@ -39,13 +40,15 @@ export default {
                         prop: 'sex',
                         tableColumnAttr: { sortable: 'custom' },
                         formatData: (val) => { return val === 1 ? '男' : '女' },
-                        editType: 'Select',
-                        option: [{id: 1, val: '男'},{id: 2, val: '女'}],
-                        optionLabel: 'val',
-                        optionValue: 'id',
-                        edit: (row, index, event) => {
-                            this.$refs.diyTable.detaultGetList()
-                            console.log('change', row, index, event)
+                        edit: {
+                            type: 'Select',
+                            option: [{id: 1, val: '男'},{id: 2, val: '女'}],
+                            optionLabel: 'val',
+                            optionValue: 'id',
+                            change: (row, index, event) => {
+                                this.$refs.diyTable.detaultGetList()
+                                console.log('change', row, index, event)
+                            }
                         }
                     },
                     {
