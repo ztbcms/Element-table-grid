@@ -86,6 +86,7 @@
                     v-else
                     @click.stop="th.click && th.click(scope.row)"
                   >{{ scope.row[th.prop] | formatters(th.formatData) }}</span>
+                  <i class="_diyTable el-icon-edit" @click="dialogDataUpdate(scope.row, scope.$index, th)" v-if="th.editType"></i>
                 </slot>
               </template>
               <!-- html -->
@@ -97,6 +98,10 @@
               <!-- 输入框 -->
               <template v-else-if="th.type === 'Input'">
                 <slot name="Input">
+                  <!-- <span
+                    v-if="!th.formatData"
+                    @click.stop="th.click && th.click(scope.row)"
+                  >{{ scope.row[th.prop] }}</span> -->
                   <el-input
                     v-model="scope.row[th.prop]"
                     v-bind="th.inputAttr"
@@ -313,6 +318,27 @@
         </slot>
       </section>
     </div>
+    <el-dialog :title="dialogData.title" :visible.sync="dialogData.show" width="35%">
+      <div class="_dialogcontent" v-if="dialogData.type === 'Input'">
+        <el-input autocomplete="off" v-model="dialogData.value"></el-input>
+      </div>
+      <div class="_dialogcontent" v-else-if="dialogData.type === 'Select'">
+        <el-select v-model="dialogData.value" placeholder="请选择">
+          <el-option
+            v-for="(item) in dialogData.option"
+            :key="item[dialogData.optionValue]"
+            :label="item[dialogData.optionLabel]"
+            :value="item[dialogData.optionValue]"
+          >
+          </el-option>
+        </el-select>
+        <!-- <el-input autocomplete="off" v-model="dialogData.value"></el-input> -->
+      </div>
+      <div class="_dialogBtn">
+        <el-button type="info" @click="dialogData.show = false">取消</el-button>
+        <el-button type="primary" @click="dialogDataSuccess">确定</el-button>
+      </div>
+    </el-dialog>
   </section>
 </template>
 
@@ -361,7 +387,13 @@ export default {
       detaultLoading: false,
       detaultData: [],
       selectionList: [],
-      sortData: {}
+      sortData: {},
+      dialogData: {
+        show: false,
+        type: 'Input',
+        value: '',
+        title: ''
+      }
     }
   },
   props: {
@@ -565,6 +597,31 @@ export default {
         })
       }
     },
+    // 弹出对话框
+    dialogDataUpdate(data, index, th) {
+      this.dialogData = {
+        title: '修改' + th.label,
+        type: th.editType,
+        value: data[th.prop],
+        show: true,
+        index,
+        th,
+        row: data,
+        option: th.option,
+        optionLabel: th.optionLabel,
+        optionValue: th.optionValue
+      }
+    },
+    dialogDataSuccess() {
+      this.dialogData.show = false
+      const {
+        row,
+        index,
+        value,
+        th
+      } = this.dialogData
+      th.edit && th.edit(row, index, value)
+    },
     singlecheckBox(e, data) {
       if(!e) {
         this.$set(data, '_checkBox', false)
@@ -722,5 +779,16 @@ export default {
 }
 .functionalBtn{
   margin-left: 10px;
+}
+._diyTable.el-icon-edit{
+  margin-left: 5px;
+  cursor: pointer;
+}
+._dialogcontent{
+  margin-bottom: 50px;
+}
+._dialogBtn{
+  display: flex;
+  justify-content: flex-end;
 }
 </style>

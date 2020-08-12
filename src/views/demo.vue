@@ -1,5 +1,5 @@
 <template>
-  <diy-table v-bind="tableConfig"></diy-table>
+  <diy-table v-bind="tableConfig" ref="diyTable"></diy-table>
 </template>
 
 <script>
@@ -24,8 +24,30 @@ export default {
                 sortChange: ({sortData, sort}) => console.log('sortChange', sortData, sort),
                 tableHeader: [
                     { label: 'ID', prop: 'id', tableColumnAttr: { sortable: 'custom', align: 'center' } },
-                    { label: '姓名', prop: 'name', tableColumnAttr: { align: 'center' } },
-                    { label: '性别', prop: 'sex', tableColumnAttr: { sortable: 'custom' }, formatData: (val) => { return val === 1 ? '男' : '女' } },
+                    {
+                        label: '姓名',
+                        prop: 'name',
+                        tableColumnAttr: { align: 'center' },
+                        editType: 'Input',
+                        edit: (row, index, event) => {
+                            this.$refs.diyTable.detaultGetList()
+                            console.log('change', row, index, event)
+                        }
+                    },
+                    {
+                        label: '性别',
+                        prop: 'sex',
+                        tableColumnAttr: { sortable: 'custom' },
+                        formatData: (val) => { return val === 1 ? '男' : '女' },
+                        editType: 'Select',
+                        option: [{id: 1, val: '男'},{id: 2, val: '女'}],
+                        optionLabel: 'val',
+                        optionValue: 'id',
+                        edit: (row, index, event) => {
+                            this.$refs.diyTable.detaultGetList()
+                            console.log('change', row, index, event)
+                        }
+                    },
                     {
                         label: '图片',
                         prop: 'image',
