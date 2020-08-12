@@ -1,6 +1,6 @@
 <!--表格组件 -->
 <template>
-  <section class="cpy-table-page">
+  <section class="cpy-table-page" ref="container">
     <!-- 表格操作按钮 -->
     <section
       class="cpy-handle"
@@ -14,10 +14,11 @@
       >{{item.label}}</el-button>
     </section>
     <!-- 数据表格 -->
-    <section class="cpy-table">
+    <section class="cpy-table" :style="style">
       <el-table
         v-bind="tableAttr"
-        :data="detaultData"
+        :data="scrollList"
+        :row-key="getRowKey"
         @select="select"
         @select-all="selectAll"
         @selection-change="selectionChange"
@@ -42,8 +43,10 @@
         <slot name="first"></slot>
         <el-table-column
           v-if="isSelection"
+          prop="_chex"
           type="selection"
           align="center"
+          :reserve-selection="true"
         ></el-table-column>
         <el-table-column
           v-if="isIndex"
@@ -281,7 +284,7 @@
       </el-table>
     </section>
     <div class="functional">
-      <div class="leftFunctional">
+      <!-- <div class="leftFunctional">
         <el-checkbox @click.native="toggleSelection" :value="checkAll" v-if="isSelection" :indeterminate="indeterminate">全选</el-checkbox>
         <div class="functionalBtn">
           <template
@@ -295,9 +298,9 @@
             >{{item.name}}</el-button>
           </template>
         </div>
-      </div>
+      </div> -->
       <!-- 分页 -->
-      <section
+      <!-- <section
         class="cpy-pagination"
         v-if="isPagination"
       >
@@ -317,7 +320,7 @@
             ></el-pagination>
           </template>
         </slot>
-      </section>
+      </section> -->
     </div>
     <el-dialog :title="dialogData.title" :visible.sync="dialogData.show" width="35%">
       <div class="_dialogcontent" v-if="dialogData.type === 'Input'">
@@ -394,7 +397,14 @@ export default {
         type: 'Input',
         value: '',
         title: ''
-      }
+      },
+
+
+      startIndex: 0,
+      endIndex: 60,
+      paddingTop: 0,
+      paddingBottom: 0,
+      allHeight: 0
     }
   },
   props: {
@@ -521,6 +531,12 @@ export default {
     },
     tableData() {
       this.detaultData = Object.assign([], this.tableData)
+    },
+    detaultData(val) {
+        const valLen = val.length
+        this.allHeight = valLen * 71
+        this.paddingBottom = this.allHeight - this.scrollList.length * 71
+        this.endIndex = this.startIndex + 12
     }
   },
   filters: {
@@ -646,7 +662,6 @@ export default {
         optionLabel: th.edit.optionLabel,
         optionValue: th.edit.optionValue
       }
-      console.log(this.dialogData)
     },
     dialogDataSuccess() {
       this.dialogData.show = false
@@ -748,6 +763,9 @@ export default {
     },
   },
   computed: {
+    getRowKey (row) {
+      return row._chex
+    },
     checkAll() {
       var list = this.selectionList
       var tableDataLength = this.detaultData.length
@@ -778,6 +796,15 @@ export default {
         }
       }
       return condition
+    },
+    scrollList() {
+        return this.detaultData.slice(this.startIndex, this.endIndex)
+    },
+    style() {
+        return {
+            paddingTop: this.paddingTop + 'px',
+            paddingBottom: this.paddingBottom + 'px'
+        }
     }
   },
   mounted () {
@@ -787,6 +814,21 @@ export default {
     } else if(this.tableData.length !== 0) {
       this.detaultData = Object.assign([], this.tableData)
     }
+
+
+    const container = this.$refs.container
+    container.addEventListener('scroll', () => {
+        const top = container.scrollTop
+        this.startIndex = Math.floor(top / 71)
+        this.endIndex = this.startIndex + 12
+
+        this.paddingTop = top
+        if (this.endIndex >= this.detaultData.length - 1) {
+            this.paddingBottom = 0
+            return
+        }
+        this.paddingBottom = this.allHeight - 800 - top
+    })
   },
   // 判断是否有存在只合计某一列
   created() {
@@ -798,6 +840,10 @@ export default {
 }
 </script>
 <style>
+.cpy-table-page{
+  height: 900px;
+  overflow-y: auto;
+}
 .line-lcump2 {
   display: -webkit-box;
   -webkit-line-clamp: 2;

@@ -20,6 +20,7 @@
 | indexLabel | 设置索引列名 | String | 序号 | - | - |
 | isPagination | 是否显示分页 | Boolean | true | true / false | - |
 | isHandle | 是否显示表单操作按钮 | Boolean | false | true / false | - |
+| loading | 是否开启表单loading动画 | Boolean | false | true / false | - |
 | tableAttr | 表格属性，与`el-table`属性一致[传送门](https://element.eleme.cn/#/zh-CN/component/table#table-attributes) | Object | - | - | - |
 | sortChange | 排序事件回调 | Function | - | - | 回调参数`row`, 参数说明：倒叙或正序或默认 |
 | <a href="#basic?id=渲染列与行">tableHeader</a> | 用于渲染行和列的配置 | Array | - | - | - |
@@ -41,7 +42,7 @@
 | tableColumnAttr | table-column配置项，用于配置列数据居中显示之类的，与element配置一样[传送门](http://element.eleme.io/#/zh-CN/component/table#table-column-attributes) | Object | - | - |
 | prop | 需要展示的行数据key值 | String | - | - |
 | edit | 编辑配置 | Object | - | - |
-| showSummary | 对该列进行合计 **注：如果在`表单配置`项的`tableAttr`同样配置了`showSummary`那么，列的`showSummary`优先级要大于`表单配置`的`showSummary`<br/>例如在表单有3列, 在第一列配置了`showSummary`, 然后表单配置了`showSummary`, 二、三列就不会统计，表单配置的`showSummary`会失效。** | Object | - | - |
+| showSummary | 对该列进行合计 **注：如果在`表单配置`项的`tableAttr`同样配置了`showSummary`那么，列的`showSummary`优先级要大于`表单配置`的`showSummary`<br/>例如在表单有3列, 在第一列配置了`showSummary`, 然后表单配置了`showSummary`, 二、三列就不会统计，表单配置的`showSummary`会失效。** | Boolean | false | true / false |
     
 **type说明**
 
