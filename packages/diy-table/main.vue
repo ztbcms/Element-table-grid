@@ -37,6 +37,7 @@
         @expand-change="expandChange"
         v-loading="loading || detaultLoading"
         :ref="tableConfig.ref"
+        :summary-method="getSummaries"
       >
         <slot name="first"></slot>
         <el-table-column
@@ -530,6 +531,42 @@ export default {
     }
   },
   methods: {
+    // 合计
+    getSummaries(param) {
+      const tableHeader = this.tableHeader.filter(item => item.showSummary).map(item => item.prop)
+      const { columns, data } = param
+      const sums = []
+      var total = true
+      columns.forEach((column, index) => {
+        if (index === 0) {
+          sums[index] = '合计'
+          return
+        }
+        const values = data.map(item => Number(item[column.property]))
+        if(tableHeader.length !== 0) {
+          total = false
+          tableHeader.forEach(el => {
+            if (column.property === el) {
+              total = true
+            }
+          })
+        }
+        console.log(total)
+        console.log(tableHeader)
+        if(total) {
+          sums[index] = values.reduce((prev, curr) => {
+            const value = Number(curr)
+            if (!isNaN(value)) {
+              return prev + curr
+            } else {
+              return prev
+            }
+          }, 0)
+          sums[index]
+        }
+      })
+      return sums
+    },
     // 记录排序列
     integratedSort({ column, prop, order }) {
         this.sortData = {}
@@ -747,13 +784,17 @@ export default {
   },
   mounted () {
     that = this
-    // for(var k in this.pagination){
-    //   this.detaultPagination[k] = this.pagination[k]
-    // }
     if (this.requestConfig.apiurl) {
       this.detaultGetList()
     } else if(this.tableData.length !== 0) {
       this.detaultData = Object.assign([], this.tableData)
+    }
+  },
+  // 判断是否有存在只合计某一列
+  created() {
+    const showSummaryList = this.tableHeader.filter(item => item.showSummary)
+    if(showSummaryList.length !== 0) {
+      this.$set(this.tableAttr, 'showSummary', true)
     }
   }
 }

@@ -87,7 +87,12 @@ export default {
         // 排序事件回调
         sortChange: row => console.log('sortChange', row),
         tableHeader: [
-          { label: 'ID', prop: 'id', tableColumnAttr: { sortable: 'custom', align: 'center' } },
+          {
+            label: 'ID',
+            prop: 'id',
+            showSummary: true,
+            tableColumnAttr: { sortable: 'custom', align: 'center' }
+          },
           {
             label: '姓名',
             prop: 'name',
