@@ -7,6 +7,7 @@
         :pagination.sync='pagination'
         :allselect="allselect"
         v-bind="tableConfig"
+        ref="diyTable"
       >
         <div slot="before">
           <el-table-column type="expand">
@@ -87,8 +88,34 @@ export default {
         sortChange: row => console.log('sortChange', row),
         tableHeader: [
           { label: 'ID', prop: 'id', tableColumnAttr: { sortable: 'custom', align: 'center' } },
-          { label: '姓名', prop: 'name', tableColumnAttr: { align: 'center' } },
-          { label: '性别', prop: 'sex', tableColumnAttr: { sortable: 'custom' }, formatData: (val) => { return val === 1 ? '男' : '女' } },
+          {
+            label: '姓名',
+            prop: 'name',
+            tableColumnAttr: { align: 'center' },
+            edit: {
+                type: 'Input',
+                change: (row, index, event) => {
+                    this.$refs.diyTable.detaultGetList()
+                    console.log('change', row, index, event)
+                }
+            }
+          },
+          {
+            label: '性别',
+            prop: 'sex',
+            tableColumnAttr: { sortable: 'custom' },
+            formatData: (val) => { return val === 1 ? '男' : '女' },
+            edit: {
+                type: 'Select',
+                option: [{id: 1, val: '男'},{id: 2, val: '女'}],
+                optionLabel: 'val',
+                optionValue: 'id',
+                change: (row, index, event) => {
+                    this.$refs.diyTable.detaultGetList()
+                    console.log('change', row, index, event)
+                }
+            }
+          },
           {
             label: '定位',
             type: 'Slot',

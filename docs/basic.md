@@ -36,10 +36,11 @@
 
 | 参数 | 说明 | 类型 | 默认值 | 可选值 |
 | :------------ | :------------ | :------------ | :------------ | :------------ |
-| label | 列名 | String | - | - |
+| label | 列名 | String | <div style="width:50px">-</div> | - |
 | type | 列展示类型，如果不填，默认显示文字 | String | - | location / Slider / Image / Input / Select / Radio / Checkbox / Rate / Link / Popover / Button |
 | tableColumnAttr | table-column配置项，用于配置列数据居中显示之类的，与element配置一样[传送门](http://element.eleme.io/#/zh-CN/component/table#table-column-attributes) | Object | - | - |
 | prop | 需要展示的行数据key值 | String | - | - |
+| edit | 编辑配置 | Object | - | - |
     
 **type说明**
 
@@ -66,6 +67,19 @@
 | size | 按钮大小 | String | medium / small / mini |
 | buttonAttr | 按钮类型配置参数，参数与element一样[传送门](https://element.eleme.cn/#/zh-CN/component/button) | Object | size / type / plain / round / circle / loading / disabled / icon / autofocus / native-type |
 | click | 按钮被点击之后需要触发的事件 | fuction | - |
+
+**edit说明**
+
+| 参数 | 说明 | 类型 | 可选参数 | 回调事件 | 回调参数 | 参数说明 | 
+| :------------ | :------------ | :------------ | :------------ | :------------ | :------------ | :------------ |
+| type | 编辑的类型 | String | Input / Select | <div style="width:110px">-</div> | - | - |
+| option | **type:Select可用**<br/>选择列表,与element [el-select](https://element.eleme.cn/#/zh-CN/component/select)一样 | Array | - | - | - | - |
+| optionLabel | **type:Select可用**<br/>设置选项label与element [el-select的Option](https://element.eleme.cn/#/zh-CN/component/select)一样 | - | - | - | - | - |
+| optionValue | **type:Select可用**<br/>设置选项value与element [el-select的Option](https://element.eleme.cn/#/zh-CN/component/select)一样 | - | - | - | - | - |
+| change | 确定修改的回调方法 | Function | - | change | row<br/>index<br/>event | 行数据<br/>行索引<br/>编辑之后的数据 |
+
+**注：修改完毕之后，使用this.$refs.xxx.detaultGetList()刷新当前表单，既：**
+`change: () => {this.$refs.xxx.detaultGetList()}`
 
 ## 分页配置
 通过配置 `pagination` 为表单传入`当前页` `总页数` `每页条数`，通过[el-eagination](https://element.eleme.cn/#/zh-CN/component/pagination#pagination-fen-ye)展示数据。
@@ -123,6 +137,7 @@
         :pagination.sync='pagination'
         :allselect="allselect"
         v-bind="tableConfig"
+        ref="diyTable"
       >
         <div slot="before">
           <el-table-column type="expand">
@@ -203,8 +218,34 @@ export default {
         sortChange: row => console.log('sortChange', row),
         tableHeader: [
           { label: 'ID', prop: 'id', tableColumnAttr: { sortable: 'custom', align: 'center' } },
-          { label: '姓名', prop: 'name', tableColumnAttr: { align: 'center' } },
-          { label: '性别', prop: 'sex', tableColumnAttr: { sortable: 'custom' }, formatData: (val) => { return val === 1 ? '男' : '女' } },
+          {
+            label: '姓名',
+            prop: 'name',
+            tableColumnAttr: { align: 'center' },
+            edit: {
+                type: 'Input',
+                change: (row, index, event) => {
+                    this.$refs.diyTable.detaultGetList()
+                    console.log('change', row, index, event)
+                }
+            }
+          },
+          {
+            label: '性别',
+            prop: 'sex',
+            tableColumnAttr: { sortable: 'custom' },
+            formatData: (val) => { return val === 1 ? '男' : '女' },
+            edit: {
+                type: 'Select',
+                option: [{id: 1, val: '男'},{id: 2, val: '女'}],
+                optionLabel: 'val',
+                optionValue: 'id',
+                change: (row, index, event) => {
+                    this.$refs.diyTable.detaultGetList()
+                    console.log('change', row, index, event)
+                }
+            }
+          },
           {
             label: '定位',
             type: 'Slot',
@@ -341,7 +382,7 @@ export default {
       // 分页配置
       pagination: {
         pageSize: 10, // 页条数
-        pageNum: 1, // 当前页
+        currentPage: 1, // 当前页
         total: 17, // 总条数
         sizeChange: (...args) => this.sizeChange.apply(this, args), // 页条数大小改变触发
         currentChange: (...args) => this.currentChange.apply(this, args), // 当前页改变触发
@@ -383,7 +424,4 @@ export default {
   }
 }
 </script>
-
-<style>
-</style>
 ```

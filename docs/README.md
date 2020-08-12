@@ -1,5 +1,3 @@
-# [vue-data-tables](https://github.com/njleonzhang/vue-data-tables/)
-
 > A simple, customizable and pageable table, based on vue2 and element-ui.
 
 本库是基于[element-ui](http://element.eleme.io/)的封装，依赖于以下的[element-ui](http://element.eleme.io/)组件:
