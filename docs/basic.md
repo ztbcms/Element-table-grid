@@ -41,6 +41,7 @@
 | tableColumnAttr | table-column配置项，用于配置列数据居中显示之类的，与element配置一样[传送门](http://element.eleme.io/#/zh-CN/component/table#table-column-attributes) | Object | - | - |
 | prop | 需要展示的行数据key值 | String | - | - |
 | edit | 编辑配置 | Object | - | - |
+| showSummary | 对该列进行合计 **注：如果在`表单配置`项的`tableAttr`同样配置了`showSummary`那么，列的`showSummary`优先级要大于`表单配置`的`showSummary`<br/>例如在表单有3列, 在第一列配置了`showSummary`, 然后表单配置了`showSummary`, 二、三列就不会统计，表单配置的`showSummary`会失效。** | Object | - | - |
     
 **type说明**
 
@@ -212,12 +213,18 @@ export default {
           ref: 'cpytable',
           border: true,
           'row-key': "id",
-          'tree-props': {children: 'children', hasChildren: 'hasChildren'}
+          'tree-props': {children: 'children', hasChildren: 'hasChildren'},
+          showSummary: true
         },
         // 排序事件回调
         sortChange: row => console.log('sortChange', row),
         tableHeader: [
-          { label: 'ID', prop: 'id', tableColumnAttr: { sortable: 'custom', align: 'center' } },
+          {
+            label: 'ID',
+            prop: 'id',
+            showSummary: true,
+            tableColumnAttr: { sortable: 'custom', align: 'center' }
+          },
           {
             label: '姓名',
             prop: 'name',

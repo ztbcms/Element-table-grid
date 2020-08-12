@@ -82,7 +82,8 @@ export default {
           ref: 'cpytable',
           border: true,
           'row-key': "id",
-          'tree-props': {children: 'children', hasChildren: 'hasChildren'}
+          'tree-props': {children: 'children', hasChildren: 'hasChildren'},
+          showSummary: true
         },
         // 排序事件回调
         sortChange: row => console.log('sortChange', row),
