@@ -52,7 +52,7 @@
         >
            <template slot-scope="scope">
               <slot>
-                <el-checkbox v-model="scope.row['_check']"></el-checkbox>
+                <el-checkbox :key="scope.row['id']" v-model="scope.row['_check']"></el-checkbox>
               </slot>
             </template>
         </el-table-column>
