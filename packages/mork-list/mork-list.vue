@@ -851,13 +851,19 @@ export default {
         const top = container.scrollTop
         this.startIndex = Math.floor(top / 71)
         this.endIndex = this.startIndex + 12
-
-        this.paddingTop = top
-        if (this.endIndex >= this.detaultData.length - 1) {
-            this.paddingBottom = 0
-            return
+        // this.paddingTop = top
+        // if (this.endIndex >= this.detaultData.length - 1) {
+        //     this.paddingBottom = 0
+        //     return
+        // }
+        if (this.endIndex + 10 >= this.detaultData.length - 1) {
+          this.paddingTop = top - 800  / 12;
+          this.paddingBottom = 0
+        } else {
+          this.paddingTop = top
+          this.paddingBottom = this.allHeight - 800 - top
         }
-        this.paddingBottom = this.allHeight - 800 - top
+        // this.paddingBottom = this.allHeight - 800 - top
     })
   },
   // 判断是否有存在只合计某一列
@@ -873,6 +879,10 @@ export default {
 .cpy-table-page{
   height: 900px;
   overflow-y: auto;
+}
+.cpy-handle {
+  position: sticky;
+  top: 0;
 }
 .line-lcump2 {
   display: -webkit-box;

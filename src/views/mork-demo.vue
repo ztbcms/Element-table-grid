@@ -122,7 +122,7 @@ export default {
                     { name: '删除', size: '', click: row => console.log('tag', row), buttonAttr: { type: 'danger' }, prop: 'id' }
                 ],
                 requestConfig: {
-                    apiurl: 'http://localhost:3003/api/getList',
+                    apiurl: `${location.origin}/data.json`,
                     method: 'get',
                     data: {
                         'name': ''
