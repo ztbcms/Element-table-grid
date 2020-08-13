@@ -840,13 +840,9 @@ export default {
         let clientNum = ~~(900 / lineHeight)
         this.startIndex = ~~(top / lineHeight) >= this.detaultData.length - clientNum ? this.detaultData.length - clientNum : ~~(top / lineHeight)
         this.endIndex = this.startIndex + 12
-        if (this.endIndex >= this.detaultData.length - 1) {
-          this.paddingTop = Math.min(this.allHeight, top)
-          this.paddingBottom = 0
-        } else {
-          this.paddingTop = Math.min(this.allHeight, top)
-          this.paddingBottom = Math.max((this.allHeight - top), 0)
-        }
+        this.paddingTop = Math.min(this.allHeight, top)
+        this.paddingBottom = Math.max((this.allHeight - top), 0)
+
         // this.paddingTop = top
         // if (this.endIndex >= this.detaultData.length - 1) {
         //     this.paddingBottom = 0
