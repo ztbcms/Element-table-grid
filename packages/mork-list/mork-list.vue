@@ -836,14 +836,16 @@ export default {
     const container = this.$refs.container
     container.addEventListener('scroll', () => {
         const top = container.scrollTop
-        this.startIndex = Math.floor(top / 71) >= this.detaultData.length - 11 ? this.detaultData.length - 11 : Math.floor(top / 71)
+        let lineHeight = ~~(this.allHeight / this.detaultData.length)
+        let clientNum = ~~(900 / lineHeight)
+        this.startIndex = ~~(top / lineHeight) >= this.detaultData.length - clientNum ? this.detaultData.length - clientNum : ~~(top / lineHeight)
         this.endIndex = this.startIndex + 12
-        if (this.endIndex + 10 >= this.detaultData.length - 1) {
-          this.paddingTop = top - 800  / 12;
+        if (this.endIndex >= this.detaultData.length - 1) {
+          this.paddingTop = Math.min(this.allHeight, top)
           this.paddingBottom = 0
         } else {
-          this.paddingTop = top
-          this.paddingBottom = this.allHeight - 800 - top
+          this.paddingTop = Math.min(this.allHeight, top)
+          this.paddingBottom = Math.max((this.allHeight - top), 0)
         }
         // this.paddingTop = top
         // if (this.endIndex >= this.detaultData.length - 1) {
