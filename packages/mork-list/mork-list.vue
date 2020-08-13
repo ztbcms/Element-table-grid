@@ -550,10 +550,10 @@ export default {
       this.detaultData = Object.assign([], this.tableData)
     },
     detaultData(val) {
+        this.endIndex = this.startIndex + 12
         const valLen = val.length
         this.allHeight = valLen * 71
         this.paddingBottom = this.allHeight - this.scrollList.length * 71
-        this.endIndex = this.startIndex + 12
     }
   },
   filters: {
@@ -566,8 +566,11 @@ export default {
   methods: {
     renderHeader(){
         return (
-            <div>
-                <el-checkbox value={this.checkAll} indeterminate={this.indeterminate}></el-checkbox>
+            <div onClick={this.toggleSelection}>
+                <el-checkbox
+                  indeterminate={this.indeterminate}
+                  value={this.checkAll}
+                ></el-checkbox>
             </div>
         )
     },
@@ -619,19 +622,18 @@ export default {
           }
         })
     },
-    toggleSelection() {
-    //   if (e.target.tagName === 'INPUT') {
-    //     return false
-    //   }
-      var list = this.$refs[this.tableConfig.ref]
-    //   console.log(list)
-      var checkAll = this.checkAll
-      list.clearSelection();
-      if(!checkAll) {
-        this.detaultData.forEach(el => {
-          list.toggleRowSelection(el);
-        })
+    toggleSelection(e) {
+      if (e.target.tagName === 'INPUT') {
+        return false
       }
+      var condition = true
+      var checkAll = this.checkAll
+      if(checkAll) {
+        condition = false
+      }
+      this.detaultData.forEach(el => {
+        this.$set(el, '_check', condition)
+      })
     },
     functionalBtn(data) {
       var check = {}
@@ -722,7 +724,7 @@ export default {
     },
     // 默认获取列表
     detaultGetList () {
-      this.detaultLoading = true
+      // this.detaultLoading = true
       let fun = null
       if (this.requestConfig.method === 'post') {
         fun = Post
@@ -792,42 +794,28 @@ export default {
   },
   computed: {
     checkAll() {
-      var list = this.selectionList
-      var tableDataLength = this.detaultData.length
-      if(list) {
-        var selectionLength = list.length
-        if(selectionLength === tableDataLength) {
-          return true
+        var condition = false
+        const list = this.detaultData
+        const checkList = list.filter(item => item._check).length
+        if(list.length === checkList) {
+          condition = true
         }
-      }
-      return false
+        return condition
     },
     indeterminate() {
-    //   var list = this.selectionList
-    //   var tableDataLength = this.detaultData.length
-    //   var condition = false
-    //   if(list) {
-    //     var selectionLength = list.length
-    //     switch(selectionLength) {
-    //       case tableDataLength:
-    //         condition = false
-    //       break;
-    //       case 0:
-    //         condition = false
-    //       break;
-    //       default:
-    //         condition = true
-    //       break;
-    //     }
-    //   }
+        var condition = false
         const list = this.detaultData
         const index = list.findIndex(item => item._check)
+        if(index != -1) {
+          condition = true
+        }
+        if(this.checkAll) {
+          condition = false
+        }
         console.log(index)
-        return true
-    //   return condition
+        return condition
     },
     scrollList() {
-        // console.log(this.detaultData.slice(this.startIndex, this.endIndex))
         return this.detaultData.slice(this.startIndex, this.endIndex)
     },
     style() {
@@ -845,19 +833,17 @@ export default {
       this.detaultData = Object.assign([], this.tableData)
     }
 
-
     const container = this.$refs.container
     container.addEventListener('scroll', () => {
         const top = container.scrollTop
-        this.startIndex = Math.floor(top / 71)
+        this.startIndex = Math.floor(top / 71) >= this.detaultData.length - 11 ? this.detaultData.length - 11 : Math.floor(top / 71)
         this.endIndex = this.startIndex + 12
-
         this.paddingTop = top
         if (this.endIndex >= this.detaultData.length - 1) {
             this.paddingBottom = 0
-            return
+            return false
         }
-        this.paddingBottom = this.allHeight - 800 - top
+        this.paddingBottom = this.allHeight - 900 - top
     })
   },
   // 判断是否有存在只合计某一列
