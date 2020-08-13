@@ -1,6 +1,6 @@
 <!--表格组件 -->
 <template>
-  <section class="cpy-table-page">
+  <section class="cpy-table-page" ref="container">
     <!-- 表格操作按钮 -->
     <section
       class="cpy-handle"
@@ -14,10 +14,12 @@
       >{{item.label}}</el-button>
     </section>
     <!-- 数据表格 -->
-    <section class="cpy-table">
+    <section class="cpy-table" :style="style">
+        <!-- :row-key="getRowKey" -->
       <el-table
         v-bind="tableAttr"
-        :data="detaultData"
+        :data="scrollList"
+        :row-key="getRowKey"
         @select="select"
         @select-all="selectAll"
         @selection-change="selectionChange"
@@ -42,9 +44,18 @@
         <slot name="first"></slot>
         <el-table-column
           v-if="isSelection"
-          type="selection"
           align="center"
-        ></el-table-column>
+          prop="_check"
+          :reserve-selection="true"
+          :value="true"
+          :render-header="renderHeader"
+        >
+           <template slot-scope="scope">
+              <slot>
+                <el-checkbox :key="scope.row['id']" v-model="scope.row['_check']"></el-checkbox>
+              </slot>
+            </template>
+        </el-table-column>
         <el-table-column
           v-if="isIndex"
           type="index"
@@ -64,7 +75,8 @@
           >
             <template slot-scope="scope">
               <slot>
-                <el-checkbox v-model="scope.row['_checkBox']" @change="singlecheckBox($event, scope.row)"></el-checkbox>
+                  {{scope.row}}
+                <!-- <el-checkbox v-model="scope.row['_checkBox']"></el-checkbox> -->
               </slot>
             </template>
           </el-table-column>
@@ -281,7 +293,7 @@
       </el-table>
     </section>
     <div class="functional">
-      <div class="leftFunctional">
+      <!-- <div class="leftFunctional">
         <el-checkbox @click.native="toggleSelection" :value="checkAll" v-if="isSelection" :indeterminate="indeterminate">全选</el-checkbox>
         <div class="functionalBtn">
           <template
@@ -295,9 +307,9 @@
             >{{item.name}}</el-button>
           </template>
         </div>
-      </div>
+      </div> -->
       <!-- 分页 -->
-      <section
+      <!-- <section
         class="cpy-pagination"
         v-if="isPagination"
       >
@@ -317,7 +329,7 @@
             ></el-pagination>
           </template>
         </slot>
-      </section>
+      </section> -->
     </div>
     <el-dialog :title="dialogData.title" :visible.sync="dialogData.show" width="35%">
       <div class="_dialogcontent" v-if="dialogData.type === 'Input'">
@@ -394,7 +406,14 @@ export default {
         type: 'Input',
         value: '',
         title: ''
-      }
+      },
+
+
+      startIndex: 0,
+      endIndex: 60,
+      paddingTop: 0,
+      paddingBottom: 0,
+      allHeight: 0
     }
   },
   props: {
@@ -444,11 +463,19 @@ export default {
     },
     selectAll: {
       type: Function,
-      default: (selection) => { that.$emit('selectAll', selection) }
+      default: (selection) => {
+          that.toggleSelection()
+          that.$emit('selectAll', selection)
+        }
     },
     selectionChange: {
       type: Function,
-      default: (selection) => { that.selectionList = selection, that.$emit('selectionChange', selection) }
+      default: (selection, e) => {
+          console.log(selection)
+          console.log(e)
+        //  that.selectionList = selection,
+         that.$emit('selectionChange', selection)
+      }
     },
     cellMouseEnter: {
       type: Function,
@@ -521,6 +548,12 @@ export default {
     },
     tableData() {
       this.detaultData = Object.assign([], this.tableData)
+    },
+    detaultData(val) {
+        this.endIndex = this.startIndex + 12
+        const valLen = val.length
+        this.allHeight = valLen * 71
+        this.paddingBottom = this.allHeight - this.scrollList.length * 71
     }
   },
   filters: {
@@ -531,6 +564,16 @@ export default {
     }
   },
   methods: {
+    renderHeader(){
+        return (
+            <div onClick={this.toggleSelection}>
+                <el-checkbox
+                  indeterminate={this.indeterminate}
+                  value={this.checkAll}
+                ></el-checkbox>
+            </div>
+        )
+    },
     // 合计
     getSummaries(param) {
       const tableHeader = this.tableHeader.filter(item => item.showSummary).map(item => item.prop)
@@ -583,14 +626,14 @@ export default {
       if (e.target.tagName === 'INPUT') {
         return false
       }
-      var list = this.$refs[this.tableConfig.ref]
+      var condition = true
       var checkAll = this.checkAll
-      list.clearSelection();
-      if(!checkAll) {
-        this.detaultData.forEach(el => {
-          list.toggleRowSelection(el);
-        })
+      if(checkAll) {
+        condition = false
       }
+      this.detaultData.forEach(el => {
+        this.$set(el, '_check', condition)
+      })
     },
     functionalBtn(data) {
       var check = {}
@@ -646,7 +689,6 @@ export default {
         optionLabel: th.edit.optionLabel,
         optionValue: th.edit.optionValue
       }
-      console.log(this.dialogData)
     },
     dialogDataSuccess() {
       this.dialogData.show = false
@@ -682,7 +724,7 @@ export default {
     },
     // 默认获取列表
     detaultGetList () {
-      this.detaultLoading = true
+      // this.detaultLoading = true
       let fun = null
       if (this.requestConfig.method === 'post') {
         fun = Post
@@ -746,38 +788,41 @@ export default {
       this.detaultPagination.pageSize = val
       this.detaultGetList()
     },
+    getRowKey () {
+      return null
+    }
   },
   computed: {
     checkAll() {
-      var list = this.selectionList
-      var tableDataLength = this.detaultData.length
-      if(list) {
-        var selectionLength = list.length
-        if(selectionLength === tableDataLength) {
-          return true
+        var condition = false
+        const list = this.detaultData
+        const checkList = list.filter(item => item._check).length
+        if(list.length === checkList) {
+          condition = true
         }
-      }
-      return false
+        return condition
     },
     indeterminate() {
-      var list = this.selectionList
-      var tableDataLength = this.detaultData.length
-      var condition = false
-      if(list) {
-        var selectionLength = list.length
-        switch(selectionLength) {
-          case tableDataLength:
-            condition = false
-          break;
-          case 0:
-            condition = false
-          break;
-          default:
-            condition = true
-          break;
+        var condition = false
+        const list = this.detaultData
+        const index = list.findIndex(item => item._check)
+        if(index != -1) {
+          condition = true
         }
-      }
-      return condition
+        if(this.checkAll) {
+          condition = false
+        }
+        console.log(index)
+        return condition
+    },
+    scrollList() {
+        return this.detaultData.slice(this.startIndex, this.endIndex)
+    },
+    style() {
+        return {
+            paddingTop: this.paddingTop + 'px',
+            paddingBottom: this.paddingBottom + 'px'
+        }
     }
   },
   mounted () {
@@ -787,6 +832,24 @@ export default {
     } else if(this.tableData.length !== 0) {
       this.detaultData = Object.assign([], this.tableData)
     }
+
+    const container = this.$refs.container
+    container.addEventListener('scroll', () => {
+        const top = container.scrollTop
+        let lineHeight = ~~(this.allHeight / this.detaultData.length)
+        let clientNum = ~~(900 / lineHeight)
+        this.startIndex = ~~(top / lineHeight) >= this.detaultData.length - clientNum ? this.detaultData.length - clientNum : ~~(top / lineHeight)
+        this.endIndex = this.startIndex + 12
+        this.paddingTop = Math.min(this.allHeight, top)
+        this.paddingBottom = Math.max((this.allHeight - top), 0)
+
+        // this.paddingTop = top
+        // if (this.endIndex >= this.detaultData.length - 1) {
+        //     this.paddingBottom = 0
+        //     return false
+        // }
+        // this.paddingBottom = this.allHeight - 900 - top
+    })
   },
   // 判断是否有存在只合计某一列
   created() {
@@ -798,6 +861,14 @@ export default {
 }
 </script>
 <style>
+.cpy-table-page{
+  height: 900px;
+  overflow-y: auto;
+}
+.cpy-handle {
+  position: sticky;
+  top: 0;
+}
 .line-lcump2 {
   display: -webkit-box;
   -webkit-line-clamp: 2;
