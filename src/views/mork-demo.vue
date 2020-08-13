@@ -121,7 +121,9 @@ export default {
                 allselect: [
                     { name: '删除', size: '', click: row => console.log('tag', row), buttonAttr: { type: 'danger' }, prop: 'id' }
                 ],
+                // http://localhost:3003/api/getList?page=2
                 requestConfig: {
+                    // apiurl: `http://localhost:3003/api/getList?page=2`,
                     apiurl: `${location.origin}/data.json`,
                     method: 'get',
                     data: {

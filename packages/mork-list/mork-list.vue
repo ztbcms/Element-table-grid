@@ -1,358 +1,362 @@
 <!--表格组件 -->
 <template>
-  <section class="cpy-table-page" ref="container">
-    <!-- 表格操作按钮 -->
-    <section
-      class="cpy-handle"
-      v-if='isHandle'
-    >
-      <el-button
-        v-for='(item, key) in tableHandles'
-        v-bind="item.buttonAttr"
-        @click="item.click()"
-        :key="key"
-      >{{item.label}}</el-button>
-    </section>
-    <!-- 数据表格 -->
-    <section class="cpy-table" :style="style">
-        <!-- :row-key="getRowKey" -->
-      <el-table
-        v-bind="tableAttr"
-        :data="scrollList"
-        :row-key="getRowKey"
-        @select="select"
-        @select-all="selectAll"
-        @selection-change="selectionChange"
-        @cell-mouse-enter="cellMouseEnter"
-        @cell-mouse-leave="cellMouseLeave"
-        @cell-click="cellClick"
-        @cell-dblclick="cellDblclick"
-        @row-click="rowClick"
-        @row-contextmenu="rowContextmenu"
-        @row-dblclick="rowDblclick"
-        @header-click="headerClick"
-        @header-contextmenu="headerContextmenu"
-        @sort-change="integratedSort"
-        @filter-change="filterChange"
-        @current-change="currentChange"
-        @header-dragend="headerDragend"
-        @expand-change="expandChange"
-        v-loading="loading || detaultLoading"
-        :ref="tableConfig.ref"
-        :summary-method="getSummaries"
+  <div class="_table" ref="tableBox">
+      <div class="btns">
+        <el-button
+          v-for='(item, key) in tableHandles'
+          v-bind="item.buttonAttr"
+          @click="item.click()"
+          :key="key"
+        >{{item.label}}</el-button>
+      </div>
+      <section class="cpy-table-page" ref="container">
+      <!-- 表格操作按钮 -->
+      <section
+        class="cpy-handle"
+        v-if='isHandle'
       >
-        <slot name="first"></slot>
-        <el-table-column
-          v-if="isSelection"
-          align="center"
-          prop="_check"
-          :reserve-selection="true"
-          :value="true"
-          :render-header="renderHeader"
+      </section>
+      <!-- 数据表格 -->
+      <section class="cpy-table" :style="style">
+          <!-- :row-key="getRowKey" -->
+        <el-table
+          v-bind="tableAttr"
+          :data="scrollList"
+          :row-key="getRowKey"
+          @select="select"
+          @select-all="selectAll"
+          @selection-change="selectionChange"
+          @cell-mouse-enter="cellMouseEnter"
+          @cell-mouse-leave="cellMouseLeave"
+          @cell-click="cellClick"
+          @cell-dblclick="cellDblclick"
+          @row-click="rowClick"
+          @row-contextmenu="rowContextmenu"
+          @row-dblclick="rowDblclick"
+          @header-click="headerClick"
+          @header-contextmenu="headerContextmenu"
+          @sort-change="integratedSort"
+          @filter-change="filterChange"
+          @current-change="currentChange"
+          @header-dragend="headerDragend"
+          @expand-change="expandChange"
+          v-loading="loading || detaultLoading"
+          :ref="tableConfig.ref"
+          :summary-method="getSummaries"
         >
-           <template slot-scope="scope">
-              <slot>
-                <el-checkbox v-model="scope.row['_check']"></el-checkbox>
-              </slot>
-            </template>
-        </el-table-column>
-        <el-table-column
-          v-if="isIndex"
-          type="index"
-          :label="indexLabel"
-          align="center"
-          width="50"
-        ></el-table-column>
-        <slot name="before"></slot>
-        <template
-          v-for="(th, key) in tableHeader"
-        >
+          <slot name="first"></slot>
           <el-table-column
-            v-if="key == 0 && isSingle"
-            v-bind="{ align: 'center' }"
-            :key="'column' + key"
-            :prop="th.prop"
+            v-if="isSelection"
+            align="center"
+            prop="_check"
+            :reserve-selection="true"
+            :value="true"
+            :render-header="renderHeader"
           >
             <template slot-scope="scope">
-              <slot>
-                  {{scope.row}}
-                <!-- <el-checkbox v-model="scope.row['_checkBox']"></el-checkbox> -->
-              </slot>
-            </template>
+                <slot>
+                  <el-checkbox :value="scope.row['_check']" @click.native="checkBoxClick(scope.row, $event)"></el-checkbox>
+                </slot>
+              </template>
           </el-table-column>
-          <!-- 数据栏 -->
           <el-table-column
-            :key="key+'column'+th.id"
-            v-bind="th.tableColumnAttr || { align: 'center' }"
-            :label="th.label"
-            :prop="th.prop"
+            v-if="isIndex"
+            type="index"
+            :label="indexLabel"
+            align="center"
+            width="50"
+          ></el-table-column>
+          <slot name="before"></slot>
+          <template
+            v-for="(th, key) in tableHeader"
           >
-            <template slot-scope="scope">
-              <!-- 普通 -->
-              <template v-if="th.type === 'Text' || !th.type">
-                <slot name="Text">
-                  <span
-                    v-if="!th.formatData"
-                    @click.stop="th.click && th.click(scope.row)"
-                  >{{ scope.row[th.prop] }}</span>
-                  <span
-                    v-else
-                    @click.stop="th.click && th.click(scope.row)"
-                  >{{ scope.row[th.prop] | formatters(th.formatData) }}</span>
-                  <i class="_diyTable el-icon-edit" @click="dialogDataUpdate(scope.row, scope.$index, th)" v-if="th.edit"></i>
+            <el-table-column
+              v-if="key == 0 && isSingle"
+              v-bind="{ align: 'center' }"
+              :key="'column' + key"
+              :prop="th.prop"
+            >
+              <template slot-scope="scope">
+                <slot>
+                    {{scope.row}}
+                  <!-- <el-checkbox v-model="scope.row['_checkBox']"></el-checkbox> -->
                 </slot>
               </template>
-              <!-- html -->
-              <template v-else-if="th.type === 'Html'">
-                <slot name="Html">
-                  <div v-html="th.html(scope.row[th.prop])"></div>
-                </slot>
-              </template>
-              <!-- 输入框 -->
-              <template v-else-if="th.type === 'Input'">
-                <slot name="Input">
-                  <!-- <span
-                    v-if="!th.formatData"
-                    @click.stop="th.click && th.click(scope.row)"
-                  >{{ scope.row[th.prop] }}</span> -->
-                  <el-input
-                    v-model="scope.row[th.prop]"
-                    v-bind="th.inputAttr"
-                    :disabled="scope.row[th.disabled]"
-                    @focus="th.focus && th.focus($event, scope.row)"
-                    @blur="th.blur && th.blur($event, scope.row)"
-                    @change="th.change && th.change($event, scope.row)"
-                    @input="th.input && th.input($event, scope.row)"
-                    @clear="th.clear && th.clear(scope.row)"
-                  ></el-input>
-                </slot>
-              </template>
-              <!-- 下拉框 -->
-              <template v-else-if="th.type === 'Select'">
-                <slot name="Select">
-                  <el-select
-                    v-model="scope.row[th.prop]"
-                    v-bind="th.selectAttr"
-                    :disabled="scope.row[th.disabled]"
-                    @change='th.change && th.change(scope.row, scope.$index, $event)'
-                    @visible-change="th.visibleChange && th.visibleChange($event, scope.row)"
-                    @remove-tag="th.removeTag && th.removeTag($event, scope.row)"
-                    @clear="th.clear && th.clear($event, scope.row)"
-                    @blur="th.blur && th.blur($event, scope.row)"
-                    @focus="th.focus && th.focus($event, scope.row)"
-                  >
-                    <el-option
-                      v-for="op in th.options"
-                      :label="op[th.props.label]"
-                      :value="op[th.props.value]"
-                      :key="op[th.props.value]"
-                      :disabled="op[th.props.disabled]"
-                      v-bind="op.optionAttr || th.optionAttr"
-                      @blur="op.blur && op.blur(op)"
-                      @focus="op.focus && op.focus(op)"
-                    ></el-option>
-                  </el-select>
-                </slot>
-              </template>
-              <!-- 单选 -->
-              <template v-else-if="th.type === 'Radio'">
-                <slot name="Radio">
-                  <el-radio-group
-                    :value="scope.row[th.prop]"
-                    v-bind="th.radioGroupAttr"
-                    :disabled="scope.row[th.disabled]"
-                  >
-                    <el-radio
-                      @click.native="radiosClick(scope.row, scope.$index, ra.value, th, $event)"
-                      v-for="ra in th.radios"
-                      v-bind="ra.radioAttr || th.radioAttr"
-                      :label="ra.value"
-                      :key="ra.value"
-                    >{{ra.label}}</el-radio>
-                  </el-radio-group>
-                </slot>
-              </template>
-              <!-- 复选框 -->
-              <template v-else-if="th.type === 'Checkbox'">
-                <slot name="Checkbox">
-                  <el-checkbox-group
-                    v-model="scope.row[th.prop]"
-                    v-bind="th.checkboxGroupAttr"
-                    :disabled="scope.row[th.disabled]"
-                    @change='th.change && th.change(scope.row, scope.$index, $event)'
-                  >
-                    <el-checkbox
-                      v-for="ra in th.checkboxs"
-                      :label="ra.value"
-                      :key="ra.value"
-                      v-bind="ra.checkboxAttr || th.checkboxAttr"
-                    >{{ra.label}}</el-checkbox>
-                  </el-checkbox-group>
-                </slot>
-              </template>
-              <!-- 评价 -->
-              <template v-else-if="th.type === 'Rate'">
-                <slot name="Rate">
-                  <el-rate
-                    v-model="scope.row[th.prop]"
-                    v-bind="th.rateAttr"
-                    :disabled="scope.row[th.disabled]"
-                    @change='th.change && th.change(scope.row, scope.$index, $event)'
-                  ></el-rate>
-                </slot>
-              </template>
-              <!-- 开关 -->
-              <template v-else-if="th.type === 'Switch'">
-                <div @click="!scope.row[th.disabled] && th.change && th.change(scope.row, scope.$index, !scope.row[th.prop], th)" v-if="th.async">
+            </el-table-column>
+            <!-- 数据栏 -->
+            <el-table-column
+              :key="key+'column'+th.id"
+              v-bind="th.tableColumnAttr || { align: 'center' }"
+              :label="th.label"
+              :prop="th.prop"
+            >
+              <template slot-scope="scope">
+                <!-- 普通 -->
+                <template v-if="th.type === 'Text' || !th.type">
+                  <slot name="Text">
+                    <span
+                      v-if="!th.formatData"
+                      @click.stop="th.click && th.click(scope.row)"
+                    >{{ scope.row[th.prop] }}</span>
+                    <span
+                      v-else
+                      @click.stop="th.click && th.click(scope.row)"
+                    >{{ scope.row[th.prop] | formatters(th.formatData) }}</span>
+                    <i class="_diyTable el-icon-edit" @click="dialogDataUpdate(scope.row, scope.$index, th)" v-if="th.edit"></i>
+                  </slot>
+                </template>
+                <!-- html -->
+                <template v-else-if="th.type === 'Html'">
+                  <slot name="Html">
+                    <div v-html="th.html(scope.row[th.prop])"></div>
+                  </slot>
+                </template>
+                <!-- 输入框 -->
+                <template v-else-if="th.type === 'Input'">
+                  <slot name="Input">
+                    <!-- <span
+                      v-if="!th.formatData"
+                      @click.stop="th.click && th.click(scope.row)"
+                    >{{ scope.row[th.prop] }}</span> -->
+                    <el-input
+                      v-model="scope.row[th.prop]"
+                      v-bind="th.inputAttr"
+                      :disabled="scope.row[th.disabled]"
+                      @focus="th.focus && th.focus($event, scope.row)"
+                      @blur="th.blur && th.blur($event, scope.row)"
+                      @change="th.change && th.change($event, scope.row)"
+                      @input="th.input && th.input($event, scope.row)"
+                      @clear="th.clear && th.clear(scope.row)"
+                    ></el-input>
+                  </slot>
+                </template>
+                <!-- 下拉框 -->
+                <template v-else-if="th.type === 'Select'">
+                  <slot name="Select">
+                    <el-select
+                      v-model="scope.row[th.prop]"
+                      v-bind="th.selectAttr"
+                      :disabled="scope.row[th.disabled]"
+                      @change='th.change && th.change(scope.row, scope.$index, $event)'
+                      @visible-change="th.visibleChange && th.visibleChange($event, scope.row)"
+                      @remove-tag="th.removeTag && th.removeTag($event, scope.row)"
+                      @clear="th.clear && th.clear($event, scope.row)"
+                      @blur="th.blur && th.blur($event, scope.row)"
+                      @focus="th.focus && th.focus($event, scope.row)"
+                    >
+                      <el-option
+                        v-for="op in th.options"
+                        :label="op[th.props.label]"
+                        :value="op[th.props.value]"
+                        :key="op[th.props.value]"
+                        :disabled="op[th.props.disabled]"
+                        v-bind="op.optionAttr || th.optionAttr"
+                        @blur="op.blur && op.blur(op)"
+                        @focus="op.focus && op.focus(op)"
+                      ></el-option>
+                    </el-select>
+                  </slot>
+                </template>
+                <!-- 单选 -->
+                <template v-else-if="th.type === 'Radio'">
+                  <slot name="Radio">
+                    <el-radio-group
+                      :value="scope.row[th.prop]"
+                      v-bind="th.radioGroupAttr"
+                      :disabled="scope.row[th.disabled]"
+                    >
+                      <el-radio
+                        @click.native="radiosClick(scope.row, scope.$index, ra.value, th, $event)"
+                        v-for="ra in th.radios"
+                        v-bind="ra.radioAttr || th.radioAttr"
+                        :label="ra.value"
+                        :key="ra.value"
+                      >{{ra.label}}</el-radio>
+                    </el-radio-group>
+                  </slot>
+                </template>
+                <!-- 复选框 -->
+                <template v-else-if="th.type === 'Checkbox'">
+                  <slot name="Checkbox">
+                    <el-checkbox-group
+                      v-model="scope.row[th.prop]"
+                      v-bind="th.checkboxGroupAttr"
+                      :disabled="scope.row[th.disabled]"
+                      @change='th.change && th.change(scope.row, scope.$index, $event)'
+                    >
+                      <el-checkbox
+                        v-for="ra in th.checkboxs"
+                        :label="ra.value"
+                        :key="ra.value"
+                        v-bind="ra.checkboxAttr || th.checkboxAttr"
+                      >{{ra.label}}</el-checkbox>
+                    </el-checkbox-group>
+                  </slot>
+                </template>
+                <!-- 评价 -->
+                <template v-else-if="th.type === 'Rate'">
+                  <slot name="Rate">
+                    <el-rate
+                      v-model="scope.row[th.prop]"
+                      v-bind="th.rateAttr"
+                      :disabled="scope.row[th.disabled]"
+                      @change='th.change && th.change(scope.row, scope.$index, $event)'
+                    ></el-rate>
+                  </slot>
+                </template>
+                <!-- 开关 -->
+                <template v-else-if="th.type === 'Switch'">
+                  <div @click="!scope.row[th.disabled] && th.change && th.change(scope.row, scope.$index, !scope.row[th.prop], th)" v-if="th.async">
+                    <el-switch
+                      :value="scope.row[th.prop]"
+                      v-bind="th.switchAttr"
+                      :disabled="scope.row[th.disabled]"
+                    ></el-switch>
+                  </div>
                   <el-switch
-                    :value="scope.row[th.prop]"
+                    v-else
+                    @change='th.change && th.change(scope.row, scope.$index, $event, th)'
+                    v-model="scope.row[th.prop]"
                     v-bind="th.switchAttr"
                     :disabled="scope.row[th.disabled]"
                   ></el-switch>
-                </div>
-                <el-switch
-                  v-else
-                  @change='th.change && th.change(scope.row, scope.$index, $event, th)'
-                  v-model="scope.row[th.prop]"
-                  v-bind="th.switchAttr"
-                  :disabled="scope.row[th.disabled]"
-                ></el-switch>
+                </template>
+                <!-- 图像 -->
+                <template v-else-if="th.type === 'Image'">
+                  <slot name="Image">
+                    <el-image
+                      :src="scope.row[th.prop]"
+                      v-bind="th.imageAttr"
+                      @click.stop="th.click && th.click(scope.row)"
+                      :preview-src-list="th.imgPreview ? [scope.row[th.prop]] : []"
+                    >
+                    </el-image>
+                  </slot>
+                </template>
+                <!-- 滑块 -->
+                <template v-else-if="th.type === 'Slider'">
+                  <slot name="Slider">
+                    <el-slider
+                      v-model="scope.row[th.prop]"
+                      :disabled="scope.row[th.disabled]"
+                      v-bind="th.sliderAttr"
+                      @change='th.change && th.change(scope.row, scope.$index, $event)'
+                    ></el-slider>
+                  </slot>
+                </template>
+                <!-- 链接 -->
+                <template v-else-if="th.type === 'Link'">
+                  <slot name="Link">
+                    <el-link
+                      :href="scope.row[th.prop]"
+                      target="_blank"
+                      v-bind="th.linkAttr"
+                    >{{ th.linkAttr['name'] || '链接'}}</el-link>
+                  </slot>
+                </template>
+                <!-- 长文本 -->
+                <template v-else-if="th.type === 'Popover'">
+                  <slot name="Popover">
+                    <el-popover
+                      v-bind="th.popoverAttr"
+                      :content="scope.row[th.prop]"
+                    >
+                      <div
+                        class="line-lcump2"
+                        slot="reference"
+                      >{{scope.row[th.prop]}}</div>
+                    </el-popover>
+                  </slot>
+                </template>
+                <!-- 按钮 -->
+                <template v-else-if="th.type === 'Button' || (isSelection && key === tableHeader.length - 1)">
+                  <slot name="Button">
+                    <!-- <el-button v-if="isSelection" size='mini' @click="multistageFn(scope.row)">查看</el-button> -->
+                    <template
+                      v-for="(o, k) in th.buttonGroup"
+                    >
+                      <el-button
+                        :key="k"
+                        :size="o.size || 'mini'"
+                        @click.stop="o.click(scope.row, scope.$index)"
+                        v-bind="o.buttonAttr"
+                        v-if="!scope.row[o.hidKey]"
+                      >{{scope.row[o.prop] || o.name}}</el-button>
+                    </template>
+                  </slot>
+                </template>
+                <!-- 自定义 -->
+                <template v-if="th.type === 'Slot'">
+                  <slot :name="th.slot" v-bind="scope"></slot>
+                </template>
               </template>
-              <!-- 图像 -->
-              <template v-else-if="th.type === 'Image'">
-                <slot name="Image">
-                  <el-image
-                    :src="scope.row[th.prop]"
-                    v-bind="th.imageAttr"
-                    @click.stop="th.click && th.click(scope.row)"
-                    :preview-src-list="th.imgPreview ? [scope.row[th.prop]] : []"
-                  >
-                  </el-image>
-                </slot>
-              </template>
-              <!-- 滑块 -->
-              <template v-else-if="th.type === 'Slider'">
-                <slot name="Slider">
-                  <el-slider
-                    v-model="scope.row[th.prop]"
-                    :disabled="scope.row[th.disabled]"
-                    v-bind="th.sliderAttr"
-                    @change='th.change && th.change(scope.row, scope.$index, $event)'
-                  ></el-slider>
-                </slot>
-              </template>
-              <!-- 链接 -->
-              <template v-else-if="th.type === 'Link'">
-                <slot name="Link">
-                  <el-link
-                    :href="scope.row[th.prop]"
-                    target="_blank"
-                    v-bind="th.linkAttr"
-                  >{{ th.linkAttr['name'] || '链接'}}</el-link>
-                </slot>
-              </template>
-              <!-- 长文本 -->
-              <template v-else-if="th.type === 'Popover'">
-                <slot name="Popover">
-                  <el-popover
-                    v-bind="th.popoverAttr"
-                    :content="scope.row[th.prop]"
-                  >
-                    <div
-                      class="line-lcump2"
-                      slot="reference"
-                    >{{scope.row[th.prop]}}</div>
-                  </el-popover>
-                </slot>
-              </template>
-              <!-- 按钮 -->
-              <template v-else-if="th.type === 'Button' || (isSelection && key === tableHeader.length - 1)">
-                <slot name="Button">
-                  <!-- <el-button v-if="isSelection" size='mini' @click="multistageFn(scope.row)">查看</el-button> -->
-                  <template
-                    v-for="(o, k) in th.buttonGroup"
-                  >
-                    <el-button
-                      :key="k"
-                      :size="o.size || 'mini'"
-                      @click.stop="o.click(scope.row, scope.$index)"
-                      v-bind="o.buttonAttr"
-                      v-if="!scope.row[o.hidKey]"
-                    >{{scope.row[o.prop] || o.name}}</el-button>
-                  </template>
-                </slot>
-              </template>
-              <!-- 自定义 -->
-              <template v-if="th.type === 'Slot'">
-                <slot :name="th.slot" v-bind="scope"></slot>
-              </template>
-            </template>
-          </el-table-column>
-        </template>
-        <slot name="later"></slot>
-      </el-table>
+            </el-table-column>
+          </template>
+          <slot name="later"></slot>
+        </el-table>
+      </section>
     </section>
     <div class="functional">
-      <!-- <div class="leftFunctional">
-        <el-checkbox @click.native="toggleSelection" :value="checkAll" v-if="isSelection" :indeterminate="indeterminate">全选</el-checkbox>
-        <div class="functionalBtn">
-          <template
-            v-for="(item, index) in allselect"
-          >
-            <el-button
-              :key="index"
-              v-bind="item.buttonAttr"
-              :size="item.size || 'mini'"
-              @click="functionalBtn(item)"
-            >{{item.name}}</el-button>
-          </template>
+        <div class="leftFunctional">
+          <el-checkbox @click.native="toggleSelection" :value="checkAll" v-if="isSelection" :indeterminate="indeterminate">全选</el-checkbox>
+          <div class="functionalBtn">
+            <template
+              v-for="(item, index) in allselect"
+            >
+              <el-button
+                :key="index"
+                v-bind="item.buttonAttr"
+                :size="item.size || 'mini'"
+                @click="functionalBtn(item)"
+              >{{item.name}}</el-button>
+            </template>
+          </div>
         </div>
-      </div> -->
-      <!-- 分页 -->
-      <!-- <section
-        class="cpy-pagination"
-        v-if="isPagination"
-      >
-        <slot name="pagination">
-          <template v-if="!requestConfig.apiurl">
-            <el-pagination
-              v-bind="pagination"
-              @current-change="pagination.currentChange && pagination.currentChange($event)"
-              @size-change="pagination.sizeChange && pagination.sizeChange($event)"
-            ></el-pagination>
-          </template>
-          <template v-else>
-            <el-pagination
-              v-bind="detaultPagination"
-              @current-change="detaultCurrentChange"
-              @size-change="detaultSizeChange"
-            ></el-pagination>
-          </template>
-        </slot>
-      </section> -->
-    </div>
-    <el-dialog :title="dialogData.title" :visible.sync="dialogData.show" width="35%">
-      <div class="_dialogcontent" v-if="dialogData.type === 'Input'">
-        <el-input autocomplete="off" v-model="dialogData.value"></el-input>
+        <!-- 分页 -->
+        <section
+          class="cpy-pagination"
+          v-if="isPagination"
+        >
+          <slot name="pagination">
+            <template v-if="!requestConfig.apiurl">
+              <el-pagination
+                v-bind="pagination"
+                @current-change="pagination.currentChange && pagination.currentChange($event)"
+                @size-change="pagination.sizeChange && pagination.sizeChange($event)"
+              ></el-pagination>
+            </template>
+            <template v-else>
+              <el-pagination
+                v-bind="detaultPagination"
+                @current-change="detaultCurrentChange"
+                @size-change="detaultSizeChange"
+              ></el-pagination>
+            </template>
+          </slot>
+        </section>
       </div>
-      <div class="_dialogcontent" v-else-if="dialogData.type === 'Select'">
-        <el-select v-model="dialogData.value" placeholder="请选择">
-          <el-option
-            v-for="(item) in dialogData.option"
-            :key="item[dialogData.optionValue]"
-            :label="item[dialogData.optionLabel]"
-            :value="item[dialogData.optionValue]"
-          >
-          </el-option>
-        </el-select>
-        <!-- <el-input autocomplete="off" v-model="dialogData.value"></el-input> -->
-      </div>
-      <div class="_dialogBtn">
-        <el-button type="info" @click="dialogData.show = false">取消</el-button>
-        <el-button type="primary" @click="dialogDataSuccess">确定</el-button>
-      </div>
-    </el-dialog>
-  </section>
+      <el-dialog :title="dialogData.title" :visible.sync="dialogData.show" width="35%">
+        <div class="_dialogcontent" v-if="dialogData.type === 'Input'">
+          <el-input autocomplete="off" v-model="dialogData.value"></el-input>
+        </div>
+        <div class="_dialogcontent" v-else-if="dialogData.type === 'Select'">
+          <el-select v-model="dialogData.value" placeholder="请选择">
+            <el-option
+              v-for="(item) in dialogData.option"
+              :key="item[dialogData.optionValue]"
+              :label="item[dialogData.optionLabel]"
+              :value="item[dialogData.optionValue]"
+            >
+            </el-option>
+          </el-select>
+          <!-- <el-input autocomplete="off" v-model="dialogData.value"></el-input> -->
+        </div>
+        <div class="_dialogBtn">
+          <el-button type="info" @click="dialogData.show = false">取消</el-button>
+          <el-button type="primary" @click="dialogDataSuccess">确定</el-button>
+        </div>
+      </el-dialog>
+  </div>
 </template>
 
 <script>
@@ -550,10 +554,17 @@ export default {
       this.detaultData = Object.assign([], this.tableData)
     },
     detaultData(val) {
-        this.endIndex = this.startIndex + 12
-        const valLen = val.length
-        this.allHeight = valLen * 71
-        this.paddingBottom = this.allHeight - this.scrollList.length * 71
+        setTimeout(() => {
+          const cul = document.getElementsByClassName('el-table__row')[0].offsetHeight
+          const tab = document.getElementsByClassName('el-table__body-wrapper')[0].offsetHeight
+          const listLength = ~~(tab / cul)
+          console.log('初始化:每条高度：', cul, '能容纳：', listLength,'与底部的误差:', tab - cul * listLength)
+          this.endIndex = this.startIndex + listLength
+          const valLen = val.length
+          console.log(cul)
+          this.allHeight = valLen * cul
+          this.paddingBottom = this.allHeight - this.scrollList.length * cul - (tab - cul * listLength)
+        }, 1000)
     }
   },
   filters: {
@@ -621,6 +632,12 @@ export default {
             order
           }
         })
+    },
+    checkBoxClick(data, e) {
+      if (e.target.tagName === 'INPUT') {
+        return false
+      }
+      this.$set(data, '_check', !data._check)
     },
     toggleSelection(e) {
       if (e.target.tagName === 'INPUT') {
@@ -826,6 +843,9 @@ export default {
     }
   },
   mounted () {
+    this.$refs.tableBox.style.height = document.documentElement.clientHeight + 'px'
+    console.log()
+    console.log()
     that = this
     if (this.requestConfig.apiurl) {
       this.detaultGetList()
@@ -835,22 +855,14 @@ export default {
 
     const container = this.$refs.container
     container.addEventListener('scroll', () => {
+        const cul = document.getElementsByClassName('el-table__row')[0].offsetHeight
+        const tab = document.getElementsByClassName('el-table__body-wrapper')[0].offsetHeight
+        const listLength = ~~(tab / cul)
         const top = container.scrollTop
-        this.startIndex = Math.floor(top / 71) >= this.detaultData.length - 11 ? this.detaultData.length - 11 : Math.floor(top / 71)
-        this.endIndex = this.startIndex + 12
-        if (this.endIndex + 10 >= this.detaultData.length - 1) {
-          this.paddingTop = top - 800  / 12;
-          this.paddingBottom = 0
-        } else {
-          this.paddingTop = top
-          this.paddingBottom = this.allHeight - 800 - top
-        }
-        // this.paddingTop = top
-        // if (this.endIndex >= this.detaultData.length - 1) {
-        //     this.paddingBottom = 0
-        //     return false
-        // }
-        // this.paddingBottom = this.allHeight - 900 - top
+        this.startIndex = ~~(top / cul)
+        this.endIndex = this.startIndex + listLength
+        this.paddingTop = top
+        this.paddingBottom = this.allHeight - (tab) - top + cul
     })
   },
   // 判断是否有存在只合计某一列
@@ -863,13 +875,37 @@ export default {
 }
 </script>
 <style>
+body{
+  margin: 0;
+}
+._table{
+  display: flex;
+  flex-flow: column;
+}
 .cpy-table-page{
-  height: 900px;
+  flex: 1;
+  /* height: 870px; */
   overflow-y: auto;
+}
+.cpy-table{
+  /* flex: 1; */
+  height: 100%;
+}
+.el-table{
+  height: 100%;
+  display: flex;
+  flex-flow: column;
+}
+.el-table__body-wrapper{
+  flex: 1;
 }
 .cpy-handle {
   position: sticky;
   top: 0;
+}
+.el-table__row{
+  /* max-height: 77px;
+  height: 77px; */
 }
 .line-lcump2 {
   display: -webkit-box;
@@ -880,15 +916,19 @@ export default {
   word-break: break-all;
 }
 .functional{
-  margin-top: 20px;
+  margin-top: 0 !important;
+  /* margin-top: 20px; */
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 10px;
 }
 .leftFunctional{
   display: flex;
   align-items: center;
-  margin-top: 10px;
+}
+.el-pagination{
+  margin: 0 !important;
 }
 .functionalBtn{
   margin-left: 10px;

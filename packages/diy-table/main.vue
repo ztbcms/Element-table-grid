@@ -797,7 +797,7 @@ export default {
   }
 }
 </script>
-<style>
+<style scoped>
 .line-lcump2 {
   display: -webkit-box;
   -webkit-line-clamp: 2;
