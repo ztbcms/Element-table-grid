@@ -78,7 +78,7 @@
             <template slot-scope="scope">
               <!-- 普通 -->
               <template v-if="th.type === 'Text' || !th.type">
-                <slot name="Text">
+                <slot name="Text" :prop='scope.row[th.prop]'>
                   <span
                     v-if="!th.formatData"
                     @click.stop="th.click && th.click(scope.row)"
@@ -92,13 +92,13 @@
               </template>
               <!-- html -->
               <template v-else-if="th.type === 'Html'">
-                <slot name="Html">
+                <slot name="Html" :prop='scope.row[th.prop]'>
                   <div v-html="th.html(scope.row[th.prop])"></div>
                 </slot>
               </template>
               <!-- 输入框 -->
               <template v-else-if="th.type === 'Input'">
-                <slot name="Input">
+                <slot name="Input" :prop='scope.row[th.prop]'>
                   <!-- <span
                     v-if="!th.formatData"
                     @click.stop="th.click && th.click(scope.row)"
@@ -117,7 +117,7 @@
               </template>
               <!-- 下拉框 -->
               <template v-else-if="th.type === 'Select'">
-                <slot name="Select">
+                <slot name="Select" :prop='scope.row[th.prop]'>
                   <el-select
                     v-model="scope.row[th.prop]"
                     v-bind="th.selectAttr"
@@ -144,7 +144,7 @@
               </template>
               <!-- 单选 -->
               <template v-else-if="th.type === 'Radio'">
-                <slot name="Radio">
+                <slot name="Radio" :prop='scope.row[th.prop]'>
                   <el-radio-group
                     :value="scope.row[th.prop]"
                     v-bind="th.radioGroupAttr"
@@ -162,7 +162,7 @@
               </template>
               <!-- 复选框 -->
               <template v-else-if="th.type === 'Checkbox'">
-                <slot name="Checkbox">
+                <slot name="Checkbox" :prop='scope.row[th.prop]'>
                   <el-checkbox-group
                     v-model="scope.row[th.prop]"
                     v-bind="th.checkboxGroupAttr"
@@ -180,7 +180,7 @@
               </template>
               <!-- 评价 -->
               <template v-else-if="th.type === 'Rate'">
-                <slot name="Rate">
+                <slot name="Rate" :prop='scope.row[th.prop]'>
                   <el-rate
                     v-model="scope.row[th.prop]"
                     v-bind="th.rateAttr"
@@ -208,7 +208,7 @@
               </template>
               <!-- 图像 -->
               <template v-else-if="th.type === 'Image'">
-                <slot name="Image" :img='scope.row[th.prop]'>
+                <slot name="Image" :prop='scope.row[th.prop]'>
                   <el-image
                     :src="scope.row[th.prop]"
                     v-bind="th.imageAttr"
@@ -220,7 +220,7 @@
               </template>
               <!-- 滑块 -->
               <template v-else-if="th.type === 'Slider'">
-                <slot name="Slider">
+                <slot name="Slider" :prop='scope.row[th.prop]'>
                   <el-slider
                     v-model="scope.row[th.prop]"
                     :disabled="scope.row[th.disabled]"
@@ -231,7 +231,7 @@
               </template>
               <!-- 链接 -->
               <template v-else-if="th.type === 'Link'">
-                <slot name="Link">
+                <slot name="Link" :prop='scope.row[th.prop]'>
                   <el-link
                     :href="scope.row[th.prop]"
                     target="_blank"
@@ -241,7 +241,7 @@
               </template>
               <!-- 长文本 -->
               <template v-else-if="th.type === 'Popover'">
-                <slot name="Popover">
+                <slot name="Popover" :prop='scope.row[th.prop]'>
                   <el-popover
                     v-bind="th.popoverAttr"
                     :content="scope.row[th.prop]"
@@ -255,7 +255,7 @@
               </template>
               <!-- 按钮 -->
               <template v-else-if="th.type === 'Button' || (isSelection && key === tableHeader.length - 1)">
-                <slot name="Button">
+                <slot name="Button" :prop='scope.row[th.prop]'>
                   <!-- <el-button v-if="isSelection" size='mini' @click="multistageFn(scope.row)">查看</el-button> -->
                   <template
                     v-for="(o, k) in th.buttonGroup"
