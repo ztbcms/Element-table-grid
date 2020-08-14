@@ -210,6 +210,7 @@ export default {
             prop: 'switch',
             type: 'Switch',
             disabled: 'SwitchDisabled',
+            formatData: (val) => { return val * 1 === 1 ? true : false },
             async: false,
             tableColumnAttr: { align: 'center', 'width': '100px' },
             switchAttr: {

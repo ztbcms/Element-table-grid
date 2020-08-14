@@ -16,6 +16,7 @@ export default [
     sliderDisabled: true,
     RateDisabled: true,
     buttonHid: true,
+    switch: 0,
     image:
       "https://s3.pstatp.com/toutiao/xitu_juejin_web/img/wechat.63e1ce0.svg",
     children: [
@@ -66,6 +67,7 @@ export default [
     province: "广东",
     rate: 4.7,
     checkbox: [],
+    switch: 1,
     image:
       "https://s3.pstatp.com/toutiao/xitu_juejin_web/img/wechat.63e1ce0.svg"
   },

@@ -193,15 +193,15 @@
               <template v-else-if="th.type === 'Switch'">
                 <div @click="!scope.row[th.disabled] && th.change && th.change(scope.row, scope.$index, !scope.row[th.prop], th)" v-if="th.async">
                   <el-switch
-                    :value="scope.row[th.prop]"
+                    :value="!th.formatData ? scope.row[th.prop] : scope.row[th.prop] | formatters(th.formatData)"
                     v-bind="th.switchAttr"
                     :disabled="scope.row[th.disabled]"
                   ></el-switch>
                 </div>
                 <el-switch
                   v-else
-                  @change='th.change && th.change(scope.row, scope.$index, $event, th)'
-                  v-model="scope.row[th.prop]"
+                  @change='switchdefle(scope.row, scope.$index, $event, th)'
+                  :value="!th.formatData ? scope.row[th.prop] : scope.row[th.prop] | formatters(th.formatData)"
                   v-bind="th.switchAttr"
                   :disabled="scope.row[th.disabled]"
                 ></el-switch>
@@ -531,6 +531,19 @@ export default {
     }
   },
   methods: {
+    // switch兼容formatData表达式
+    switchdefle(row, index, $event, th) {
+      var update = row[th.prop]
+      var formatDataOff = false
+      if(th.formatData) {
+        formatDataOff = true
+        update = th.formatData(row[th.prop]) ? 0 : 1
+      } else {
+        update = !update
+      }
+      this.$set(row, th.prop, update)
+      th.change && th.change(row, index, formatDataOff ? th.formatData(row[th.prop]) ? 1 : 0 : $event, th)
+    },
     // 合计
     getSummaries(param) {
       const tableHeader = this.tableHeader.filter(item => item.showSummary).map(item => item.prop)
@@ -845,7 +858,7 @@ export default {
   word-break: break-all;
 }
 .functional{
-  margin-top: 20px;
+  margin-top: 10px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -853,7 +866,7 @@ export default {
 .leftFunctional{
   display: flex;
   align-items: center;
-  margin-top: 10px;
+  /* margin-top: 10px; */
 }
 .functionalBtn{
   margin-left: 10px;
