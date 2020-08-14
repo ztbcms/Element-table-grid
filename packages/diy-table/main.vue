@@ -208,7 +208,7 @@
               </template>
               <!-- 图像 -->
               <template v-else-if="th.type === 'Image'">
-                <slot name="Image">
+                <slot name="Image" :img='scope.row[th.prop]'>
                   <el-image
                     :src="scope.row[th.prop]"
                     v-bind="th.imageAttr"
@@ -235,7 +235,7 @@
                   <el-link
                     :href="scope.row[th.prop]"
                     target="_blank"
-                    v-bind="th.linkAttr"
+                    v-bind="th.linkAttr || {}"
                   >{{ th.linkAttr['name'] || '链接'}}</el-link>
                 </slot>
               </template>
@@ -380,7 +380,7 @@ export default {
       multipleSelection: [],
       detaultPagination: {
         pageSize: 10, // 页条数
-        currentPage: 2, // 当前页
+        currentPage: 1, // 当前页
         total: 0, // 总条数
         layout: 'total,sizes ,prev, pager, next,jumper',
         style: 'display: flex;justify-content: flex-end;align-items: center;margin-top: 10px;'
@@ -680,6 +680,40 @@ export default {
       }
       th.change && th.change(data, index, value, th)
     },
+    tabelSearch(requestData) {
+      this.detaultLoading = true
+      let fun = null
+      if (requestData.method === 'post') {
+        fun = Post
+      } else {
+        fun = Get
+      }
+      fun({
+        url: requestData.apiurl,
+        data: {
+          page: this.detaultPagination.currentPage,
+          limit: this.detaultPagination.pageSize,
+          ...(this.requestConfig.data || {}),
+          ...(this.searchData || {}),
+          ...this.sortData,
+          ...(requestData.data || {})
+        },
+        header: requestData.headers || {}
+      }).then(({ data }) => {
+        let resCodes = this.requestConfig.resCodes || []
+        let codeStatus = resCodes.findIndex(item => item === data.code) != -1
+        if (data.status || codeStatus) {
+          this.detaultPagination.total = this.setListTotal(data)
+          this.detaultData = this.setListData(data)
+        } else {
+          this.$message.error(data.msg);
+        }
+        this.detaultLoading = false
+      }).catch(() => {
+        this.$message.error('请求失败')
+        this.detaultLoading = false
+      })
+    },
     // 默认获取列表
     detaultGetList () {
       this.detaultLoading = true
@@ -753,7 +787,7 @@ export default {
       var tableDataLength = this.detaultData.length
       if(list) {
         var selectionLength = list.length
-        if(selectionLength === tableDataLength) {
+        if(selectionLength === tableDataLength && tableDataLength !== 0) {
           return true
         }
       }
@@ -790,6 +824,10 @@ export default {
   },
   // 判断是否有存在只合计某一列
   created() {
+    for(var k in this.pagination){
+      console.log(k)
+      this.detaultPagination[k] = this.pagination[k]
+    }
     const showSummaryList = this.tableHeader.filter(item => item.showSummary)
     if(showSummaryList.length !== 0) {
       this.$set(this.tableAttr, 'showSummary', true)

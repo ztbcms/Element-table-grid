@@ -121,18 +121,13 @@
           @click="item.click && item.click(searchData[item.prop])"
         >{{item.name}}{{searchData[item.prop] || ''}}</el-button>
       </el-form-item>
-    </el-form>
-    <el-form
-      v-bind="formAttr"
-      v-if='isHandle'
-    >
       <el-form-item
         v-for='item in searchHandle'
         :key="item.name"
       >
         <el-button
           v-bind="item.option"
-          @click='item.click && item.click(searchData[item.prop])'
+          @click='item.click && item.click(searchData)'
         >{{item.name}}{{searchData[item.prop] || ''}}</el-button>
       </el-form-item>
     </el-form>

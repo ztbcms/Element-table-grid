@@ -844,8 +844,6 @@ export default {
   },
   mounted () {
     this.$refs.tableBox.style.height = document.documentElement.clientHeight + 'px'
-    console.log()
-    console.log()
     that = this
     if (this.requestConfig.apiurl) {
       this.detaultGetList()

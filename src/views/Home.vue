@@ -238,7 +238,6 @@ export default {
           {
             label: '操作',
             type: 'Button',
-
             tableColumnAttr: { fixed: 'right', align: 'center', 'width': '250px' },
             buttonGroup: [
               { name: '编辑', size: '', click: (row, index) => console.log('tag', row, index), buttonAttr: { type: 'primary' }, hidKey: 'buttonHid' },
