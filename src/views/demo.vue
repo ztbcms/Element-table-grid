@@ -42,14 +42,6 @@ export default {
       formConfig: {
         // 是否显示表单按钮
         isHandle: true,
-        // 表单数据
-        searchData: {
-          name: null,
-          age: null,
-          sex: null,
-          interst: null,
-          che: ''
-        },
         // 表单设置
         searchForm: [
           { type: 'Input', label: '', prop: 'name', width: '180px', placeholder: '请输入姓名...', option: {}, formoption: {} },
