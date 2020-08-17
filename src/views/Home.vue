@@ -136,7 +136,7 @@ export default {
   methods: {
     GetList () {
       this.tableData = data.slice((this.pagination.pageNum - 1) * this.pagination.pageSize, this.pagination.pageNum * this.pagination.pageSize)
-      console.log(this.tableData)
+      // console.log(this.tableData)
     },
     ResetList () {
       this.pagination.pageNum = 1

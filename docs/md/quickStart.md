@@ -26,7 +26,6 @@ Vue.use(ElementUI)
     <el-card>
       <diy-search-form v-bind="formConfig"></diy-search-form>
       <diy-table
-        :tableData='tableData'
         :pagination.sync='pagination'
         :allselect="allselect"
         v-bind="tableConfig"
@@ -87,11 +86,10 @@ export default {
           inline: true
         }
       },
-      // 表格数据
-      tableData: [],
       // table配置
       tableConfig: {
-        // 
+        // 表格数据
+        tableData: [],
         ref: 'diytabe',
         // 是否开启全选
         isSelection: true,
@@ -158,12 +156,12 @@ export default {
   },
   methods: {
     GetList () {
-      this.tableData = _data1.slice((this.pagination.pageNum - 1) * this.pagination.pageSize, this.pagination.pageNum * this.pagination.pageSize)
-      console.log(this.tableData)
+      this.tableConfig.tableData = _data1.slice((this.pagination.pageNum - 1) * this.pagination.pageSize, this.pagination.pageNum * this.pagination.pageSize)
+      console.log(this.tableConfig.tableData)
     },
     ResetList () {
       this.pagination.pageNum = 1
-      this.tableData = []
+      this.tableConfig.tableData = []
       this.GetList()
     },
     sizeChange (val) {
@@ -181,6 +179,7 @@ export default {
     }
   },
   created () {
+    console.log(_data1)
     this.ResetList()
   }
 }
