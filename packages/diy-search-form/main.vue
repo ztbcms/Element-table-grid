@@ -48,7 +48,7 @@
           v-bind="item.option"
         >
           <el-radio
-            v-for="ra in item.radios"
+            v-for="ra in item.options"
             v-bind="ra.option"
             :label="ra.value"
             :key="ra.value"
@@ -62,7 +62,7 @@
           @change="item.change && item.change($event, fromData[item.prop])"
         >
           <el-radio-button
-            v-for="ra in item.radios"
+            v-for="ra in item.options"
             v-bind="ra.option"
             :label="ra.value"
             :key="ra.value"
@@ -75,7 +75,7 @@
           v-model="fromData[item.prop]"
         >
           <el-checkbox
-            v-for="ch in item.checkboxs"
+            v-for="ch in item.options"
             v-bind="ch.option"
             :label="ch.value"
             :key="ch.value"

@@ -8,7 +8,6 @@
     <el-card>
       <diy-search-form v-bind="formConfig"></diy-search-form>
       <diy-table
-        :tableData='tableData'
         :pagination.sync='pagination'
         v-bind="tableConfig"
         ref="diyTable"
@@ -30,10 +29,10 @@ export default {
         isHandle: true,
         // 表单设置
         searchForm: [
-          { type: 'Input', label: '', prop: 'name', width: '180px', placeholder: '请输入姓名...', option: {}, formoption: {} },
+          { type: 'Input', label: '', prop: 'name', width: '180px', placeholder: '请输入姓名...' },
           { type: 'Select', label: '', prop: 'age', width: '180px', placeholder: '选择' ,options: sexs},
-          { type: 'Radio', label: '单选',  prop: 'che2', option: {},radios: sexs},
-          { type: 'Checkbox',label: '多选', prop: 'che', option: {},checkboxs: sexs},
+          { type: 'Radio', label: '单选',  prop: 'che2', option: {},options: sexs},
+          { type: 'Checkbox',label: '多选', prop: 'che', option: {},options: sexs},
           { type: 'Date', label: '日期', prop: 'sex3', width: '180px' },
           { type: 'DateTime', label: '日期时间', prop: 'sex4', width: '180px' },
           { type: 'Switch', label: '开关', prop: 'sex5', width: '180px' }
@@ -46,6 +45,7 @@ export default {
       },
       // table配置
       tableConfig: {
+        tableData: [],
         ref: 'diytabe',
         isSelection: true,
         isHandle: true,
@@ -98,12 +98,12 @@ export default {
         console.log(row)
     },
     GetList () {
-      this.tableData = _data1.slice((this.pagination.pageNum - 1) * this.pagination.pageSize, this.pagination.pageNum * this.pagination.pageSize)
+      this.tableConfig.tableData = _data1.slice((this.pagination.pageNum - 1) * this.pagination.pageSize, this.pagination.pageNum * this.pagination.pageSize)
       // console.log(this.tableData)
     },
     ResetList () {
       this.pagination.pageNum = 1
-      this.tableData = []
+      this.tableConfig.tableData = []
       this.GetList()
     },
     sizeChange (val) {
@@ -126,3 +126,29 @@ export default {
 }
 </script>
 ```
+
+## 配置项
+**属性说明**
+
+| 参数 | 说明 | 类型 | 默认值 | 可选值 | 其他 |
+| :------------ | :------------ | :------------ | :------------ | :------------ | :------------ |
+| type | 功能类型 | String | - | Input / Select / Radio / Checkbox / Date / DateTime / Switch | 可选值可查看下方的type详细说明 |
+| label | 自定义名字 | String | - | - | - |
+| prop | 绑定的key值 | String | - | - | - |
+| width | 宽度 | String | - | - | - |
+| option | 功能配置 | Object | - | - | 这个时element对应功能的配置,详情查看下方的type详细说明 |
+| placeholder | 当为空时的提示文字 | String | - | - | **当type:Input / Select / Date / DateTime**可用 |
+| options | 选项列表 | Array | - | - | **当type:Select / Radio / Checkbox**可用 |
+
+## type说明
+上方配置的type每个值对应的其实`element-ui`的组件,`option`是每个`element-ui`组件的配置,比如`样式` `是否禁用`等`element-ui`自带的功能配置
+
+| type值 | 说明 | 对应element-ui组件 | option配置传送门 | options数据格式 |
+| :------------ | :------------ | :------------ | :------------ | :------------ |
+| Input | 文本输入框 | [el-Input](https://element.eleme.cn/#/zh-CN/component/input#input-shu-ru-kuang) | [el-Input](https://element.eleme.cn/#/zh-CN/component/input#input-attributes) | - |
+| Select | 选择框 | [el-Select](https://element.eleme.cn/#/zh-CN/component/select) | [el-Select](https://element.eleme.cn/#/zh-CN/component/select#select-attributes) | `[{ label: '男', value: 'M' }, { label: '女', value: 'F' }]` |
+| Radio | 单选框 | [el-Radio](https://element.eleme.cn/#/zh-CN/component/radio) | [el-Radio](https://element.eleme.cn/#/zh-CN/component/radio#radio-attributes) |`[{ label: '男', value: 'M' }, { label: '女', value: 'F' }]` |
+| Checkbox | 复选框 | [el-Checkbox](https://element.eleme.cn/#/zh-CN/component/checkbox) | [el-Checkbox](https://element.eleme.cn/#/zh-CN/component/checkbox#checkbox-attributes) |`[{ label: '男', value: 'M' }, { label: '女', value: 'F' }]` |
+| Date | 日期选择器 | [el-DatePicker](https://element.eleme.cn/#/zh-CN/component/date-picker) | [el-DatePicker](https://element.eleme.cn/#/zh-CN/component/date-picker#attributes) | - |
+| DateTime | 日期时间选择器 | [el-DateTimePicker](https://element.eleme.cn/#/zh-CN/component/datetime-picker) | [el-DateTimePicker](https://element.eleme.cn/#/zh-CN/component/datetime-picker#attributes) | - |
+| Switch | 开关 | [el-Switch](https://element.eleme.cn/#/zh-CN/component/switch) | [el-Switch](https://element.eleme.cn/#/zh-CN/component/switch#attributes) | - |
