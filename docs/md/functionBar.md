@@ -9,7 +9,6 @@
       <diy-search-form v-bind="formConfig"></diy-search-form>
       <diy-table
         :pagination.sync='pagination'
-        :allselect="allselect"
         v-bind="tableConfig"
         ref="diyTable"
       >
@@ -24,6 +23,14 @@
         <template slot="location" slot-scope="scope">
           {{scope.row.id}} / {{scope.row.name}}
         </template>
+        <!-- 操作 -->
+        <template slot="operation">
+          <el-button>按钮</el-button>
+        </template>
+        <!-- 全选 -->
+        <template slot="bluk">
+          <el-button>删除</el-button>
+        </template>
       </diy-table>
     </el-card>
   </div>
@@ -31,10 +38,6 @@
 
 <script>
 let sexs = [{ label: '男', value: 'M', disabled: true }, { label: '女', value: 'F' }]
-let sexProps = { label: 'label', value: 'value', disabled: 'disabled' }
-// let intersts = [{ label: '羽毛球', value: 'badminton' }, { label: '篮球', value: 'basketball' }]
-// let interstProps = { label: 'label', value: 'value' }
-// import data from './data'
 export default {
   data () {
     return {
@@ -47,17 +50,23 @@ export default {
           name: null,
           age: null,
           sex: null,
-          interst: null
+          interst: null,
+          che: ''
         },
         // 表单设置
         searchForm: [
           { type: 'Input', label: '', prop: 'name', width: '180px', placeholder: '请输入姓名...', option: {}, formoption: {} },
-          { type: 'Checkbox', prop: 'checkbox', option: {},checkboxs: [{value: '内容1',label: '内容1', option: {}}, {value: '内容2',label: '内容2', option: {}}]},
-          { type: 'Switch', label: '',width: '180px', options: sexs, props: sexProps, change: row => console.log('tag', row), placeholder: '请选择性别...' }
+          { type: 'Select', label: '', prop: 'age', width: '180px', placeholder: '请输入年龄...' ,options: sexs},
+          { type: 'Radio', label: '单选',  prop: 'che2', option: {},radios: sexs},
+          { type: 'Checkbox',label: '多选', prop: 'che', option: {},checkboxs: sexs},
+          { type: 'Date', label: '日期', prop: 'sex3', width: '180px' },
+          { type: 'DateTime', label: '日期时间', prop: 'sex4', width: '180px' },
+          { type: 'Switch', label: '开关', prop: 'sex5', width: '180px' }
         ],
         // 表单按钮方法设置
         searchHandle: [
-          { name: '查询', option: { type: 'primary' }, click: (searchForm) => console.log('searchForm', searchForm) }
+          { name: '查询', option: { type: 'primary' }, click: (searchForm) => console.log('searchForm', searchForm) },
+          { name: '重置', option: { type: 'primary' }, click: () => '' }
         ],
         // 表单
         formAttr: {
@@ -68,21 +77,10 @@ export default {
       },
       // table配置
       tableConfig: {
-        // 表格数据
         tableData: [],
         ref: 'diytabe',
-        // 是否开启全选
         isSelection: true,
-        // 是否开启单选
-        isSingle: false,
-        // 是否开启索引值显示
-        isIndex: true,
-        // 是否显示分页
-        isPagination: true,
-        // 是否显示表单操作按钮
         isHandle: true,
-        // 设置索引列名	
-        indexLabel: '序号',
         tableAttr: {
           ref: 'cpytable',
           border: true,
@@ -106,6 +104,7 @@ export default {
             edit: {
                 type: 'Input',
                 change: (row, index, event) => {
+                    this.$refs.diyTable.detaultGetList()
                     console.log('change', row, index, event)
                 }
             }
@@ -115,8 +114,8 @@ export default {
             type: 'Button',
             tableColumnAttr: { fixed: 'right', align: 'center', 'width': '250px' },
             buttonGroup: [
-              { name: '编辑', size: '', click: (row, index) => console.log('tag', row, index), buttonAttr: { type: 'primary' }, hidKey: 'buttonHid' },
-              { name: '删除', size: '', click: (row, index) => console.log('tag', row, index), buttonAttr: { type: 'danger' }, hidKey: '' }
+                { name: '编辑', size: '', click: this.click, buttonAttr: { type: 'primary' }, hidKey: 'buttonHid' },
+                { name: '删除', size: '', click: this.click, buttonAttr: { type: 'danger' }, hidKey: '' }
             ]
           }
         ]
@@ -130,17 +129,16 @@ export default {
         currentChange: (...args) => this.currentChange.apply(this, args), // 当前页改变触发
         layout: 'total,sizes ,prev, pager, next,jumper',
         style: 'display: flex;justify-content: flex-end;align-items: center;margin-top: 10px;'
-      },
-      // 右下功能区
-      allselect: [
-        { name: '删除', size: '', click: row => console.log('tag', row), buttonAttr: { type: 'danger' }, prop: 'id' }
-      ]
+      }
     }
   },
   methods: {
+    click(row) {
+        console.log(row)
+    },
     GetList () {
       this.tableConfig.tableData = _data1.slice((this.pagination.pageNum - 1) * this.pagination.pageSize, this.pagination.pageNum * this.pagination.pageSize)
-      console.log(this.tableConfig.tableData)
+      // console.log(this.tableData)
     },
     ResetList () {
       this.pagination.pageNum = 1
@@ -162,7 +160,6 @@ export default {
     }
   },
   created () {
-    console.log(_data1)
     this.ResetList()
   }
 }
