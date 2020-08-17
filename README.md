@@ -5,6 +5,8 @@
 
 ``` 
 npm install cpy-elementui-table --save
+# 文档预览
+npm run docs-preview
 ```
 
 演示请参考 `examples/es5/demo.html`
