@@ -33,7 +33,7 @@
 </template>
 
 <script>
-let sexs = [{ label: '男', value: 'M', disabled: true }, { label: '女', value: 'F' }]
+let sexs = [{ label: '男', value: 'M' }, { label: '女', value: 'F' }]
 import data from './data'
 export default {
   data () {
@@ -45,7 +45,7 @@ export default {
         // 表单设置
         searchForm: [
           { type: 'Input', label: '', prop: 'name', width: '180px', placeholder: '请输入姓名...', option: {}, formoption: {} },
-          { type: 'Select', label: '', prop: 'age', width: '180px', placeholder: '请输入年龄...' ,options: sexs},
+          { type: 'Select', label: '', prop: 'age', width: '180px', placeholder: '选择' ,options: sexs},
           { type: 'Radio', label: '单选',  prop: 'che2', option: {},radios: sexs},
           { type: 'Checkbox',label: '多选', prop: 'che', option: {},checkboxs: sexs},
           { type: 'Date', label: '日期', prop: 'sex3', width: '180px' },
