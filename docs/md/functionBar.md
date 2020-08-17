@@ -1,5 +1,5 @@
 # 功能栏
-功能栏是位于表格之上,能够快速创建出一些按钮, checkbox、search、input、button等几种组件
+功能栏是位于表格之上,能够快速创建出一些按钮, `el-checkbox`、`el-search`、`el-input`、`el-button`等几种组件
 
 ```html
 /*vue*/

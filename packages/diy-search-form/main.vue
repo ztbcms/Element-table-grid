@@ -130,6 +130,7 @@
           @click='item.click && item.click(fromData)'
         >{{item.name}}{{fromData[item.prop] || ''}}</el-button>
       </el-form-item>
+      <slot></slot>
     </el-form>
   </div>
 </template>
