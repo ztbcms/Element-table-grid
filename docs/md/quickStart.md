@@ -14,10 +14,12 @@ Vue.use(ElementUI)
 
 
 # Hello world
+* 以下操作请打开操作台,查看日志
 * 按这几个按钮试一试
 * 试着排序一下列表
-* 试着多创建一些数据，然后试试翻页
-* 试着通过用在输入框里输入编号来过滤表格
+* 试着全选操作
+* 试着翻页
+* 试着修改以下名字
 
 ```html
 /*vue*/
@@ -76,8 +78,7 @@ export default {
         ],
         // 表单按钮方法设置
         searchHandle: [
-          { name: '查询', option: { type: 'primary' }, click: (searchForm) => console.log('searchForm', searchForm) },
-          { name: '重置', option: { type: 'primary' }, click: () => '' }
+          { name: '查询', option: { type: 'primary' }, click: (searchForm) => console.log('searchForm', searchForm) }
         ],
         // 表单
         formAttr: {
@@ -95,9 +96,13 @@ export default {
         isSelection: true,
         // 是否开启单选
         isSingle: false,
-        isIndex: false,
+        // 是否开启索引值显示
+        isIndex: true,
+        // 是否显示分页
         isPagination: true,
+        // 是否显示表单操作按钮
         isHandle: true,
+        // 设置索引列名	
         indexLabel: '序号',
         tableAttr: {
           ref: 'cpytable',
@@ -122,8 +127,7 @@ export default {
             edit: {
                 type: 'Input',
                 change: (row, index, event) => {
-                    // this.$refs.diyTable.detaultGetList()
-                    // console.log('change', row, index, event)
+                    console.log('change', row, index, event)
                 }
             }
           },
