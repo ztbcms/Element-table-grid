@@ -1,3 +1,26 @@
+# 快速上手
+> 开始旅程
+
+
+## 引入 element-ui
+正如[前文](/zh-cn/?id=vue-data-tables)中提到的，本库依赖于 [element-ui](http://element.eleme.io/) 的 [el-table](http://element.eleme.io/#/zh-CN/component/table), [el-table-column](http://element.eleme.io/#/zh-CN/component/table#table-column-attributes), [el-button](http://element.eleme.io/#/zh-CN/component/button) 和 [el-pagination](http://element.eleme.io/#/zh-CN/component/pagination) 组件, 以及 [loading](https://element.eleme.io/#/zh-CN/component/loading) 指令，所以在引入 `vue-data-tables` 之前, 我们需要先完整的引入 `element-ui` 或者[按需引入](http://element.eleme.io/#/zh-CN/component/quickstart) 这些组件和指令。
+
+```
+// entirely import
+import ElementUI from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css'
+Vue.use(ElementUI)
+```
+
+
+# Hello world
+* 按这几个按钮试一试
+* 试着排序一下列表
+* 试着多创建一些数据，然后试试翻页
+* 试着通过用在输入框里输入编号来过滤表格
+
+```html
+/*vue*/
 <template>
   <div class="cpy-main">
     <el-card>
@@ -30,7 +53,7 @@ let sexs = [{ label: '男', value: 'M', disabled: true }, { label: '女', value:
 let sexProps = { label: 'label', value: 'value', disabled: 'disabled' }
 // let intersts = [{ label: '羽毛球', value: 'badminton' }, { label: '篮球', value: 'basketball' }]
 // let interstProps = { label: 'label', value: 'value' }
-import data from './data'
+// import data from './data'
 export default {
   data () {
     return {
@@ -135,7 +158,7 @@ export default {
   },
   methods: {
     GetList () {
-      this.tableData = data.slice((this.pagination.pageNum - 1) * this.pagination.pageSize, this.pagination.pageNum * this.pagination.pageSize)
+      this.tableData = _data1.slice((this.pagination.pageNum - 1) * this.pagination.pageSize, this.pagination.pageNum * this.pagination.pageSize)
       console.log(this.tableData)
     },
     ResetList () {
@@ -162,3 +185,4 @@ export default {
   }
 }
 </script>
+```

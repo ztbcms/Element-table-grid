@@ -92,7 +92,7 @@ export default {
             label: 'ID',
             prop: 'id',
             showSummary: true,
-            tableColumnAttr: { sortable: 'custom', align: 'center', width: '80' }
+            tableColumnAttr: { sortable: 'custom', align: 'center' }
           },
           {
             label: '姓名',
@@ -104,6 +104,136 @@ export default {
                     this.$refs.diyTable.detaultGetList()
                     console.log('change', row, index, event)
                 }
+            }
+          },
+          {
+            label: '性别',
+            prop: 'sex',
+            tableColumnAttr: { sortable: 'custom' },
+            formatData: (val) => { return val === 1 ? '男' : '女' },
+            edit: {
+                type: 'Select',
+                option: [{id: 1, val: '男'},{id: 2, val: '女'}],
+                optionLabel: 'val',
+                optionValue: 'id',
+                change: (row, index, event) => {
+                    this.$refs.diyTable.detaultGetList()
+                    console.log('change', row, index, event)
+                }
+            }
+          },
+          {
+            label: '定位',
+            type: 'Slot',
+            prop: 'location',
+            slot: 'location'
+          },
+          {
+            label: '滑块',
+            prop: 'slider',
+            type: 'Slider',
+            disabled: 'sliderDisabled',
+            tableColumnAttr: { align: 'center', 'width': '100px' },
+            sliderAttr: {
+            },
+            change: (row, index, event) => console.log('change', row, index, event)
+          },
+          {
+            label: '图片',
+            prop: 'image',
+            type: 'Image',
+            imgPreview: true,
+            tableColumnAttr: { align: 'center', 'width': '50px' }
+          },
+          {
+            label: '输入',
+            prop: 'text',
+            type: 'Input',
+            disabled: 'inputDisabled',
+            tableColumnAttr: { align: 'center', 'width': '100px' },
+            inputAttr: {}
+          },
+          {
+            label: '下拉框',
+            prop: 'select',
+            type: 'Select',
+            disabled: 'selectDisabled',
+            tableColumnAttr: { align: 'center', 'width': '150px' },
+            selectAttr: {},
+            optionAttr: {
+              placeholder: '请选择...'
+            },
+            options: sexs,
+            props: sexProps,
+            change: (row, index, event) => console.log('change', row, index, event)
+          },
+          {
+            label: '单选',
+            prop: 'radio',
+            type: 'Radio',
+            disabled: 'radioDisabled',
+            async: false,
+            tableColumnAttr: { align: 'center', 'width': '150px' },
+            radioAttr: {
+              disabled: false
+            },
+            radios: sexs,
+            change: (row, index, event, th) => {
+              console.log('change', row, index , event, th)
+              // this.$set(row, th.prop, event)
+            }
+          },
+          {
+            label: '复选框',
+            prop: 'checkbox',
+            type: 'Checkbox',
+            disabled: 'checkboxDisabled',
+            tableColumnAttr: { align: 'center', 'width': '150px' },
+            checkboxAttr: {},
+            checkboxGroupAttr: {},
+            checkboxs: sexs,
+            change: (row, index, event) => console.log('change', row, index, event)
+          },
+          {
+            label: '评价',
+            prop: 'rate',
+            type: 'Rate',
+            tableColumnAttr: { align: 'center', 'width': '150px' },
+            disabled: 'RateDisabled',
+            rateAttr: {
+              'allow-half': true
+            },
+            change: (row, index, event) => console.log('change', row, index, event)
+          },
+          {
+            label: '开关',
+            prop: 'switch',
+            type: 'Switch',
+            disabled: 'SwitchDisabled',
+            formatData: (val) => { return val * 1 === 1 ? true : false },
+            async: false,
+            tableColumnAttr: { align: 'center', 'width': '100px' },
+            switchAttr: {
+            },
+            change: (row, index, event, th) => {
+              console.log('change', row, index, event, th)
+              // this.$set(row, th.prop, event)
+            }
+          },
+          {
+            label: '链接',
+            prop: 'image',
+            type: 'Link',
+            tableColumnAttr: { align: 'center', 'width': '100px' },
+            linkAttr: {}
+          },
+          {
+            label: '长文本',
+            prop: 'image',
+            type: 'Popover',
+            tableColumnAttr: { align: 'center', 'width': '100px' },
+            popoverAttr: {
+              trigger: "hover"
             }
           },
           {
@@ -162,3 +292,6 @@ export default {
   }
 }
 </script>
+
+<style>
+</style>

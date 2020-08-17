@@ -1,4 +1,5 @@
 - 起步
-  - [快速开始](/quickStart)
+  - [快速开始](/md/quickStart)
+  - [介绍](/md/introduce)
 - 教程
-  - [基本用法](/basic)
+  - [基本用法](/md/basic)
