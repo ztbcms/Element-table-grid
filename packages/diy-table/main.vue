@@ -278,22 +278,21 @@
           </el-table-column>
         </template>
         <slot name="later"></slot>
+        <el-table-column
+          type="index"
+          label="操作"
+          align="center"
+          width="200"
+        >
+          <slot name="operation"></slot>
+        </el-table-column>
       </el-table>
     </section>
     <div class="functional">
       <div class="leftFunctional">
         <el-checkbox @click.native="toggleSelection" :value="checkAll" v-if="isSelection" :indeterminate="indeterminate">全选</el-checkbox>
         <div class="functionalBtn">
-          <template
-            v-for="(item, index) in allselect"
-          >
-            <el-button
-              :key="index"
-              v-bind="item.buttonAttr"
-              :size="item.size || 'mini'"
-              @click="functionalBtn(item)"
-            >{{item.name}}</el-button>
-          </template>
+          <slot name="bluk"></slot>
         </div>
       </div>
       <!-- 分页 -->

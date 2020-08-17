@@ -2,17 +2,17 @@
 
 本组件由以下4部分组成：
 
-* 工具栏
+* 功能栏
 * 表格
   * 数据展示区
   * 列动作区
 * 左下按钮/全选区
 * 分页栏
 
-![dZYBPf.png](https://s1.ax1x.com/2020/08/17/dZYBPf.png)
+![dZYBPf.png](../image/t1.png)
 
-## 工具栏
-工具栏完全是由用户自定义的，通常情况下`工具栏`都可以是独立于 `vue-data-tables` 之外的, 如果有必要的话，可以通过名为`tool`的[具名插槽](https://cn.vuejs.org/v2/guide/components-slots.html#%E5%85%B7%E5%90%8D%E6%8F%92%E6%A7%BD)将`工具栏`插入 `vue-data-tables` 中。具体内容请参见[工具栏](zh-cn/actionBar.md)章节。
+## 功能栏
+工具栏完全是由用户自定义的，通常情况下`功能`都可以是独立于 `vue-data-tables` 之外的, 如果有必要的话，可以通过名为`tool`的[具名插槽](https://cn.vuejs.org/v2/guide/components-slots.html#%E5%85%B7%E5%90%8D%E6%8F%92%E6%A7%BD)将`工具栏`插入 `diy-tables` 中。具体内容请参见[工具栏](zh-cn/actionBar.md)章节。
 
 ## 表格
 这一部分实际上就是一个内置的 [el-table](http://element.eleme.io/#/zh-CN/component/table)，如果你不了解 [el-table](http://element.eleme.io/#/zh-CN/component/table) 请先仔细阅读其文档。
