@@ -142,7 +142,16 @@ export default {
       type: Boolean,
       default: false
     },
-    formAttr: [Object],
+    formAttr: {
+      type: Object,
+      default: () => {
+        return{
+          size: 'mini',
+          labelWidth: '100px',
+          inline: true
+        }
+      }
+    },
     searchForm: {
       type: Array,
       default: () => []

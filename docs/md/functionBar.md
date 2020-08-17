@@ -8,36 +8,19 @@
     <el-card>
       <diy-search-form v-bind="formConfig"></diy-search-form>
       <diy-table
+        :tableData='tableData'
         :pagination.sync='pagination'
         v-bind="tableConfig"
         ref="diyTable"
       >
-        <div slot="before">
-          <el-table-column type="expand">
-            <template slot-scope="props">
-              展开行 {{ props.$index }}
-            </template>
-          </el-table-column>
-        </div>
-
-        <template slot="location" slot-scope="scope">
-          {{scope.row.id}} / {{scope.row.name}}
-        </template>
-        <!-- 操作 -->
-        <template slot="operation">
-          <el-button>按钮</el-button>
-        </template>
-        <!-- 全选 -->
-        <template slot="bluk">
-          <el-button>删除</el-button>
-        </template>
       </diy-table>
     </el-card>
   </div>
 </template>
 
 <script>
-let sexs = [{ label: '男', value: 'M', disabled: true }, { label: '女', value: 'F' }]
+let sexs = [{ label: '男', value: 'M' }, { label: '女', value: 'F' }]
+// import data from './data'
 export default {
   data () {
     return {
@@ -45,18 +28,10 @@ export default {
       formConfig: {
         // 是否显示表单按钮
         isHandle: true,
-        // 表单数据
-        searchData: {
-          name: null,
-          age: null,
-          sex: null,
-          interst: null,
-          che: ''
-        },
         // 表单设置
         searchForm: [
           { type: 'Input', label: '', prop: 'name', width: '180px', placeholder: '请输入姓名...', option: {}, formoption: {} },
-          { type: 'Select', label: '', prop: 'age', width: '180px', placeholder: '请输入年龄...' ,options: sexs},
+          { type: 'Select', label: '', prop: 'age', width: '180px', placeholder: '选择' ,options: sexs},
           { type: 'Radio', label: '单选',  prop: 'che2', option: {},radios: sexs},
           { type: 'Checkbox',label: '多选', prop: 'che', option: {},checkboxs: sexs},
           { type: 'Date', label: '日期', prop: 'sex3', width: '180px' },
@@ -68,26 +43,12 @@ export default {
           { name: '查询', option: { type: 'primary' }, click: (searchForm) => console.log('searchForm', searchForm) },
           { name: '重置', option: { type: 'primary' }, click: () => '' }
         ],
-        // 表单
-        formAttr: {
-          size: 'mini',
-          labelWidth: '100px',
-          inline: true
-        }
       },
       // table配置
       tableConfig: {
-        tableData: [],
         ref: 'diytabe',
         isSelection: true,
         isHandle: true,
-        tableAttr: {
-          ref: 'cpytable',
-          border: true,
-          'row-key': "id",
-          'tree-props': {children: 'children', hasChildren: 'hasChildren'},
-          showSummary: true
-        },
         // 排序事件回调
         sortChange: row => console.log('sortChange', row),
         tableHeader: [
@@ -137,12 +98,12 @@ export default {
         console.log(row)
     },
     GetList () {
-      this.tableConfig.tableData = _data1.slice((this.pagination.pageNum - 1) * this.pagination.pageSize, this.pagination.pageNum * this.pagination.pageSize)
+      this.tableData = _data1.slice((this.pagination.pageNum - 1) * this.pagination.pageSize, this.pagination.pageNum * this.pagination.pageSize)
       // console.log(this.tableData)
     },
     ResetList () {
       this.pagination.pageNum = 1
-      this.tableConfig.tableData = []
+      this.tableData = []
       this.GetList()
     },
     sizeChange (val) {

@@ -404,7 +404,17 @@ export default {
       }
     } },
     // 表格属性
-    tableAttr: [Object],
+    tableAttr: {
+      type: Object, default: () => {
+        return{
+          ref: 'cpytable',
+          border: true,
+          'row-key': "id",
+          'tree-props': {children: 'children', hasChildren: 'hasChildren'},
+          showSummary: true
+        }
+      } 
+    },
     // 是否加载
     loading: { type: Boolean, default: false },
     // 表格操作

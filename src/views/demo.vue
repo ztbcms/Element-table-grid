@@ -8,25 +8,6 @@
         v-bind="tableConfig"
         ref="diyTable"
       >
-        <div slot="before">
-          <el-table-column type="expand">
-            <template slot-scope="props">
-              展开行 {{ props.$index }}
-            </template>
-          </el-table-column>
-        </div>
-
-        <template slot="location" slot-scope="scope">
-          {{scope.row.id}} / {{scope.row.name}}
-        </template>
-        <!-- 操作 -->
-        <template slot="operation">
-          <el-button>按钮</el-button>
-        </template>
-        <!-- 全选 -->
-        <template slot="bluk">
-          <el-button>删除</el-button>
-        </template>
       </diy-table>
     </el-card>
   </div>
@@ -57,25 +38,12 @@ export default {
           { name: '查询', option: { type: 'primary' }, click: (searchForm) => console.log('searchForm', searchForm) },
           { name: '重置', option: { type: 'primary' }, click: () => '' }
         ],
-        // 表单
-        formAttr: {
-          size: 'mini',
-          labelWidth: '100px',
-          inline: true
-        }
       },
       // table配置
       tableConfig: {
         ref: 'diytabe',
         isSelection: true,
         isHandle: true,
-        tableAttr: {
-          ref: 'cpytable',
-          border: true,
-          'row-key': "id",
-          'tree-props': {children: 'children', hasChildren: 'hasChildren'},
-          showSummary: true
-        },
         // 排序事件回调
         sortChange: row => console.log('sortChange', row),
         tableHeader: [
