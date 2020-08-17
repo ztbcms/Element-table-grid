@@ -1,10 +1,12 @@
 <template>
   <div class="cpy-main">
     <el-card>
-      <diy-search-form v-bind="formConfig"></diy-search-form>
+      <diy-search-form v-bind="formConfig">
+          <template slot-scope="fromData">
+              <p>{{fromData}}</p>
+          </template>
+      </diy-search-form>
       <diy-table
-        :tableData='tableData'
-        :pagination.sync='pagination'
         v-bind="tableConfig"
         ref="diyTable"
       >
@@ -15,7 +17,7 @@
 
 <script>
 let sexs = [{ label: '男', value: 'M' }, { label: '女', value: 'F' }]
-import data from './data'
+// import data from './data'
 export default {
   data () {
     return {
@@ -35,17 +37,16 @@ export default {
         ],
         // 表单按钮方法设置
         searchHandle: [
-          { name: '查询', option: { type: 'primary' }, click: (searchForm) => console.log('searchForm', searchForm) },
-          { name: '重置', option: { type: 'primary' }, click: () => '' }
+          { name: '查询', option: { type: 'primary' }, click: function(searchForm) {console.log(searchForm)} },
+          { name: '重置', option: { type: 'primary' }, click: function(searchForm) {console.log(searchForm)} }
         ],
       },
       // table配置
       tableConfig: {
-        ref: 'diytabe',
         isSelection: true,
         isHandle: true,
         // 排序事件回调
-        sortChange: row => console.log('sortChange', row),
+        sortChange: function(row) {console.log(row)},
         tableHeader: [
           {
             label: 'ID',
@@ -74,49 +75,22 @@ export default {
                 { name: '删除', size: '', click: this.click, buttonAttr: { type: 'danger' }, hidKey: '' }
             ]
           }
-        ]
-      },
-      // 分页配置
-      pagination: {
-        pageSize: 5, // 页条数
-        currentPage: 1, // 当前页
-        total: 17, // 总条数
-        sizeChange: (...args) => this.sizeChange.apply(this, args), // 页条数大小改变触发
-        currentChange: (...args) => this.currentChange.apply(this, args), // 当前页改变触发
-        layout: 'total,sizes ,prev, pager, next,jumper',
-        style: 'display: flex;justify-content: flex-end;align-items: center;margin-top: 10px;'
+        ],
+        requestConfig: {
+            apiurl: 'http://localhost:3003/api/getList',
+            method: 'get',
+            data: {
+                'name': ''
+            },
+            headers: {
+                'content-type': 'text/json; charset=utf-8'
+            },
+            datakeys: ['data', 'items'],
+            totalkeys: ['data', 'total'],
+            resCodes: [200, 1]
+        }
       }
     }
-  },
-  methods: {
-    click(row) {
-        console.log(row)
-    },
-    GetList () {
-      this.tableData = data.slice((this.pagination.pageNum - 1) * this.pagination.pageSize, this.pagination.pageNum * this.pagination.pageSize)
-      // console.log(this.tableData)
-    },
-    ResetList () {
-      this.pagination.pageNum = 1
-      this.tableData = []
-      this.GetList()
-    },
-    sizeChange (val) {
-      console.log('sizeChange', val)
-      this.pagination.pageSize = val
-    },
-    currentChange (val) {
-      console.log('currentChange', val)
-      this.pagination.pageNum = val
-      this.GetList()
-    },
-    // 查看选择
-    Look () {
-      console.log(this.$refs.diytable.$refs.cpytable.selection)
-    }
-  },
-  created () {
-    this.ResetList()
   }
 }
 </script>

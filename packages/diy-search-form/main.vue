@@ -118,7 +118,7 @@
         <el-button
           v-if="item.type==='Button'"
           v-bind="item.option"
-          @click="item.click && item.click(fromData[item.prop])"
+          @click="item.click && item.click(fromData)"
         >{{item.name}}{{fromData[item.prop] || ''}}</el-button>
       </el-form-item>
       <el-form-item
@@ -130,7 +130,7 @@
           @click='item.click && item.click(fromData)'
         >{{item.name}}{{fromData[item.prop] || ''}}</el-button>
       </el-form-item>
-      <slot></slot>
+      <slot :prop="fromData"></slot>
     </el-form>
   </div>
 </template>
