@@ -122,8 +122,8 @@ export default {
             edit: {
                 type: 'Input',
                 change: (row, index, event) => {
-                    this.$refs.diyTable.detaultGetList()
-                    console.log('change', row, index, event)
+                    // this.$refs.diyTable.detaultGetList()
+                    // console.log('change', row, index, event)
                 }
             }
           },

@@ -319,7 +319,7 @@
         </slot>
       </section>
     </div>
-    <el-dialog :title="dialogData.title" :visible.sync="dialogData.show" width="35%">
+    <el-dialog :title="dialogData.title" :visible.sync="dialogData.show" width="35%" :append-to-body="true">
       <div class="_dialogcontent" v-if="dialogData.type === 'Input'">
         <el-input autocomplete="off" v-model="dialogData.value"></el-input>
       </div>
