@@ -292,7 +292,7 @@
       <div class="leftFunctional">
         <el-checkbox @click.native="toggleSelection" :value="checkAll" v-if="isSelection" :indeterminate="indeterminate">全选</el-checkbox>
         <div class="functionalBtn">
-          <slot name="bluk"></slot>
+          <slot name="bluk" :functionalBtn="functionalBtn"></slot>
         </div>
       </div>
       <!-- 分页 -->
@@ -614,7 +614,7 @@ export default {
         })
       }
     },
-    functionalBtn(data) {
+    functionalBtn() {
       var check = {}
       if(this.isSelection) {
         const list = this.$refs[this.tableConfig.ref].selection
@@ -643,16 +643,18 @@ export default {
           ids: checkData ? checkData.id : ''
         }
       }
-      if((this.isSingle && check.index >= 0) || (this.isSelection && check.index.length >= 1)) {
-        const stringData = JSON.stringify(check.checkData)
-        this.$alert(`<p>index: ${check.index}</p><p>ids: ${check.ids}</p><p>数据: ${stringData}</p>`, 'HTML 片段', {
-          dangerouslyUseHTMLString: true
-        }).then(() => {
-          if(data.click) {
-            data.click(check)
-          }
-        })
-      }
+      return check
+      // return check
+      // if((this.isSingle && check.index >= 0) || (this.isSelection && check.index.length >= 1)) {
+      //   const stringData = JSON.stringify(check.checkData)
+      //   this.$alert(`<p>index: ${check.index}</p><p>ids: ${check.ids}</p><p>数据: ${stringData}</p>`, 'HTML 片段', {
+      //     dangerouslyUseHTMLString: true
+      //   }).then(() => {
+      //     if(data.click) {
+      //       data.click(check)
+      //     }
+      //   })
+      // }
     },
     // 弹出对话框
     dialogDataUpdate(data, index, th) {
