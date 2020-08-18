@@ -104,7 +104,6 @@ export default {
 | sortChange | 排序事件回调 | Function | - | - | 回调参数`row`, 参数说明：倒叙或正序或默认 |
 | <a href="#basic?id=渲染列与行">tableHeader</a> | 用于渲染行和列的配置 | Array | - | - | - |
 | <a href="#basic?id=分页配置">pagination</a> | 分页配置 | Object | - | - | - |
-| <a href="#basic?id=表单左下按钮配置">allselect</a> | 左下按钮 | Array | - | - | - |
 | <a href="#basic?id=通过配置requestconfig请求表单数据">requestConfig</a> | 配置表单请求数据 | Object | - | - | - |
 
 ## 渲染列与行
@@ -366,41 +365,20 @@ export default {
 </script>
 ```
 
-
-
 ## 插槽说明
-在使用插槽的时候，需要注明`插槽名字`, 插槽名字列表参考<a href="#basic?id=type说明">type表</a>插槽会返回`prop`既绑定的数据。这样子就能接收`slot-scope='prop'`
-
-## 分页配置
-通过配置 `pagination` 为表单传入`当前页` `总页数` `每页条数`，通过[el-eagination](https://element.eleme.cn/#/zh-CN/component/pagination#pagination-fen-ye)展示数据。
-主要功能：
-  - 只需要正确配置`requestConfig`的`totalkeys`就可以帮你完成分页功能。
-  - 通过传入api自动生成`pagination`,并使之与表格联动。
-    - 翻页的时候，展示的元素也会根据 `pageSize`（每页的数量） 和 `pageNum`（当前页的index）与设置的排序自动生成。
-<br/>
-
-**pagination说明**
-
-| 参数 | 说明 | 类型 | 默认 | 可选参数 | 
-| :------------ | :------------ | :------------ | :------------ | :------------ |
-| pageSize | 每页条数 | Number | 1 | - |
-| currentPage | 当前页数 | Number | 10 | - |
-| total | 总页数 | Number | - | - |
-
-## 表单左下按钮配置
-主要功能:
-  - 返回已勾选的数据
-
-`allselect`类型为`Array`,以下参数用`{}`将其包裹，最终格式为`tableHeader:[{label:xxx, prop:xxx}]`。
-
-**allselect说明**
-
-| 参数 | 说明 | 类型 | 默认 | 可选参数 | 其他 | 
-| :------------ | :------------ | :------------ | :------------ | :------------ | :------------ |
-| name | 按钮显示的文字 | String | - | - | - |
-| size | 按钮大小 | String - | mini | medium / small / mini | - |
-| buttonAttr | 按钮类型配置参数，参数与element一样[传送门](https://element.eleme.cn/#/zh-CN/component/button) | Object | - | size / type / plain / round / circle / loading / disabled / icon / autofocus / native-type | - |
-| click | 按钮被点击之后需要触发的事件 | fuction | - | - | 回调参数`row`,是勾选行的数据 |
+在内置功能不能满足单元格需求的时候，可以使用`slot`, 例如单元格图片只能传递一张图片，但是项目需求需要显示多张，可以这样子实现
+```
+<template slot="Image" slot-scope='prop'>
+    <el-image
+        style="width: 100px; height: 100px;margin-left: 4px"
+        v-for="(item, index) in prop.img"
+        :key="index"
+        :src="item"
+    >
+    </el-image>
+</template>
+```
+在使用插槽的时候，需要注明`插槽名字`, 插槽名字列表参考<a href="#/md/basic?id=type说明">type表</a>插槽会返回`prop`既绑定的数据。这样子就能接收`slot-scope='prop'`
 
 ## 通过配置requestConfig请求表单数据
 
