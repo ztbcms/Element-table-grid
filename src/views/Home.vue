@@ -123,8 +123,7 @@ export default {
         total: 17, // 总条数
         sizeChange: (...args) => this.sizeChange.apply(this, args), // 页条数大小改变触发
         currentChange: (...args) => this.currentChange.apply(this, args), // 当前页改变触发
-        layout: 'total,sizes ,prev, pager, next,jumper',
-        style: 'display: flex;justify-content: flex-end;align-items: center;margin-top: 10px;'
+        layout: 'total,sizes ,prev, pager, next,jumper'
       }
     }
   },

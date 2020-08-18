@@ -8,7 +8,6 @@
     <el-card>
       <diy-search-form v-bind="formConfig"></diy-search-form>
       <diy-table
-        :pagination.sync='pagination'
         v-bind="tableConfig"
         ref="diyTable"
       >
@@ -41,12 +40,6 @@ export default {
       },
       // table配置
       tableConfig: {
-        tableData: [],
-        ref: 'diytabe',
-        isSelection: true,
-        isHandle: true,
-        // 排序事件回调
-        sortChange: row => console.log('sortChange', row),
         tableHeader: [
           {
             label: 'ID',
@@ -61,7 +54,6 @@ export default {
             edit: {
                 type: 'Input',
                 change: (row, index, event) => {
-                    this.$refs.diyTable.detaultGetList()
                     console.log('change', row, index, event)
                 }
             }
@@ -83,9 +75,6 @@ export default {
     click(row) {
         console.log(row)
     }
-  },
-  created () {
-    this.ResetList()
   }
 }
 </script>
@@ -164,10 +153,6 @@ export default {
       },
       // table配置
       tableConfig: {
-        ref: 'a',
-        // 是否全选
-        isSelection: true,
-        // 排序事件回调
         sortChange: function(row) {console.log(row)},
         tableHeader: [
           {
@@ -183,7 +168,6 @@ export default {
             edit: {
                 type: 'Input',
                 change: (row, index, event) => {
-                    this.$refs.diyTable.detaultGetList()
                     console.log('change', row, index, event)
                 }
             }
@@ -197,14 +181,7 @@ export default {
                 { name: '删除', size: '', click: this.click, buttonAttr: { type: 'danger' }, hidKey: '' }
             ]
           }
-        ],
-        requestConfig: {
-            apiurl: 'http://localhost:3003/api/getList',
-            method: 'get',
-            datakeys: ['data', 'items'],
-            totalkeys: ['data', 'total'],
-            resCodes: [200, 1]
-        }
+        ]
       }
     }
   },

@@ -4,3 +4,4 @@
 - 教程
   - [基本用法](/md/basic)
   - [功能栏](/md/functionBar)
+  - [分页栏](/md/paging)
