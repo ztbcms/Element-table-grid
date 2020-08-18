@@ -82,7 +82,7 @@ export default {
           }
         ],
         requestConfig: {
-            apiurl: 'http://localhost:3003/api/getList',
+            apiurl: '/data/demo1.json',
             method: 'get',
             datakeys: ['data', 'items'],
             totalkeys: ['data', 'total'],

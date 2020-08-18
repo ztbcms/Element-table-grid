@@ -33,7 +33,7 @@ export default {
           { type: 'Input', label: '', prop: 'name', width: '180px', placeholder: '请输入姓名...' },
           { type: 'Select', label: '', prop: 'age', width: '180px', placeholder: '选择' ,options: sexs},
           { type: 'Radio', label: '单选',  prop: 'che2', option: {},options: sexs},
-          { type: 'Checkbox',label: '多选', prop: 'che', option: {},options: sexs},
+          { type: 'Checkbox',label: '多选', prop: 'che', option: sexs,options: sexs},
           { type: 'Date', label: '日期', prop: 'sex3', width: '180px' },
           { type: 'DateTime', label: '日期时间', prop: 'sex4', width: '180px' },
           { type: 'Switch', label: '开关', prop: 'sex5', width: '180px' }

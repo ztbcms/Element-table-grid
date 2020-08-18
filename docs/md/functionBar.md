@@ -119,7 +119,7 @@ export default {
   <div class="cpy-main">
     <el-card>
       <diy-search-form v-bind="formConfig">
-        <template slot-scope="fromData">
+        <template slot="searchAfter" slot-scope="fromData">
           <p>{{fromData}}</p>
         </template>
       </diy-search-form>

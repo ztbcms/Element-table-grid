@@ -8,7 +8,7 @@
   - 根据设置来处理排序。
 <br/>
 
-```html
+```html 
 /*vue*/
 <template>
   <div class="cpy-main">
@@ -58,7 +58,7 @@ export default {
           }
         ],
         requestConfig: {
-            apiurl: 'http://localhost:3003/api/getList',
+            apiurl: '/data/demo1.json',
             method: 'get',
             datakeys: ['data', 'items'],
             totalkeys: ['data', 'total'],
@@ -133,13 +133,6 @@ export default {
 
 除了type表的`额外参数`，还有一个`formatData`上述type表都可用`formatData`用于转换简单的表达式来达到绑定的效果，例如：表单需要一个`Switch`，但是后台给你传递的却是`0和1`，但是`element-ui`的`Switch`绑定的值却是`true`与`false`, 这个时候就可以用`formatData`来转换绑定。
 用法:
-```js
-{
-  type: 'Switch',
-  prop: 'switch',
-  formatData: (val) => { return val === 1 ? true : false }
-}
-```
 
 **Button说明**
 
@@ -162,8 +155,6 @@ export default {
 **注：修改完毕之后，使用this.$refs.xxx.detaultGetList()刷新当前表单，既：**
 `change: () => {this.$refs.xxx.detaultGetList()}`
 
-```html
-/*vue*/
 ```html
 /*vue*/
 <template>
@@ -307,9 +298,9 @@ export default {
           },
           {
             label: '链接',
-            prop: 'image',
+            prop: 'link',
             type: 'Link',
-            tableColumnAttr: { align: 'center', 'width': '100px' }
+            linkAttr: { align: 'center', 'width': '100px', name: '链接' }
           },
           {
             label: '长文本',
@@ -332,7 +323,7 @@ export default {
           }
         ],
         requestConfig: {
-            apiurl: 'http://localhost:3003/api/getList',
+            apiurl: '/data/demo1.json',
             method: 'get',
             datakeys: ['data', 'items'],
             totalkeys: ['data', 'total'],

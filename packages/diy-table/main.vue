@@ -410,8 +410,6 @@ export default {
         return{
           ref: 'cpytable',
           border: true,
-          'row-key': "id",
-          'tree-props': {children: 'children', hasChildren: 'hasChildren'},
           showSummary: false
         }
       } 

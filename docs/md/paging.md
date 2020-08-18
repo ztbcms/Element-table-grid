@@ -59,7 +59,7 @@ export default {
             currentChange: (...args) => this.currentChange.apply(this, args) // 当前页改变触发
         },
         requestConfig: {
-            apiurl: 'http://localhost:3003/api/getList',
+            apiurl: '/data/demo1.json',
             method: 'get',
             datakeys: ['data', 'items'],
             totalkeys: ['data', 'total'],

@@ -172,7 +172,11 @@ export default {
   created() {
     this.searchForm.forEach(el => {
       if(el.prop) {
-        this.$set(this.fromData, el.prop, '')
+        if(el.type === 'Checkbox') {
+          this.$set(this.fromData, el.prop, [])
+        } else {
+          this.$set(this.fromData, el.prop, '')
+        }
       }
     })
   }
