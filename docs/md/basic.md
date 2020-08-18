@@ -13,7 +13,7 @@
 <template>
   <div class="cpy-main">
     <el-card>
-      <!-- <diy-search-form v-bind="formConfig"> -->
+      <diy-search-form v-bind="formConfig">
       </diy-search-form>
       <diy-table
         v-bind="tableConfig"
@@ -30,16 +30,21 @@ let sexs = [{ label: '男', value: 'M' }, { label: '女', value: 'F' }]
 export default {
   data () {
     return {
+      formConfig: {
+        searchForm: [
+          { type: 'Input', label: '', prop: 'name', width: '180px', placeholder: '请输入姓名...' },
+          { type: 'Button', name: '查询', option: { type: 'primary' }, click: this.click }
+        ],
+      },
       // table配置
       tableConfig: {
         // 排序回调
-        sortChange: function(row) {console.log(row)},
+        sortChange: this.change,
         tableHeader: [
           {
             label: 'ID',
             prop: 'id',
-            showSummary: true,
-            tableColumnAttr: { sortable: 'custom', align: 'center', width: '80' }
+            tableColumnAttr: { sortable: 'custom', align: 'center', width: '80', prop: 'input' }
           },
           {
             label: '姓名',
@@ -47,10 +52,7 @@ export default {
             tableColumnAttr: { align: 'center' },
             edit: {
                 type: 'Input',
-                change: (row, index, event) => {
-                    this.$refs.diyTable.detaultGetList()
-                    console.log('change', row, index, event)
-                }
+                change: this.change
             }
           },
           {
@@ -75,6 +77,9 @@ export default {
   },
   methods: {
     click(row) {
+      console.log(row)
+    },
+    change(row) {
       console.log(row)
     }
   }

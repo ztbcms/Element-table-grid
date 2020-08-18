@@ -172,7 +172,7 @@ export default {
     this.searchForm.forEach((el, index) => {
       if(el.prop) {
         this.$set(this.fromData, el.prop, '')
-      } else {
+      } else if(el.type !== 'Button') {
         console.warn(`功能区第${index}个,type:${el.type},没有填prop,可能会导致Bug`)
       }
     })

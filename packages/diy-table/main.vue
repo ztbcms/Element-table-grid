@@ -411,7 +411,7 @@ export default {
           border: true,
           'row-key': "id",
           'tree-props': {children: 'children', hasChildren: 'hasChildren'},
-          showSummary: true
+          showSummary: false
         }
       } 
     },
@@ -849,7 +849,6 @@ export default {
   // 判断是否有存在只合计某一列
   created() {
     for(var k in this.pagination){
-      console.log(k)
       this.detaultPagination[k] = this.pagination[k]
     }
     const showSummaryList = this.tableHeader.filter(item => item.showSummary)

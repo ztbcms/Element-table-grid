@@ -54,7 +54,6 @@ export default {
           {
             label: 'ID',
             prop: 'id',
-            showSummary: true,
             tableColumnAttr: { sortable: 'custom', align: 'center', width: '80' }
           },
           {
