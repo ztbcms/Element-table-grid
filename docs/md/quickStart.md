@@ -45,7 +45,7 @@ export default {
       formConfig: {
         // 表单设置
         searchForm: [
-          { type: 'Input', label: '', prop: 'name', width: '180px', placeholder: '请输入姓名...' },
+          { type: 'Input', prop: 'name', width: '180px', placeholder: '请输入姓名...' },
           { type: 'Button', name: '查询', click: this.click }
         ],
       },
@@ -76,8 +76,8 @@ export default {
             type: 'Button',
             tableColumnAttr: { fixed: 'right', align: 'center', 'width': '250px' },
             buttonGroup: [
-                { name: '编辑', size: '', click: this.click, buttonAttr: { type: 'primary' }, hidKey: 'buttonHid' },
-                { name: '删除', size: '', click: this.click, buttonAttr: { type: 'danger' }, hidKey: '' }
+                { name: '编辑', click: this.click, buttonAttr: { type: 'primary' }, hidKey: 'buttonHid' },
+                { name: '删除', click: this.click, buttonAttr: { type: 'danger' } }
             ]
           }
         ],

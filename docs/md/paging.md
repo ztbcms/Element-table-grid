@@ -46,8 +46,8 @@ export default {
             type: 'Button',
             tableColumnAttr: { fixed: 'right', align: 'center', 'width': '250px' },
             buttonGroup: [
-                { name: '编辑', size: '', click: this.click, buttonAttr: { type: 'primary' }, hidKey: 'buttonHid' },
-                { name: '删除', size: '', click: this.click, buttonAttr: { type: 'danger' }, hidKey: '' }
+                { name: '编辑', click: this.click, buttonAttr: { type: 'primary' }, hidKey: 'buttonHid' },
+                { name: '删除', click: this.click, buttonAttr: { type: 'danger' } }
             ]
           }
         ],
@@ -56,8 +56,7 @@ export default {
             currentPage: 2, // 当前页
             total: 17, // 总条数
             sizeChange: (...args) => this.sizeChange.apply(this, args), // 页条数大小改变触发
-            currentChange: (...args) => this.currentChange.apply(this, args), // 当前页改变触发
-            layout: 'total,sizes ,prev, pager, next,jumper'
+            currentChange: (...args) => this.currentChange.apply(this, args) // 当前页改变触发
         },
         requestConfig: {
             apiurl: 'http://localhost:3003/api/getList',

@@ -372,6 +372,7 @@ const Post = ({ url, data, header }) => {
     })
   })
 }
+
 export default {
   name: 'DiyTable',
   data () {

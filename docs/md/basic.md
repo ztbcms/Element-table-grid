@@ -219,8 +219,6 @@ export default {
             type: 'Slider',
             disabled: 'sliderDisabled',
             tableColumnAttr: { align: 'center', 'width': '100px' },
-            sliderAttr: {
-            },
             change: this.change
           },
           {
@@ -235,8 +233,7 @@ export default {
             prop: 'text',
             type: 'Input',
             disabled: 'inputDisabled',
-            tableColumnAttr: { align: 'center', 'width': '100px' },
-            inputAttr: {}
+            tableColumnAttr: { align: 'center', 'width': '100px' }
           },
           {
             label: '下拉框',
@@ -244,7 +241,6 @@ export default {
             type: 'Select',
             disabled: 'selectDisabled',
             tableColumnAttr: { align: 'center', 'width': '150px' },
-            selectAttr: {},
             optionAttr: {
               placeholder: '请选择...'
             },
@@ -274,8 +270,6 @@ export default {
             type: 'Checkbox',
             disabled: 'checkboxDisabled',
             tableColumnAttr: { align: 'center', 'width': '150px' },
-            checkboxAttr: {},
-            checkboxGroupAttr: {},
             checkboxs: sexs,
             change: this.change
           },
@@ -305,8 +299,7 @@ export default {
             label: '链接',
             prop: 'image',
             type: 'Link',
-            tableColumnAttr: { align: 'center', 'width': '100px' },
-            linkAttr: {}
+            tableColumnAttr: { align: 'center', 'width': '100px' }
           },
           {
             label: '长文本',
