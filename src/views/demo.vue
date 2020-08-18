@@ -46,8 +46,6 @@ export default {
       },
       // table配置
       tableConfig: {
-        isSelection: true,
-        isHandle: true,
         // 排序事件回调
         sortChange: function(row) {console.log(row)},
         tableHeader: [

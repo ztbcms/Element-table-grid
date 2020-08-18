@@ -139,10 +139,6 @@
 export default {
   name: 'DiySearchForm',
   props: {
-    isHandle: {
-      type: Boolean,
-      default: false
-    },
     formAttr: {
       type: Object,
       default: () => {
