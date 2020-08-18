@@ -2,6 +2,9 @@
 <template>
   <div class="cpy-search">
     <el-form v-bind="formAttr">
+      <el-form-item>
+        <slot name="searchBefore" :prop="fromData"></slot>
+      </el-form-item>
       <el-form-item
         v-for='item in searchForm'
         v-bind="item.formoption"
@@ -130,7 +133,9 @@
           @click='item.click && item.click(fromData)'
         >{{item.name}}{{fromData[item.prop] || ''}}</el-button>
       </el-form-item>
-      <slot :prop="fromData"></slot>
+      <el-form-item>
+        <slot name="searchAfter" :prop="fromData"></slot>
+      </el-form-item>
     </el-form>
   </div>
 </template>
