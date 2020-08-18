@@ -64,7 +64,7 @@
           >
             <template slot-scope="scope">
               <slot>
-                <el-checkbox v-model="scope.row['_checkBox']" @change="singlecheckBox($event, scope.row)"></el-checkbox>
+                <el-checkbox v-model="scope.row['_checkBox']" @change="singlecheckBox({event: $event, row: scope.row})"></el-checkbox>
               </slot>
             </template>
           </el-table-column>
@@ -109,7 +109,7 @@
                     :disabled="scope.row[th.disabled]"
                     @focus="th.focus && th.focus($event, scope.row)"
                     @blur="th.blur && th.blur($event, scope.row)"
-                    @change="th.change && th.change($event, scope.row)"
+                    @change="th.change && th.change({event: $event, row: scope.row})"
                     @input="th.input && th.input($event, scope.row)"
                     @clear="th.clear && th.clear(scope.row)"
                   ></el-input>
@@ -122,7 +122,7 @@
                     v-model="scope.row[th.prop]"
                     v-bind="th.selectAttr"
                     :disabled="scope.row[th.disabled]"
-                    @change='th.change && th.change(scope.row, scope.$index, $event)'
+                    @change='th.change && th.change({row: scope.row, index: scope.$index, event: $event})'
                     @visible-change="th.visibleChange && th.visibleChange($event, scope.row)"
                     @remove-tag="th.removeTag && th.removeTag($event, scope.row)"
                     @clear="th.clear && th.clear($event, scope.row)"
@@ -167,7 +167,7 @@
                     v-model="scope.row[th.prop]"
                     v-bind="th.checkboxGroupAttr"
                     :disabled="scope.row[th.disabled]"
-                    @change='th.change && th.change(scope.row, scope.$index, $event)'
+                    @change='th.change && th.change({row: scope.row, index: scope.$index, event: $event})'
                   >
                     <el-checkbox
                       v-for="ra in th.checkboxs"
@@ -185,13 +185,13 @@
                     v-model="scope.row[th.prop]"
                     v-bind="th.rateAttr"
                     :disabled="scope.row[th.disabled]"
-                    @change='th.change && th.change(scope.row, scope.$index, $event)'
+                    @change='th.change && th.change({row: scope.row, index: scope.$index, event: $event})'
                   ></el-rate>
                 </slot>
               </template>
               <!-- 开关 -->
               <template v-else-if="th.type === 'Switch'">
-                <div @click="!scope.row[th.disabled] && th.change && th.change(scope.row, scope.$index, !scope.row[th.prop], th)" v-if="th.async">
+                <div @click="!scope.row[th.disabled] && th.change && th.change({row: scope.row, index: scope.$index, value: !scope.row[th.prop], th})" v-if="th.async">
                   <el-switch
                     :value="!th.formatData ? scope.row[th.prop] : scope.row[th.prop] | formatters(th.formatData)"
                     v-bind="th.switchAttr"
@@ -225,7 +225,7 @@
                     v-model="scope.row[th.prop]"
                     :disabled="scope.row[th.disabled]"
                     v-bind="th.sliderAttr"
-                    @change='th.change && th.change(scope.row, scope.$index, $event)'
+                    @change='th.change && th.change({row: scope.row, index: scope.$index, event: $event})'
                   ></el-slider>
                 </slot>
               </template>
@@ -550,7 +550,7 @@ export default {
         update = !update
       }
       this.$set(row, th.prop, update)
-      th.change && th.change(row, index, formatDataOff ? th.formatData(row[th.prop]) ? 1 : 0 : $event, th)
+      th.change && th.change({row, index, value: formatDataOff ? th.formatData(row[th.prop]) ? 1 : 0 : $event, th})
     },
     // 合计
     getSummaries(param) {
@@ -679,7 +679,7 @@ export default {
         value,
         th
       } = this.dialogData
-      th.edit.change && th.edit.change(row, index, value)
+      th.edit.change && th.edit.change({row, index, value})
     },
     singlecheckBox(e, data) {
       if(!e) {
@@ -701,7 +701,7 @@ export default {
       if(!th.async) {
         this.$set(data, th.prop, value)
       }
-      th.change && th.change(data, index, value, th)
+      th.change && th.change({row: data, index, value, th})
     },
     tabelSearch(requestData) {
       this.detaultLoading = true
