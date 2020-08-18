@@ -59,7 +59,7 @@
           <el-table-column
             v-if="key == 0 && isSingle"
             v-bind="{ align: 'center' }"
-            :key="'column' + key"
+            :key="'checkbox' + key"
             :prop="th.prop"
           >
             <template slot-scope="scope">
@@ -70,7 +70,7 @@
           </el-table-column>
           <!-- 数据栏 -->
           <el-table-column
-            :key="key+'column'+th.id"
+            :key="'column' + key"
             v-bind="th.tableColumnAttr || { align: 'center' }"
             :label="th.label"
             :prop="th.prop"

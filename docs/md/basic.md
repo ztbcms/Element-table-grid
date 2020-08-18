@@ -131,6 +131,16 @@ export default {
 | Popover | 长文本 | - | - | - | - | - | - |
 | Button | 按钮 | buttonGroup | Array | 按钮配置 | click | row<br/>index | 行数据<br/>行索引 |
 
+除了type表的`额外参数`，还有一个`formatData`上述type表都可用`formatData`用于转换简单的表达式来达到绑定的效果，例如：表单需要一个`Switch`，但是后台给你传递的却是`0和1`，但是`element-ui`的`Switch`绑定的值却是`true`与`false`, 这个时候就可以用`formatData`来转换绑定。
+用法:
+```js
+{
+  type: 'Switch',
+  prop: 'switch',
+  formatData: (val) => { return val === 1 ? true : false }
+}
+```
+
 **Button说明**
 
 | 参数 | 说明 | 类型 | 可选参数 | 

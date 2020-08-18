@@ -12,8 +12,6 @@
 // import data from '../../src/views/data'
 export default {
     name: 'popup',
-    components: {
-    },
     props: {
         Recursion: {
             default: true
