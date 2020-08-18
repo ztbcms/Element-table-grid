@@ -191,7 +191,7 @@ export default {
             { type: 'Date', label: '日期', prop: 'sex3', width: '180px' },
             { type: 'DateTime', label: '日期时间', prop: 'sex4', width: '180px' },
             { type: 'Switch', label: '开关', prop: 'sex5', width: '180px' },
-            { type: 'Button', name: '查询', option: { type: 'primary' }, click: function(fromData) {console.log(fromData)}}
+            { type: 'Button', name: '查询', option: { type: 'primary' }, click: this.click}
           ]
       },
       // table配置
@@ -238,6 +238,11 @@ export default {
             resCodes: [200, 1]
         }
       }
+    }
+  },
+  methods: {
+    click(row) {
+      console.log(row)
     }
   }
 }

@@ -37,8 +37,8 @@ export default {
         ],
         // 表单按钮方法设置
         searchHandle: [
-          { name: '查询', option: { type: 'primary' }, click: function(searchForm) {console.log(searchForm)} },
-          { name: '重置', option: { type: 'primary' }, click: function(searchForm) {console.log(searchForm)} }
+          { name: '查询', option:{  type: 'primary' }, click: this.click },
+          { name: '重置', option: { type: 'primary' }, click: this.click }
         ],
       },
       // table配置
@@ -90,6 +90,11 @@ export default {
             resCodes: [200, 1]
         }
       }
+    }
+  },
+  methods: {
+    click(row) {
+      console.log(row)
     }
   }
 }

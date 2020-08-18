@@ -47,7 +47,7 @@ export default {
         // 表单设置
         searchForm: [
           { type: 'Input', label: '', prop: 'name', width: '180px', placeholder: '请输入姓名...' },
-          { type: 'Button', name: '查询', click: function(row) {console.log(row)} }
+          { type: 'Button', name: '查询', click: this.click }
         ],
       },
       // table配置
@@ -93,6 +93,11 @@ export default {
             resCodes: [200, 1]
         }
       }
+    }
+  },
+  methods: {
+    click(row) {
+      console.log(row)
     }
   }
 }
