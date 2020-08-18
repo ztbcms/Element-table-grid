@@ -24,7 +24,7 @@ export default {
     return {
       tableConfig: {
         // 排序事件回调
-        sortChange: row => console.log('sortChange', row),
+        sortChange: this.change,
         tableHeader: [
           {
             label: 'ID',
@@ -38,9 +38,7 @@ export default {
             tableColumnAttr: { align: 'center' },
             edit: {
                 type: 'Input',
-                change: (row, index, event) => {
-                    // console.log('change', row, index, event)
-                }
+                change: this.change
             }
           },
           {
@@ -73,7 +71,10 @@ export default {
   },
   methods: {
     click(row) {
-        console.log(row)
+      console.log(row)
+    },
+    change(row) {
+      console.log(row)
     }
   }
 }

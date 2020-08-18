@@ -53,9 +53,7 @@ export default {
             tableColumnAttr: { align: 'center' },
             edit: {
                 type: 'Input',
-                change: (row, index, event) => {
-                    console.log('change', row, index, event)
-                }
+                change: this.change
             }
           },
           {
@@ -73,7 +71,10 @@ export default {
   },
   methods: {
     click(row) {
-        console.log(row)
+      console.log(row)
+    },
+    change(row) {
+      console.log(row)
     }
   }
 }
@@ -153,7 +154,7 @@ export default {
       },
       // table配置
       tableConfig: {
-        sortChange: function(row) {console.log(row)},
+        sortChange: this.change,
         tableHeader: [
           {
             label: 'ID',
@@ -167,9 +168,7 @@ export default {
             tableColumnAttr: { align: 'center' },
             edit: {
                 type: 'Input',
-                change: (row, index, event) => {
-                    console.log('change', row, index, event)
-                }
+                change: this.change
             }
           },
           {
@@ -187,6 +186,9 @@ export default {
   },
   methods: {
     click(row) {
+      console.log(row)
+    },
+    change(row) {
       console.log(row)
     }
   }

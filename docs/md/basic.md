@@ -165,7 +165,7 @@ export default {
 ```html
 /*vue*/
 <template>
-  <div class="cpy-main">
+  <div class="cpy-main3">
     <el-card>
       <diy-table
         v-bind="tableConfig"
@@ -185,7 +185,7 @@ export default {
         // 是否全选
         isSelection: true,
         // 排序事件回调
-        sortChange: function(row) {console.log(row)},
+        sortChange: this.change,
         tableHeader: [
           {
             label: 'ID',
@@ -199,10 +199,7 @@ export default {
             tableColumnAttr: { align: 'center' },
             edit: {
                 type: 'Input',
-                change: (row, index, event) => {
-                    this.$refs.diyTable.detaultGetList()
-                    console.log('change', row, index, event)
-                }
+                change: this.change
             }
           },
           {
@@ -215,10 +212,7 @@ export default {
                 option: [{id: 1, val: '男'},{id: 2, val: '女'}],
                 optionLabel: 'val',
                 optionValue: 'id',
-                change: (row, index, event) => {
-                    this.$refs.diyTable.detaultGetList()
-                    console.log('change', row, index, event)
-                }
+                change: this.change
             }
           },
           {
@@ -235,7 +229,7 @@ export default {
             tableColumnAttr: { align: 'center', 'width': '100px' },
             sliderAttr: {
             },
-            change: (row, index, event) => console.log('change', row, index, event)
+            change: this.change
           },
           {
             label: '图片',
@@ -267,7 +261,7 @@ export default {
               value: 'value',
               label: 'label'
             },
-            change: (row, index, event) => console.log('change', row, index, event)
+            change: this.change
           },
           {
             label: '单选',
@@ -280,9 +274,7 @@ export default {
               disabled: false
             },
             radios: sexs,
-            change: (row, index, event, th) => {
-              console.log('change', row, index , event, th)
-            }
+            change: this.change
           },
           {
             label: '复选框',
@@ -293,7 +285,7 @@ export default {
             checkboxAttr: {},
             checkboxGroupAttr: {},
             checkboxs: sexs,
-            change: (row, index, event) => console.log('change', row, index, event)
+            change: this.change
           },
           {
             label: '评价',
@@ -304,7 +296,7 @@ export default {
             rateAttr: {
               'allow-half': true
             },
-            change: (row, index, event) => console.log('change', row, index, event)
+            change: this.change
           },
           {
             label: '开关',
@@ -315,9 +307,7 @@ export default {
             tableColumnAttr: { align: 'center', 'width': '100px' },
             switchAttr: {
             },
-            change: (row, index, event, th) => {
-              console.log('change', row, index, event, th)
-            }
+            change: this.change
           },
           {
             label: '链接',
@@ -358,6 +348,9 @@ export default {
   },
   methods: {
     click(row) {
+      console.log(row)
+    },
+    change(row) {
       console.log(row)
     }
   }
