@@ -669,7 +669,7 @@ export default {
         optionLabel: th.edit.optionLabel,
         optionValue: th.edit.optionValue
       }
-      console.log(this.dialogData)
+      // console.log(this.dialogData)
     },
     dialogDataSuccess() {
       this.dialogData.show = false

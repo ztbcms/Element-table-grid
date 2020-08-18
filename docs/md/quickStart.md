@@ -24,12 +24,14 @@ Vue.use(ElementUI)
 <template>
   <div class="cpy-main">
     <el-card>
-      <diy-search-form v-bind="formConfig">
-      </diy-search-form>
+      <diy-search-form v-bind="formConfig"></diy-search-form>
       <diy-table
         v-bind="tableConfig"
         ref="diyTable"
       >
+        <template slot="bluk" scope="fn">
+          <el-button @click="checkAllClick(fn)">删除</el-button>
+        </template>
       </diy-table>
     </el-card>
   </div>
@@ -97,6 +99,9 @@ export default {
     },
     change(row) {
       console.log(row)
+    },
+    checkAllClick(fn) {
+      console.log(fn.functionalBtn())
     }
   }
 }

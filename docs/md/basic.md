@@ -24,7 +24,6 @@
 
 <script>
 let sexs = [{ label: '男', value: 'M' }, { label: '女', value: 'F' }]
-// import data from './data'
 export default {
   data () {
     return {
