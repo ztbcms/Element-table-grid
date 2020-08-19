@@ -67,23 +67,23 @@
           // table配置
           this.tableConfig = {
             ref: 'diytable',
-              height: '600px',
-                tableHeader: [
-                  { label: 'ID', prop: 'id' },
-                  { label: '名称', prop: 'title' },
-                  { label: '说明', prop: 'materials_desc' }
-                ],
-                  tableAttr: {
+            height: '600px',
+            tableHeader: [
+              { label: 'ID', prop: 'id' },
+              { label: '名称', prop: 'title' },
+              { label: '说明', prop: 'materials_desc' }
+            ],
+            tableAttr: {
               border: true
             },
             requestConfig: {
               apiurl: 'https://admin.shidiaoquan.com/User/Matter/matterList',
-                method: 'get',
-                  data: { },
+              method: 'get',
+              data: { },
               headers: { },
               datakeys: ['data', 'items'],
-                totalkeys: ['data', 'total_pages'],
-                  resCodes: [200, 1]
+              totalkeys: ['data', 'total_pages'],
+              resCodes: [200, 1]
             }
           }
         },
