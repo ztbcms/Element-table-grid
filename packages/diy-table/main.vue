@@ -1,9 +1,9 @@
 <!--表格组件 -->
 <template>
-  <section class="cpy-table-page">
+  <section class="table-grid-page">
     <!-- 表格操作按钮 -->
     <section
-      class="cpy-handle"
+      class="grid-handle"
       v-if='isHandle'
     >
       <el-button
@@ -14,7 +14,7 @@
       >{{item.label}}</el-button>
     </section>
     <!-- 数据表格 -->
-    <section class="cpy-table">
+    <section class="grid-table">
       <el-table
         v-bind="tableAttr"
         :data="detaultData"
@@ -78,7 +78,7 @@
             <template slot-scope="scope">
               <!-- 普通 -->
               <template v-if="th.type === 'Text' || !th.type">
-                <slot name="Text" :prop='scope.row[th.prop]'>
+                <slot name="Text" :prop='scope.row[th.prop]' v-bind="scope">
                   <span
                     v-if="!th.formatData"
                     @click.stop="th.click && th.click(scope.row)"
@@ -92,13 +92,13 @@
               </template>
               <!-- html -->
               <template v-else-if="th.type === 'Html'">
-                <slot name="Html" :prop='scope.row[th.prop]'>
+                <slot name="Html" :prop='scope.row[th.prop]' v-bind="scope">
                   <div v-html="th.html(scope.row[th.prop])"></div>
                 </slot>
               </template>
               <!-- 输入框 -->
               <template v-else-if="th.type === 'Input'">
-                <slot name="Input" :prop='scope.row[th.prop]'>
+                <slot name="Input" :prop='scope.row[th.prop]' v-bind="scope">
                   <!-- <span
                     v-if="!th.formatData"
                     @click.stop="th.click && th.click(scope.row)"
@@ -117,7 +117,7 @@
               </template>
               <!-- 下拉框 -->
               <template v-else-if="th.type === 'Select'">
-                <slot name="Select" :prop='scope.row[th.prop]'>
+                <slot name="Select" :prop='scope.row[th.prop]' v-bind="scope">
                   <el-select
                     v-model="scope.row[th.prop]"
                     v-bind="th.selectAttr"
@@ -144,7 +144,7 @@
               </template>
               <!-- 单选 -->
               <template v-else-if="th.type === 'Radio'">
-                <slot name="Radio" :prop='scope.row[th.prop]'>
+                <slot name="Radio" :prop='scope.row[th.prop]' v-bind="scope">
                   <el-radio-group
                     :value="scope.row[th.prop]"
                     v-bind="th.radioGroupAttr"
@@ -162,7 +162,7 @@
               </template>
               <!-- 复选框 -->
               <template v-else-if="th.type === 'Checkbox'">
-                <slot name="Checkbox" :prop='scope.row[th.prop]'>
+                <slot name="Checkbox" :prop='scope.row[th.prop]' v-bind="scope">
                   <el-checkbox-group
                     v-model="scope.row[th.prop]"
                     v-bind="th.checkboxGroupAttr"
@@ -180,7 +180,7 @@
               </template>
               <!-- 评价 -->
               <template v-else-if="th.type === 'Rate'">
-                <slot name="Rate" :prop='scope.row[th.prop]'>
+                <slot name="Rate" :prop='scope.row[th.prop]' v-bind="scope">
                   <el-rate
                     v-model="scope.row[th.prop]"
                     v-bind="th.rateAttr"
@@ -208,7 +208,7 @@
               </template>
               <!-- 图像 -->
               <template v-else-if="th.type === 'Image'">
-                <slot name="Image" :prop='scope.row[th.prop]'>
+                <slot name="Image" :prop='scope.row[th.prop]' v-bind="scope">
                   <el-image
                     :src="scope.row[th.prop]"
                     v-bind="th.imageAttr"
@@ -220,7 +220,7 @@
               </template>
               <!-- 滑块 -->
               <template v-else-if="th.type === 'Slider'">
-                <slot name="Slider" :prop='scope.row[th.prop]'>
+                <slot name="Slider" :prop='scope.row[th.prop]' v-bind="scope">
                   <el-slider
                     v-model="scope.row[th.prop]"
                     :disabled="scope.row[th.disabled]"
@@ -231,7 +231,7 @@
               </template>
               <!-- 链接 -->
               <template v-else-if="th.type === 'Link'">
-                <slot name="Link" :prop='scope.row[th.prop]'>
+                <slot name="Link" :prop='scope.row[th.prop]' v-bind="scope">
                   <el-link
                     :href="scope.row[th.prop]"
                     target="_blank"
@@ -241,7 +241,7 @@
               </template>
               <!-- 长文本 -->
               <template v-else-if="th.type === 'Popover'">
-                <slot name="Popover" :prop='scope.row[th.prop]'>
+                <slot name="Popover" :prop='scope.row[th.prop]' v-bind="scope">
                   <el-popover
                     v-bind="th.popoverAttr"
                     :content="scope.row[th.prop]"
@@ -255,7 +255,7 @@
               </template>
               <!-- 按钮 -->
               <template v-else-if="th.type === 'Button' || (isSelection && key === tableHeader.length - 1)">
-                <slot name="Button" :prop='scope.row[th.prop]'>
+                <slot name="Button" :prop='scope.row[th.prop]' v-bind="scope">
                   <!-- <el-button v-if="isSelection" size='mini' @click="multistageFn(scope.row)">查看</el-button> -->
                   <template
                     v-for="(o, k) in th.buttonGroup"
@@ -278,14 +278,6 @@
           </el-table-column>
         </template>
         <slot name="later"></slot>
-        <el-table-column
-          type="index"
-          label="操作"
-          align="center"
-          width="200"
-        >
-          <slot name="operation"></slot>
-        </el-table-column>
       </el-table>
     </section>
     <div class="functional">
@@ -297,7 +289,7 @@
       </div>
       <!-- 分页 -->
       <section
-        class="cpy-pagination"
+        class="grid-pagination"
         v-if="isPagination"
       >
         <slot name="pagination">
@@ -318,27 +310,7 @@
         </slot>
       </section>
     </div>
-    <el-dialog :title="dialogData.title" :visible.sync="dialogData.show" width="35%" :append-to-body="true">
-      <div class="_dialogcontent" v-if="dialogData.type === 'Input'">
-        <el-input autocomplete="off" v-model="dialogData.value"></el-input>
-      </div>
-      <div class="_dialogcontent" v-else-if="dialogData.type === 'Select'">
-        <el-select v-model="dialogData.value" placeholder="请选择">
-          <el-option
-            v-for="(item) in dialogData.option"
-            :key="item[dialogData.optionValue]"
-            :label="item[dialogData.optionLabel]"
-            :value="item[dialogData.optionValue]"
-          >
-          </el-option>
-        </el-select>
-        <!-- <el-input autocomplete="off" v-model="dialogData.value"></el-input> -->
-      </div>
-      <div class="_dialogBtn">
-        <el-button type="info" @click="dialogData.show = false">取消</el-button>
-        <el-button type="primary" @click="dialogDataSuccess">确定</el-button>
-      </div>
-    </el-dialog>
+    <DiyDialog @dialogDataSuccess="dialogDataSuccess" :dialogData.sync="dialogData" />
   </section>
 </template>
 
@@ -346,7 +318,7 @@
 let that = null
 import Axios from 'axios'
 import qs from 'qs'
-
+import Bus from '../bus'
 // get请求
 const Get = ({ url, data, header }) => {
   return new Promise((resolve, reject) => {
@@ -394,7 +366,15 @@ export default {
         type: 'Input',
         value: '',
         title: ''
-      }
+      },
+      preOperation: {
+        hidden: false,
+        type: "index",
+        label: "操作",
+        align: "center",
+        width: "200"
+      },
+      searchData: {}
     }
   },
   props: {
@@ -440,7 +420,7 @@ export default {
       method: 'get'
     }) },
     // 表单数据
-    searchData: { type: Object, default: () => ({}) },
+    // searchData: { type: Object, default: () => ({}) },
     // 分页数据
     pagination: { type: Object, default: () => ({ pageSize: 10, currentPage: 1, total: 0 }) },
     // 全选相关配置
@@ -841,6 +821,10 @@ export default {
     that = this
     if (this.requestConfig.apiurl) {
       this.detaultGetList()
+      Bus.$on('getTableInquire', (data = {}) => {
+        this.searchData = data
+        this.detaultGetList(data)
+      })
     } else if(this.tableData.length !== 0) {
       this.detaultData = Object.assign([], this.tableData)
     }
@@ -854,6 +838,10 @@ export default {
     if(showSummaryList.length !== 0) {
       this.$set(this.tableAttr, 'showSummary', true)
     }
+  },
+  beforeDestroy(){
+    //取消监听'getTableInquire'事件
+    Bus.$off('getTableInquire');
   }
 }
 </script>

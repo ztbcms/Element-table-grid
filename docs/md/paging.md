@@ -4,7 +4,7 @@
 ```html
 /*vue*/
 <template>
-  <div class="cpy-main">
+  <div class="grid-main">
     <el-card>
       <diy-table
         :pagination.sync='tableConfig.pagination'

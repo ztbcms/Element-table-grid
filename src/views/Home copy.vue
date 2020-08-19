@@ -1,5 +1,5 @@
 <template>
-  <div class="cpy-main">
+  <div class="grid-main">
     <el-card>
       <diy-search-form v-bind="formConfig"></diy-search-form>
       <diy-table

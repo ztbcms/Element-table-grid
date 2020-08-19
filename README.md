@@ -1,4 +1,4 @@
-# DiyElementuiTable
+# element-table-grid
 > DIY表格
 
 ## Installation
@@ -17,7 +17,7 @@ npm run docs-preview
 ### 使用
 
 ``` html
-<div class="cpy-main">
+<div class="grid-main">
   <diy-search-form v-bind="formConfig"></diy-search-form>
   <diy-table
     :tableData='tableData'

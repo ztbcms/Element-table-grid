@@ -1,10 +1,8 @@
 <!-- 搜索表单 -->
 <template>
-  <div class="cpy-search">
+  <div class="element-table-grid-search" :style="gridSearchStyle">
     <el-form v-bind="formAttr">
-      <el-form-item>
-        <slot name="searchBefore" :prop="fromData"></slot>
-      </el-form-item>
+      <slot name="searchBefore" :prop="fromData"></slot>
       <el-form-item
         v-for='item in searchForm'
         v-bind="item.formoption"
@@ -102,6 +100,16 @@
           @blur="item.blur && item.blur($event, fromData[item.prop])"
           @focus="item.focus && item.focus($event, fromData[item.prop])"
         ></el-time-select>
+        <!-- 日期范围 -->
+        <el-date-picker
+          v-if="item.type==='DateRange'"
+          v-bind="item.option"
+          type='daterange'
+          v-model="fromData[item.prop]"
+          @change="item.change && item.change($event, fromData[item.prop])"
+          @blur="item.blur && item.blur($event, fromData[item.prop])"
+          @focus="item.focus && item.focus($event, fromData[item.prop])"
+        ></el-date-picker>
         <!-- 日期时间 -->
         <el-date-picker
           v-if="item.type==='DateTime'"
@@ -123,33 +131,39 @@
           v-bind="item.option"
           @click="item.click && item.click(fromData)"
         >{{item.name}}{{fromData[item.prop] || ''}}</el-button>
-      </el-form-item>
-      <el-form-item
-        v-for='item in searchHandle'
-        :key="item.name"
-      >
-        <el-button
-          v-bind="item.option"
-          @click='item.click && item.click(fromData)'
-        >{{item.name}}{{fromData[item.prop] || ''}}</el-button>
+        <template v-if="item.type === 'Slot'">
+          <slot :name="item.slot"></slot>
+        </template>
       </el-form-item>
       <el-form-item>
-        <slot name="searchAfter" :prop="fromData"></slot>
+        <div :style="gridSearchButtonStyle">
+          <template v-for='item in formHandle'>
+            <el-button
+              :key="item.name"
+              v-bind="item.option"
+              v-if="(isInquire || item.key != 'inquire') && (isReset || item.key != 'reset')"
+              @click='item.click && item.click(fromData)'
+            >{{item.name}}{{fromData[item.prop] || ''}}</el-button>
+          </template>
+          <slot name="searchHandle" :prop="fromData"></slot>
+        </div>
       </el-form-item>
+      <slot name="searchAfter" :prop="fromData"></slot>
     </el-form>
   </div>
 </template>
 
 <script>
+import Bus from '../bus'
 export default {
   name: 'DiySearchForm',
   props: {
     formAttr: {
       type: Object,
       default: () => {
-        return{
+        return {
           size: 'mini',
-          labelWidth: '100px',
+          labelWidth: '80px',
           inline: true
         }
       }
@@ -161,24 +175,70 @@ export default {
     searchHandle: {
       type: Array,
       default: () => []
-    }
+    },
+    width: {
+      type: String,
+      default: '100%'
+    },
+    tableConfig: [Object],
+    isInquire: { type: Boolean, default: true },
+    isReset: { type: Boolean, default: true },
+    // 行内布局时按钮组是否需要设置一个labelWidth的外边距（自定义）
+    inlineStyle: [Boolean]
   },
   data () {
     return {
       fromData: {
-      }
+      },
+      formHandle: [
+        { name: '查询', key: 'inquire', option: { type: 'primary' }, click: () => this.inquire.apply(this, arguments) },
+        { name: '重置', key: 'reset', option: { type: 'primary' }, click: () => this.reset.apply(this, arguments) }
+      ]
     };
   },
   created() {
-    this.searchForm.forEach(el => {
-      if(el.prop) {
-        if(el.type === 'Checkbox') {
-          this.$set(this.fromData, el.prop, [])
-        } else {
-          this.$set(this.fromData, el.prop, '')
+    this.formDataInit()
+    this.formHandle = this.RemoveRepeat(this.formHandle.concat(this.searchHandle), 'name')
+  },
+  methods: {
+    inquire () {
+      Bus.$emit('getTableInquire', this.fromData)
+    },
+    reset () {
+      this.formDataInit()
+      this.inquire()
+    },
+    formDataInit () {
+      this.searchForm.forEach(el => {
+        if(el.prop) {
+          if(el.type === 'Checkbox') {
+            this.$set(this.fromData, el.prop, [])
+          } else {
+            this.$set(this.fromData, el.prop, '')
+          }
         }
+      })
+    },
+    RemoveRepeat (arr = [], key = 'id') {
+      let hash = {}
+      return arr.reduce((item, next) => {
+        hash[next[key]] ? '' : hash[next[key]] = true && item.push(next)
+        return item
+      }, [])
+    }
+  },
+  computed: {
+    // 表单盒子的样式
+    gridSearchStyle () {
+      return `width: ${this.width};`
+    },
+    // 表单按钮组的样式
+    gridSearchButtonStyle () {
+      if (this.formAttr.inline && (this.formAttr.labelWidth || this.formAttr['label-width']) && this.inlineStyle) {
+        return `margin-left: ${this.formAttr.labelWidth || this.formAttr['label-width']};`
       }
-    })
+      return ''
+    }
   }
 }
 

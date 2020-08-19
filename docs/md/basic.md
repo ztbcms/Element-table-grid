@@ -11,7 +11,7 @@
 ```html 
 /*vue*/
 <template>
-  <div class="cpy-main">
+  <div class="grid-main">
     <el-card>
       <diy-table
         v-bind="tableConfig"
@@ -157,7 +157,7 @@ export default {
 ```html
 /*vue*/
 <template>
-  <div class="cpy-main3">
+  <div class="grid-main3">
     <el-card>
       <diy-table
         v-bind="tableConfig"

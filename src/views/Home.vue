@@ -1,12 +1,12 @@
 <template>
-  <div class="cpy-main">
+  <div class="grid-main">
     <el-card>
-      <diy-search-form v-bind="formConfig"></diy-search-form>
+      <diy-search-form v-bind="formConfig" :tableConfig="tableConfig"></diy-search-form>
       <diy-table
         :tableData='tableData'
         :pagination.sync='pagination'
         v-bind="tableConfig"
-        ref="diyTable"
+        ref="diytabe"
       >
         <div slot="before">
           <el-table-column type="expand">
@@ -15,15 +15,9 @@
             </template>
           </el-table-column>
         </div>
-
-        <template slot="location" slot-scope="scope">
-          {{scope.row.id}} / {{scope.row.name}}
+        <template slot="operation" slot-scope="scope">
+          <el-button @click="ClickItem(scope)">按钮</el-button>
         </template>
-        <!-- 操作 -->
-        <template slot="operation">
-          <el-button>按钮</el-button>
-        </template>
-        <!-- 全选 -->
         <template slot="bluk">
           <el-button>删除</el-button>
         </template>
@@ -43,32 +37,35 @@ export default {
     return {
       // 表单配置
       formConfig: {
+        width: '50%',
         // 是否显示表单按钮
         isHandle: true,
         // 表单数据
-        searchData: {
-          name: null,
-          age: null,
-          sex: null,
-          interst: null,
-          che: ''
-        },
+        // searchData: {
+        //   name: null,
+        //   age: null,
+        //   sex: null,
+        //   interst: null,
+        //   che: ''
+        // },
         // 表单设置
         searchForm: [
-          { type: 'Input', label: '', prop: 'name', width: '180px', placeholder: '请输入姓名...', option: {}, formoption: {} },
-          { type: 'Input', label: '', prop: 'age', width: '180px', placeholder: '请输入年龄...' },
-          { type: 'Checkbox', prop: 'che', option: {},checkboxs: [{value: 'val1', label:'选项1'}, {value: 'val2', label:'选项2'}]},
-          { type: 'Select', label: '', prop: 'sex', width: '180px', options: sexs, props: sexProps, change: row => console.log('tag', row), placeholder: '请选择性别...' }
+          { type: 'Input', label: '姓名', prop: 'name', width: '120px', placeholder: '请输入姓名...', option: {}, formoption: {} },
+          { type: 'Input', label: '年龄', prop: 'age', width: '180px', placeholder: '请输入年龄...' },
+          { type: 'Select', label: '性别', prop: 'sex', width: '180px', options: sexs, props: sexProps, change: row => console.log('tag', row), placeholder: '请选择性别...' },
+          { type: 'Checkbox', label: '选项', prop: 'che', option: {},  options: [{value: 'val1', label:'选项1'}, {value: 'val2', label:'选项2'}]}
         ],
         // 表单按钮方法设置
         searchHandle: [
-          { name: '查询', option: { type: 'primary' }, click: (searchForm) => console.log('searchForm', searchForm) },
-          { name: '重置', option: { type: 'primary' }, click: () => '' }
+          // { name: '查询', option: { type: 'primary' }, click: (searchForm) => console.log('searchForm', searchForm) },
+          { name: '查看', option: { type: 'primary' }, click: () => '' }
         ],
         // 表单
         formAttr: {
           size: 'mini',
-          labelWidth: '100px',
+          labelWidth: '50px',
+          style: 'width: 50%',
+          class: 'diygaid',
           inline: true
         }
       },
@@ -149,6 +146,9 @@ export default {
     // 查看选择
     Look () {
       console.log(this.$refs.diytable.$refs.cpytable.selection)
+    },
+    ClickItem (e) {
+      console.log('e', e)
     }
   },
   created () {
@@ -156,3 +156,9 @@ export default {
   }
 }
 </script>
+
+<style>
+  .diygaid .el-form-item__content .el-input {
+    width: 200px;
+  }
+</style>

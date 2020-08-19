@@ -1,9 +1,9 @@
 {
-  "name": "cpy-elementui-table",
-  "version": "0.0.8",
+  "name": "element-table-grid",
+  "version": "0.0.9",
   "description": "基于 element table 的二次封装",
   "main": "lib/diyelementtable.umd.js",
-  "keyword": "elementTable table element-table",
+  "keyword": "elementTable table element-table element-table-grid",
   "private": false,
   "scripts": {
     "serve": "vue-cli-service serve",

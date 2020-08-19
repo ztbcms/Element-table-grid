@@ -9,15 +9,15 @@
           :key="key"
         >{{item.label}}</el-button>
       </div>
-      <section class="cpy-table-page" ref="container">
+      <section class="grid-table-page" ref="container">
       <!-- 表格操作按钮 -->
       <section
-        class="cpy-handle"
+        class="grid-handle"
         v-if='isHandle'
       >
       </section>
       <!-- 数据表格 -->
-      <section class="cpy-table" :style="style">
+      <section class="grid-table" :style="style">
           <!-- :row-key="getRowKey" -->
         <el-table
           v-bind="tableAttr"
@@ -314,7 +314,7 @@
         </div>
         <!-- 分页 -->
         <section
-          class="cpy-pagination"
+          class="grid-pagination"
           v-if="isPagination"
         >
           <slot name="pagination">
@@ -880,12 +880,12 @@ body{
   display: flex;
   flex-flow: column;
 }
-.cpy-table-page{
+.grid-table-page{
   flex: 1;
   /* height: 870px; */
   overflow-y: auto;
 }
-.cpy-table{
+.grid-table{
   /* flex: 1; */
   height: 100%;
 }
@@ -897,7 +897,7 @@ body{
 .el-table__body-wrapper{
   flex: 1;
 }
-.cpy-handle {
+.grid-handle {
   position: sticky;
   top: 0;
 }

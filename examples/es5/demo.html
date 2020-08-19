@@ -23,6 +23,10 @@
   var sexs = [{ label: '男', value: 'M' }, { label: '女', value: 'F' }]
   var sexProps = { label: 'label', value: 'value' }
   $(document).ready(function () {
+    function GetList () {
+      console.log('tag', app, arguments)
+      app.$refs.diytable.detaultGetList()
+    }
     var app = new Vue({
       el: '#app',
       data: {
@@ -43,9 +47,10 @@
             { type: 'Date', label: '', width: '180px', propcs: 'date', option: { "value-format": "yyyy-MM-dd", placeholder: '请选择时间...' } },
             {
               type: 'Button', label: '', name: '查询', prop: 'button', option: { type: 'primary', icon: "el-icon-search" },
-              click: function () {
-                return app.inquire.apply(app, arguments)
-              }
+              click: GetList,
+              // click: function () {
+              //   return app.inquire.apply(app, arguments)
+              // }
             }
           ],
           // 表单
