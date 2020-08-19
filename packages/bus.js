@@ -1,2 +1,4 @@
 import vue from "vue";
-export default new vue();
+const bus = new vue();
+vue.prototype.$Bus = bus
+export default bus

@@ -24,65 +24,69 @@
   var sexProps = { label: 'label', value: 'value' }
   $(document).ready(function () {
     function GetList () {
-      console.log('tag', app, arguments)
-      app.$refs.diytable.detaultGetList()
+      // 表单内置的请求
+      app.$refs.tableform.inquire()
+      // app.$refs.diytable.detaultGetList()
     }
     var app = new Vue({
       el: '#app',
       data: {
         // 表单配置
-        formConfig: {
-          // 表单数据
-          searchData: {
-            name: null,
-            age: null,
-            sex: null,
-            date: null
-          },
-          // 表单设置
-          searchForm: [
-            { type: 'Input', label: '', prop: 'name', width: '180px', placeholder: '请输入姓名...', option: {}, formoption: {} },
-            { type: 'Input', label: '', prop: 'age', width: '180px', placeholder: '请输入年龄...' },
-            { type: 'Select', label: '', prop: 'sex', width: '180px', options: sexs, props: sexProps, change: row => console.log('tag', row), placeholder: '请选择性别...' },
-            { type: 'Date', label: '', width: '180px', propcs: 'date', option: { "value-format": "yyyy-MM-dd", placeholder: '请选择时间...' } },
-            {
-              type: 'Button', label: '', name: '查询', prop: 'button', option: { type: 'primary', icon: "el-icon-search" },
-              click: GetList,
-              // click: function () {
-              //   return app.inquire.apply(app, arguments)
-              // }
-            }
-          ],
-          // 表单
-          formAttr: {
-            inline: true,
-            size: 'small'
-          }
-        },
+        formConfig: {},
         // table配置
-        tableConfig: {
-          ref: 'diytable',
-          height: '600px',
-          tableHeader: [
-            { label: 'ID', prop: 'id' },
-            { label: '名称', prop: 'title' },
-            { label: '说明', prop: 'materials_desc' }
-          ],
-          tableAttr: {
-            border: true
-          },
-          requestConfig: {
-            apiurl: 'https://admin.shidiaoquan.com/User/Matter/matterList',
-            method: 'get',
-            data: {},
-            headers: {},
-            datakeys: ['data', 'items'],
-            totalkeys: ['data', 'total_pages'],
-            resCodes: [200, 1]
-          }
-        }
+        tableConfig: {}
+      },
+      mounted() {
+        this.init()
       },
       methods: {
+        init () {
+          // 表单配置
+          this.formConfig = {
+            ref: 'tableform',
+              // 表单设置
+              searchForm: [
+                { type: 'Input', label: '', prop: 'name', placeholder: '请输入姓名...', option: {}, formoption: {} },
+                { type: 'Input', label: '', prop: 'age', placeholder: '请输入年龄...' },
+                { type: 'Select', label: '', prop: 'sex', options: sexs, props: sexProps, change: row => console.log('tag', row), placeholder: '请选择性别...' },
+                { type: 'Date', label: '', propcs: 'date', option: { "value-format": "yyyy-MM-dd", placeholder: '请选择时间...' } },
+                {
+                  type: 'Button', label: '', name: '查询', prop: 'button', option: { type: 'primary', icon: "el-icon-search" },
+                  click: this.inquire,
+                  // click: function () {
+                  //   return app.inquire.apply(app, arguments)
+                  // }
+                }
+              ],
+                // 表单
+                formAttr: {
+              inline: true,
+                size: 'small'
+            }
+          },
+          // table配置
+          this.tableConfig = {
+            ref: 'diytable',
+              height: '600px',
+                tableHeader: [
+                  { label: 'ID', prop: 'id' },
+                  { label: '名称', prop: 'title' },
+                  { label: '说明', prop: 'materials_desc' }
+                ],
+                  tableAttr: {
+              border: true
+            },
+            requestConfig: {
+              apiurl: 'https://admin.shidiaoquan.com/User/Matter/matterList',
+                method: 'get',
+                  data: { },
+              headers: { },
+              datakeys: ['data', 'items'],
+                totalkeys: ['data', 'total_pages'],
+                  resCodes: [200, 1]
+            }
+          }
+        },
         inquire: function () {
           console.log('tag', this, arguments)
           var that = this;

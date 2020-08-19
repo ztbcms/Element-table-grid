@@ -15,7 +15,18 @@ export default {
   data () {
     return {
       // 表单配置
-      formConfig: {
+      formConfig: {},
+      // 表格配置
+      tableConfig: {}
+    }
+  },
+  mounted () {
+    this.init()
+  },
+  methods: {
+    init () {
+      // 表单配置
+      this.formConfig = {
         // 表单宽
         width: '50%',
         // 是否显示表单按钮
@@ -32,16 +43,17 @@ export default {
         searchHandle: [],
         // 行内布局时按钮组是否需要设置一个labelWidth的外边距（自定义）
         inlineStyle: true
-      },
+      }
       // table配置
-      tableConfig: {
+      this.tableConfig = {
         ref: 'diytable',
         // 是否开启全选
         isSelection: true,
         tableHeader: [
           { label: 'ID', prop: 'id'},
           { label: '名称', prop: 'title'},
-          { label: '说明', prop: 'materials_desc'}
+          { label: '说明', prop: 'materials_desc'},
+          { type: 'Button', label: '说明', prop: 'materials_desc', buttonGroup: [{name: 'name', click: this.demo}]},
         ],
         requestConfig: {
           apiurl: 'https://admin.shidiaoquan.com/User/Matter/matterList',
@@ -50,6 +62,12 @@ export default {
           resCodes: [200, 1]
         }
       }
+      // this.$nextTick(() => {
+      //   this.$refs.diytable.detaultGetList()
+      // })
+    },
+    demo () {
+      console.log('测试')
     }
   }
 }

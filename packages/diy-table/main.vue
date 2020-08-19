@@ -509,6 +509,9 @@ export default {
     },
     tableData() {
       this.detaultData = Object.assign([], this.tableData)
+    },
+    tableHeader () {
+      this.init()
     }
   },
   filters: {
@@ -519,6 +522,18 @@ export default {
     }
   },
   methods: {
+    init () {
+      that = this
+      if (this.requestConfig.apiurl) {
+        this.detaultGetList()
+        Bus.$on('getTableInquire', (data = {}) => {
+          this.searchData = data
+          this.detaultGetList(data)
+        })
+      } else if(this.tableData.length !== 0) {
+        this.detaultData = Object.assign([], this.tableData)
+      }
+    },
     // switch兼容formatData表达式
     switchdefle(row, index, $event, th) {
       var update = row[th.prop]
@@ -818,16 +833,7 @@ export default {
     }
   },
   mounted () {
-    that = this
-    if (this.requestConfig.apiurl) {
-      this.detaultGetList()
-      Bus.$on('getTableInquire', (data = {}) => {
-        this.searchData = data
-        this.detaultGetList(data)
-      })
-    } else if(this.tableData.length !== 0) {
-      this.detaultData = Object.assign([], this.tableData)
-    }
+    this.init()
   },
   // 判断是否有存在只合计某一列
   created() {
