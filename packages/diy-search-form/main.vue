@@ -132,9 +132,10 @@
           @click="item.click && item.click(fromData)"
         >{{item.name}}{{fromData[item.prop] || ''}}</el-button>
         <template v-if="item.type === 'Slot'">
-          <slot :name="item.slot"></slot>
+          <slot :name="item.slot" :prop="fromData"></slot>
         </template>
       </el-form-item>
+      <div v-if="inlineStyle"></div>
       <el-form-item>
         <div :style="gridSearchButtonStyle">
           <template v-for='item in formHandle'>
@@ -163,7 +164,7 @@ export default {
       default: () => {
         return {
           size: 'mini',
-          labelWidth: '80px',
+          labelWidth: '100px',
           inline: true
         }
       }
@@ -188,17 +189,18 @@ export default {
   },
   data () {
     return {
-      fromData: {
-      },
+      fromData: {},
       formHandle: [
         { name: '查询', key: 'inquire', option: { type: 'primary' }, click: () => this.inquire.apply(this, arguments) },
         { name: '重置', key: 'reset', option: { type: 'primary' }, click: () => this.reset.apply(this, arguments) }
       ]
     };
   },
-  created() {
-    this.formDataInit()
-    this.formHandle = this.RemoveRepeat(this.formHandle.concat(this.searchHandle), 'name')
+  watch: {
+    'searchForm' () {
+      this.formDataInit()
+      this.formHandle = this.RemoveRepeat(this.formHandle.concat(this.searchHandle), 'name')
+    }
   },
   methods: {
     inquire () {

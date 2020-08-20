@@ -71,9 +71,11 @@
           <!-- 数据栏 -->
           <el-table-column
             :key="'column' + key"
-            v-bind="th.tableColumnAttr || { align: 'center' }"
+            v-bind="th.tableColumnAttr"
+            :align="(th.tableColumnAttr && th.tableColumnAttr.align) || 'center'"
             :label="th.label"
             :prop="th.prop"
+            :width="(th.tableColumnAttr && th.tableColumnAttr.width) || th.width"
           >
             <template slot-scope="scope">
               <!-- 普通 -->
@@ -209,13 +211,16 @@
               <!-- 图像 -->
               <template v-else-if="th.type === 'Image'">
                 <slot name="Image" :prop='scope.row[th.prop]' v-bind="scope">
-                  <el-image
-                    :src="scope.row[th.prop]"
-                    v-bind="th.imageAttr"
-                    @click.stop="th.click && th.click(scope.row)"
-                    :preview-src-list="th.imgPreview ? [scope.row[th.prop]] : []"
-                  >
-                  </el-image>
+                  <div class="defaultimg">
+                    <el-image
+                      :src="scope.row[th.prop]"
+                      :fit="(th.imageAttr && th.imageAttr.fit) || 'contain'"
+                      v-bind="th.imageAttr"
+                      @click.stop="th.click && th.click(scope.row)"
+                      :preview-src-list="th.imgPreview ? [scope.row[th.prop]] : []"
+                    >
+                    </el-image>
+                  </div>
                 </slot>
               </template>
               <!-- 滑块 -->
@@ -872,6 +877,14 @@ export default {
 }
 </script>
 <style scoped>
+.defaultimg {
+  height: 100%;
+  width: 100%;
+  display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
 .grid-table .el-table {
   border: 1px solid #EBEEF5;
   border-bottom: none;
