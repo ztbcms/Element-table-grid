@@ -253,6 +253,17 @@
                   </el-popover>
                 </slot>
               </template>
+              <!-- 标签 -->
+              <template v-else-if="th.type === 'Tag'">
+                <slot name="Tag" :prop='scope.row[th.prop]' v-bind="scope">
+                  <el-tag
+                    v-if="scope.row[th.prop]"
+                    v-bind="th.tagAttr"
+                    @click="th.click && th.click({row: scope.row, index: scope.$index, event: $event})"
+                    @close="th.close && th.close({row: scope.row, index: scope.$index, event: $event})"
+                  >{{scope.row[th.prop]}}</el-tag>
+                </slot>
+              </template>
               <!-- 按钮 -->
               <template v-else-if="th.type === 'Button' || (isSelection && key === tableHeader.length - 1)">
                 <slot name="Button" :prop='scope.row[th.prop]' v-bind="scope">
@@ -390,7 +401,7 @@ export default {
       type: Object, default: () => {
         return{
           ref: 'cpytable',
-          border: true,
+          // border: true,
           showSummary: false
         }
       } 

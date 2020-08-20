@@ -29,8 +29,6 @@ export default {
       this.formConfig = {
         // 表单宽
         width: '50%',
-        // 是否显示表单按钮
-        isHandle: true,
         // 表单设置
         searchForm: [
           { type: 'Input', label: '姓名', prop: 'name', placeholder: '请输入姓名...', option: {}, formoption: {} },
@@ -48,11 +46,11 @@ export default {
       this.tableConfig = {
         ref: 'diytable',
         // 是否开启全选
-        isSelection: true,
+        // isSelection: true,
         tableHeader: [
           { label: 'ID', prop: 'id'},
           { label: '名称', prop: 'title'},
-          { label: '说明', prop: 'materials_desc'},
+          { label: '说明', prop: 'materials_desc', type: 'Tag'},
           { type: 'Button', label: '说明', prop: 'materials_desc', buttonGroup: [{name: 'name', click: this.demo}]},
         ],
         requestConfig: {
