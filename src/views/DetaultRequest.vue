@@ -92,6 +92,7 @@ export default {
           { type: 'Select', label: '商品类型', prop: 'type', options: select, props: Props, placeholder: '请选择商品类型' },
           { type: 'Slot', label: '销量', slot: 'sales' },
           { type: 'Slot', label: '价格', slot: 'price' },
+          { type: 'Checkbox', label: '多选', prop: 'che', options: select},
           { type: 'Select', label: '库存扣满方式', prop: 'fun', options: select, props: Props, placeholder: '请选择库存扣满方式' }
         ],
         // 表单按钮方法设置

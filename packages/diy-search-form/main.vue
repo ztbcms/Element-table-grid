@@ -135,7 +135,7 @@
           <slot :name="item.slot" :prop="fromData"></slot>
         </template>
       </el-form-item>
-      <div v-if="inlineStyle"></div>
+      <div></div>
       <el-form-item>
         <div :style="gridSearchButtonStyle">
           <template v-for='item in formHandle'>
@@ -182,7 +182,9 @@ export default {
       default: '100%'
     },
     tableConfig: [Object],
+    // 是否显示查询按钮
     isInquire: { type: Boolean, default: true },
+    // 是否显示重置按钮
     isReset: { type: Boolean, default: true },
     // 行内布局时按钮组是否需要设置一个labelWidth的外边距（自定义）
     inlineStyle: [Boolean]

@@ -6,7 +6,17 @@
 <template>
   <div class="grid-main">
     <el-card>
-      <diy-search-form v-bind="formConfig"></diy-search-form>
+      <diy-search-form v-bind="formConfig">
+        <template slot="custom" slot-scope="scope">
+          <el-col :span="11">
+            <el-input v-model="scope.prop.num1"></el-input>
+          </el-col>
+          <el-col style="text-align: center;" :span="2">-</el-col>
+          <el-col :span="11">
+            <el-input v-model="scope.prop.num2"></el-input>
+          </el-col>
+        </template>
+      </diy-search-form>
       <diy-table
         v-bind="tableConfig"
         ref="diyTable"
@@ -23,7 +33,18 @@ export default {
   data () {
     return {
       // 表单配置
-      formConfig: {
+      formConfig: {},
+      // table配置
+      tableConfig: {}
+    }
+  },
+  mounted () {
+    this.init()
+  },
+  methods: {
+    init () {
+      // 表单配置
+      this.formConfig = {
         // 是否显示表单按钮
         isHandle: true,
         // 表单设置
@@ -35,11 +56,12 @@ export default {
           { type: 'Date', label: '日期', prop: 'sex3', width: '180px' },
           { type: 'DateTime', label: '日期时间', prop: 'sex4', width: '180px' },
           { type: 'Switch', label: '开关', prop: 'sex5', width: '180px' },
-          { type: 'Button', name: '查询', option: { type: 'primary' }, click: this.click }
+          { type: 'Button', name: '查看', option: { type: 'primary' }, click: this.click },
+          { type: 'Slot', label: '自定义插槽', slot: 'custom' }
         ]
       },
       // table配置
-      tableConfig: {
+      this.tableConfig = {
         tableHeader: [
           {
             label: 'ID',
@@ -67,9 +89,7 @@ export default {
           }
         ]
       }
-    }
-  },
-  methods: {
+    },
     click(row) {
       console.log(row)
     },
@@ -86,7 +106,7 @@ export default {
 
 | 参数 | 说明 | 类型 | 默认值 | 可选值 | 其他 |
 | :------------ | :------------ | :------------ | :------------ | :------------ | :------------ |
-| type | 功能类型 | String | <div style="width: 45px">-</div> | Input / Button / Select / Radio / Checkbox / Date / DateTime / Switch | 可选值可查看下方的type详细说明 |
+| type | 功能类型 | String | <div style="width: 45px">-</div> | Input / Button / Select / Radio / Checkbox / Date / DateTime / Switch / Slot | 可选值可查看下方的type详细说明 |
 | name | 按钮内容 | String | - | - | **这个属性只有type: Button的时候才能使用** |
 | label | 自定义名字 | String | - | - | - |
 | prop | 绑定的key值 | String | - | - | - |
@@ -109,9 +129,10 @@ export default {
 | Date | 日期选择器 | [el-DatePicker](https://element.eleme.cn/#/zh-CN/component/date-picker) | [el-DatePicker](https://element.eleme.cn/#/zh-CN/component/date-picker#attributes) | - |
 | DateTime | 日期时间选择器 | [el-DateTimePicker](https://element.eleme.cn/#/zh-CN/component/datetime-picker) | [el-DateTimePicker](https://element.eleme.cn/#/zh-CN/component/datetime-picker#attributes) | - |
 | Switch | 开关 | [el-Switch](https://element.eleme.cn/#/zh-CN/component/switch) | [el-Switch](https://element.eleme.cn/#/zh-CN/component/switch#attributes) | - |
+| Slot | 自定义插槽 | - | - | - |
 
 ## slot说明
-在功能区会有一个`slot`,该`slot`用于表格内置的组件满足不了需求的时候用于扩展功能用的,`slot`会**暴露一个行参,该行参是功能区所有绑定和更改的数据**,可以使用slot-scope来接收
+在功能区会有一个`slot`,该`slot`用于表格内置的组件满足不了需求的时候用于扩展功能用的,`slot`会**暴露一个行参,该行参是功能区所有绑定和更改的数据**,可以使用slot-scope来接收,自定义也可通过这个方式来进行v-model绑定
 
 ```html
 /*vue*/
@@ -121,6 +142,16 @@ export default {
       <diy-search-form v-bind="formConfig">
         <template slot="searchAfter" slot-scope="fromData">
           <p>{{fromData}}</p>
+        </template>
+        <!-- 自定义插槽 -->
+        <template slot="custom" slot-scope="scope">
+          <el-col :span="11">
+            <el-input v-model="scope.prop.num1"></el-input>
+          </el-col>
+          <el-col style="text-align: center;" :span="2">-</el-col>
+          <el-col :span="11">
+            <el-input v-model="scope.prop.num2"></el-input>
+          </el-col>
         </template>
       </diy-search-form>
       <diy-table
@@ -139,7 +170,18 @@ export default {
   data () {
     return {
       // 表单配置
-      formConfig: {
+      formConfig: {},
+      // table配置
+      tableConfig: {}
+    }
+  },
+  mounted () {
+    this.init()
+  },
+  methods: {
+    init () {
+      // 表单配置
+      this.formConfig = {
         // 表单设置
         searchForm: [
             { type: 'Input', label: '', prop: 'name', width: '180px', placeholder: '请输入姓名...' },
@@ -149,11 +191,12 @@ export default {
             { type: 'Date', label: '日期', prop: 'sex3', width: '180px' },
             { type: 'DateTime', label: '日期时间', prop: 'sex4', width: '180px' },
             { type: 'Switch', label: '开关', prop: 'sex5', width: '180px' },
-            { type: 'Button', name: '查询', option: { type: 'primary' }, click: this.click}
+            { type: 'Button', name: '查询', option: { type: 'primary' }, click: this.click},
+            { type: 'Slot', label: '自定义插槽', slot: 'custom' }
           ]
       },
       // table配置
-      tableConfig: {
+      this.tableConfig = {
         sortChange: this.change,
         tableHeader: [
           {
@@ -182,14 +225,86 @@ export default {
           }
         ]
       }
-    }
-  },
-  methods: {
+    },
     click(row) {
       console.log(row)
     },
     change(row) {
       console.log(row)
+    }
+  }
+}
+</script>
+```
+
+## 内置表单操作按钮组
+在功能区内置了一些基础功能按钮组
+#### 查询
+内置查询按钮(**当tableConfig.requestConfig.apiurl存在时生效**)
+#### 重置
+内置重置按钮(**清空所有筛选条件**)
+#### 内置操作按钮隐藏
+```javascript
+// 是否显示重置按钮(默认true)
+formConfig.isReset [Boolean]
+// 是否显示查询按钮(默认true)
+formConfig.isInquire [Boolean]
+```
+#### 内置操作按钮替换
+```javascript
+// 在formConfig.searchHandle中设置，当name相同时替换
+searchHandle: [
+  { name: '查询', click: this.look },
+  { name: '重置', click: this.reset }
+]
+```
+
+```html
+/*vue*/
+<template>
+  <div class="grid-main">
+    <el-card>
+      <diy-search-form v-bind="formConfig" >
+      </diy-search-form>
+    </el-card>
+  </div>
+</template>
+
+<script>
+let sexs = [{ label: '男', value: 'M' }, { label: '女', value: 'F' }]
+// import data from './data'
+export default {
+  data () {
+    return {
+      // 表单配置
+      formConfig: {}
+    }
+  },
+  mounted () {
+    this.init()
+  },
+  methods: {
+    init () {
+      // 表单配置
+      this.formConfig = {
+        ref: 'form',
+        // 表单设置
+        searchForm: [
+          { type: 'Input', label: '', prop: 'name', width: '180px', placeholder: '请输入姓名...' }
+        ],
+        searchHandle: [
+          { name: '隐藏/显示内置查询', click: this.concealLook },
+          { name: '隐藏/显示内置重置', click: this.concealRecover }
+        ]
+      }
+    },
+    concealLook() {
+      this.formConfig.isInquire = this.formConfig.isInquire === false
+      this.formConfig = JSON.parse(JSON.stringify(this.formConfig))
+    },
+    concealRecover() {
+      this.formConfig.isReset = this.formConfig.isReset === false
+      this.formConfig = JSON.parse(JSON.stringify(this.formConfig))
     }
   }
 }
