@@ -30,7 +30,7 @@
         @row-dblclick="rowDblclick"
         @header-click="headerClick"
         @header-contextmenu="headerContextmenu"
-        @sort-change="integratedSort"
+        @sort-change="sortChange"
         @filter-change="filterChange"
         @current-change="currentChange"
         @header-dragend="headerDragend"
@@ -400,7 +400,6 @@ export default {
     tableAttr: {
       type: Object, default: () => {
         return{
-          ref: 'cpytable',
           // border: true,
           showSummary: false
         }
@@ -488,7 +487,7 @@ export default {
     },
     sortChange: {
       type: Function,
-      default: ({ column, prop, order }) => { that.$emit('sortChange', { column, prop, order }) }
+      default: (...arges) => { that.detaultSortChange.apply(that, arges) }
     },
     filterChange: {
       type: Function,
@@ -512,10 +511,10 @@ export default {
       this.$nextTick(function () {
         if (Array.isArray(val)) {
           val.forEach(row => {
-            this.$refs.cpyTable.toggleRowSelection(row)
+            this.$refs[this.tableConfig.ref].toggleRowSelection(row)
           })
         } else {
-          this.$refs.cpyTable.toggleRowSelection(val)
+          this.$refs[this.tableConfig.ref].toggleRowSelection(val)
         }
       })
     },
@@ -594,19 +593,19 @@ export default {
       return sums
     },
     // 记录排序列
-    integratedSort({ column, prop, order }) {
-        this.sortData = {}
-        this.sortData[prop] = order
-        this.detaultGetList()
-        this.sortChange({
-          sortData: this.sortData,
-          sort: {
-            column,
-            prop,
-            order
-          }
-        })
-    },
+    // integratedSort({ column, prop, order }) {
+    //     this.sortData = {}
+    //     this.sortData[prop] = order
+    //     this.detaultGetList()
+    //     this.sortChange(
+    //       {
+    //         column,
+    //         prop,
+    //         order
+    //       },
+    //       this.sortData
+    //     )
+    // },
     toggleSelection(e) {
       if (e.target.tagName === 'INPUT') {
         return false
@@ -745,7 +744,7 @@ export default {
       })
     },
     // 默认获取列表
-    detaultGetList () {
+    detaultGetList (addData = {}) {
       this.detaultLoading = true
       let fun = null
       if (this.requestConfig.method === 'post') {
@@ -760,7 +759,8 @@ export default {
           limit: this.detaultPagination.pageSize,
           ...(this.requestConfig.data || {}),
           ...(this.searchData || {}),
-          ...this.sortData
+          ...this.sortData,
+          ...addData
         },
         header: this.requestConfig.headers || {}
       }).then(({ data }) => {
@@ -810,6 +810,14 @@ export default {
       this.detaultPagination.pageSize = val
       this.detaultGetList()
     },
+    // 默认排序
+    detaultSortChange ({order, prop}) {
+      this.sortData = {}
+      this.sortData[prop] = order
+      this.detaultPagination.currentPage = 1
+      // {'sort': order, 'sortType': prop}
+      this.detaultGetList()
+    }
   },
   computed: {
     checkAll() {
@@ -864,6 +872,13 @@ export default {
 }
 </script>
 <style scoped>
+.grid-table .el-table {
+  border: 1px solid #EBEEF5;
+  border-bottom: none;
+}
+.grid-table .el-table tr {
+  background-color: #EBEEF5 !important
+}
 .line-lcump2 {
   display: -webkit-box;
   -webkit-line-clamp: 2;

@@ -50,9 +50,14 @@ export default {
         tableHeader: [
           { label: 'ID', prop: 'id'},
           { label: '名称', prop: 'title'},
-          { label: '说明', prop: 'materials_desc', type: 'Tag'},
-          { type: 'Button', label: '说明', prop: 'materials_desc', buttonGroup: [{name: 'name', click: this.demo}]},
+          { label: '状态', prop: 'display_status_name', tableColumnAttr: { sortable: 'custom' }},
+          { label: '类型', prop: 'group_name', type: 'Tag'},
+          { type: 'Button', label: '操作', prop: 'materials_desc', buttonGroup: [{name: '查看', click: this.demo}, {name: '删除', click: this.demo}]},
         ],
+        tableAttr: {
+          size: 'small',
+          height: '500px'
+        },
         requestConfig: {
           apiurl: 'https://admin.shidiaoquan.com/User/Matter/matterList',
           datakeys: ['data', 'items'],
