@@ -103,7 +103,7 @@ export default {
         inlineStyle: true,
         formAttr: {
           size: 'mini',
-          labelWidth: '100px',
+          labelWidth: '110px',
           inline: true
         }
       }
@@ -118,14 +118,13 @@ export default {
           { label: '订单数', prop: 'order_num'},
           { label: '封面', prop: 'thumb', imgPreview: true, type: 'Image'},
           { label: '状态', prop: 'display_status_name', tableColumnAttr: { sortable: 'custom' }},
-          { label: '更新时间', prop: 'inputtime_name', width: '200px', tableColumnAttr: { sortable: 'custom' }},
+          { label: '更新时间', prop: 'inputtime_name', width: '150px', tableColumnAttr: { sortable: 'custom' }},
           { label: '类型', prop: 'group_name', type: 'Tag'},
           { type: 'Button', label: '操作', prop: 'materials_desc',tableColumnAttr: { fixed: 'right', align: 'right', width: '100px' }, buttonGroup: [{name: '查看', click: this.demo}, {name: '删除', click: this.demo}]},
         ],
         tableAttr: {
           size: 'small',
-          // height: '500px',
-          style:"width: 100%"
+          style: "width: 100%"
         },
         requestConfig: {
           apiurl: 'https://admin.shidiaoquan.com/User/Matter/matterList',

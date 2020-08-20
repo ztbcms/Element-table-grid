@@ -876,7 +876,7 @@ export default {
   }
 }
 </script>
-<style scoped>
+<style>
 .defaultimg {
   height: 100%;
   width: 100%;
@@ -885,12 +885,10 @@ export default {
 	justify-content: center;
 	align-items: center;
 }
-.grid-table .el-table {
-  border: 1px solid #EBEEF5;
-  border-bottom: none;
-}
-.grid-table .el-table tr {
-  background-color: #EBEEF5 !important
+.defaultimg .el-image__error,
+.defaultimg .el-image__inner,
+.defaultimg .el-image__placeholder {
+  height: auto;
 }
 .line-lcump2 {
   display: -webkit-box;
