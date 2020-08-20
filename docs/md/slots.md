@@ -9,3 +9,4 @@
 | pagination | 该 `slot` 位于`分页栏`，如果该`slot`写入了`元素`，那默认的分页ui组件就会`消失` |
 | searchBefore | 该 `slot` 位于工具栏`前面`，该`slot`会`返回对象`，该对象是`工具栏所有以绑定数据的值` |
 | searchAfter | 该 `slot` 位于工具栏`后面`，该`slot`会`返回对象`，该对象是`工具栏所有以绑定数据的值` |
+| 自定义slot | 该 `slot` 位于表格头部，该`slot`为自定义模块, 需在<a href="#md/basic?id=渲染列与行">tableConfig.tableHeader</a>配置 |

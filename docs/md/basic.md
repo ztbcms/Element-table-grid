@@ -93,9 +93,9 @@ export default {
 | loading | 是否开启表单loading动画 | Boolean | false | true / false | - |
 | tableAttr | 表格属性，与`el-table`属性一致[传送门](https://element.eleme.cn/#/zh-CN/component/table#table-attributes) | Object | - | - | - |
 | sortChange | 排序事件回调 | Function | - | - | 回调参数`row`, 参数说明：倒叙或正序或默认 |
-| <a href="#basic?id=渲染列与行">tableHeader</a> | 用于渲染行和列的配置 | Array | - | - | - |
-| <a href="#basic?id=分页配置">pagination</a> | 分页配置 | Object | - | - | - |
-| <a href="#basic?id=通过配置requestconfig请求表单数据">requestConfig</a> | 配置表单请求数据 | Object | - | - | - |
+| <a href="#md/basic?id=渲染列与行">tableHeader</a> | 用于渲染行和列的配置 | Array | - | - | - |
+| <a href="#md/basic?id=分页配置">pagination</a> | 分页配置 | Object | - | - | - |
+| <a href="#md/basic?id=通过配置requestconfig请求表单数据">requestConfig</a> | 配置表单请求数据 | Object | - | - | - |
 
 ## 渲染列与行
 通过 `tableHeader` 属性 为表单传入列与行的配置数据，并通过[el-table-column](https://element.eleme.cn/#/zh-CN/component/table#table-column-attributes)来定义表格的列。
@@ -107,7 +107,7 @@ export default {
 | 参数 | 说明 | 类型 | 默认值 | 可选值 |
 | :------------ | :------------ | :------------ | :------------ | :------------ |
 | label | 列名 | String | <div style="width:50px">-</div> | - |
-| type | 列展示类型，如果不填，默认显示文字 | String | - | location / Slider / Image / Input / Select / Radio / Checkbox / Rate / Link / Popover / Button |
+| type | 列展示类型，如果不填，默认显示文字 | String | - | location / Slider / Image / Input / Select / Radio / Checkbox / Rate / Link / Popover / Button / Slot |
 | tableColumnAttr | table-column配置项，用于配置列数据居中显示之类的，与element配置一样[传送门](http://element.eleme.io/#/zh-CN/component/table#table-column-attributes) | Object | - | - |
 | prop | 需要展示的行数据key值 | String | - | - |
 | edit | 编辑配置 | Object | - | - |
@@ -129,6 +129,7 @@ export default {
 | Link | 链接 | - | - | - | - | - | - |
 | Popover | 长文本 | - | - | - | - | - | - |
 | Button | 按钮 | buttonGroup | Array | 按钮配置 | click | row<br/>index | 行数据<br/>行索引 |
+| Slot | 自定义 | - | - | - | - | - | - |
 
 除了type表的`额外参数`，还有一个`formatData`上述type表都可用`formatData`用于转换简单的表达式来达到绑定的效果，例如：表单需要一个`Switch`，但是后台给你传递的却是`0和1`，但是`element-ui`的`Switch`绑定的值却是`true`与`false`, 这个时候就可以用`formatData`来转换绑定。
 用法:
@@ -357,6 +358,68 @@ export default {
 </template>
 ```
 在使用插槽的时候，需要注明`插槽名字`, 插槽名字列表参考<a href="#/md/basic?id=type说明">type表</a>插槽会返回`prop`既绑定的数据。这样子就能接收`slot-scope='prop'`
+### 自定义插槽
+```
+<template slot="operation" slot-scope="scope">
+  <el-button @click="ClickItem(scope)">按钮</el-button>
+</template>
+```
+``` html
+/*vue*/
+<template>
+  <div class="grid-main">
+    <el-card>
+      <diy-table
+        v-bind="tableConfig"
+        ref="diyTable"
+      >
+        <template slot="operation" slot-scope="scope">
+          <el-button @click="ClickItem(scope)">按钮</el-button>
+        </template>
+      </diy-table>
+    </el-card>
+  </div>
+</template>
+
+<script>
+export default {
+  data () {
+    return {
+      // 表格配置
+      tableConfig: {},
+      data: [
+        {id: 1, title: '测试数据'}
+      ]
+    }
+  },
+  mounted () {
+    this.init()
+  },
+  methods: {
+    init () {
+      // 表单配置
+      this.tableConfig = {
+        tableData: this.data,
+        tableHeader: [
+          { label: 'ID', prop: 'id'},
+          { label: '名称', prop: 'title'},
+          {
+            label: '自定义',
+            prop: 'custom',
+            type: 'Slot',
+            slot: 'operation'
+          }
+        ],
+        tableAttr: {
+          size: 'small',
+          style: "width: 100%"
+        }
+      }
+    }
+  }
+}
+</script>
+```
 
 ## 通过配置requestConfig请求表单数据
 
