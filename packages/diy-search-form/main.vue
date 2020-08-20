@@ -204,6 +204,10 @@ export default {
       this.formHandle = this.RemoveRepeat(this.formHandle.concat(this.searchHandle), 'name')
     }
   },
+  created () {
+    this.formDataInit()
+    this.formHandle = this.RemoveRepeat(this.formHandle.concat(this.searchHandle), 'name')
+  },
   methods: {
     inquire () {
       Bus.$emit('getTableInquire', this.fromData)

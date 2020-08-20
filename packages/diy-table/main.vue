@@ -857,9 +857,6 @@ export default {
       return condition
     }
   },
-  mounted () {
-    this.init()
-  },
   // 判断是否有存在只合计某一列
   created() {
     for(var k in this.pagination){
@@ -869,6 +866,7 @@ export default {
     if(showSummaryList.length !== 0) {
       this.$set(this.tableAttr, 'showSummary', true)
     }
+    this.init()
   },
   beforeDestroy(){
     //取消监听'getTableInquire'事件
