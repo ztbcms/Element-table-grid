@@ -308,7 +308,7 @@
       <div class="leftFunctional">
         <el-checkbox @click.native="toggleSelection" :value="checkAll" v-if="isSelection" :indeterminate="indeterminate">全选</el-checkbox>
         <div class="functionalBtn">
-          <slot name="bluk" :prop="functionalBtn"></slot>
+          <slot name="bluk" :functionalBtn="functionalBtn"></slot>
         </div>
       </div>
       <!-- 批量操作区域END -->
