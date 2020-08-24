@@ -6,7 +6,6 @@
         :tableData='tableData'
         :pagination.sync='pagination'
         v-bind="tableConfig"
-        ref="diytabe"
       >
         <div slot="before">
           <el-table-column type="expand">
@@ -15,11 +14,9 @@
             </template>
           </el-table-column>
         </div>
-        <template slot="operation" slot-scope="scope">
-          <el-button @click="ClickItem(scope)">按钮</el-button>
-        </template>
-        <template slot="bluk">
-          <el-button>删除</el-button>
+
+        <template slot="bluk" scope="fn">
+          <el-button @click="doBulkDelete(fn)" size="mini" type="danger">删除</el-button>
         </template>
       </diy-table>
     </el-card>
@@ -64,8 +61,8 @@ export default {
       tableData: [],
       // table配置
       tableConfig: {
-        // 
-        ref: 'diytabe',
+        //
+        ref: 'diytable',
         // 是否开启全选
         isSelection: true,
         // 是否开启单选
@@ -77,7 +74,6 @@ export default {
         tableAttr: {
           ref: 'cpytable',
           border: true,
-          'row-key': "id",
           'tree-props': {children: 'children', hasChildren: 'hasChildren'},
           showSummary: true
         },
@@ -97,11 +93,19 @@ export default {
             edit: {
                 type: 'Input',
                 change: (row, index, event) => {
-                    this.$refs.diyTable.detaultGetList()
-                    console.log('change', row, index, event)
+
+                  console.log('change', row, index, event)
+                  this.$refs.diytable.detaultGetList()
                 }
             }
-          }
+          },
+          {
+            type: 'Button',
+            label: '操作',
+            prop: 'materials_desc',
+            tableColumnAttr: {fixed: 'right', align: 'right', width: '120px'},
+            buttonGroup: [{name: '查看', click: ()=> {alert('查看')}}, {name: '删除', click: ()=> {alert('删除')}}]
+          },
         ]
       },
       // 分页配置
@@ -134,12 +138,10 @@ export default {
       this.pagination.pageNum = val
       this.GetList()
     },
-    // 查看选择
-    Look () {
-      console.log(this.$refs.diytable.$refs.cpytable.selection)
-    },
-    ClickItem (e) {
-      console.log('e', e)
+
+    doBulkDelete(fn) {
+      console.log(fn)
+      console.log(fn.functionalBtn())
     }
   },
   created () {
