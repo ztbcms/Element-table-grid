@@ -67,9 +67,9 @@ export default {
         // 
         ref: 'diytabe',
         // 是否开启全选
-        isSelection: true,
+        // isSelection: true,
         // 是否开启单选
-        isSingle: false,
+        isSingle: true,
         isIndex: false,
         isPagination: true,
         isHandle: true,
