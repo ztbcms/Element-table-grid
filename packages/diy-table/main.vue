@@ -68,7 +68,7 @@
           >
             <template slot-scope="scope">
               <slot>
-                <el-checkbox v-model="scope.row['_checkBox']" @change="singlecheckBox({event: $event, row: scope.row})"></el-checkbox>
+                <el-checkbox v-model="scope.row['_checkBox']" @change="singlecheckBox($event, scope.row)"></el-checkbox>
               </slot>
             </template>
           </el-table-column>
@@ -308,7 +308,7 @@
       <div class="leftFunctional">
         <el-checkbox @click.native="toggleSelection" :value="checkAll" v-if="isSelection" :indeterminate="indeterminate">全选</el-checkbox>
         <div class="functionalBtn">
-          <slot name="bluk" :functionalBtn="functionalBtn"></slot>
+          <slot name="bluk" :prop="functionalBtn"></slot>
         </div>
       </div>
       <!-- 批量操作区域END -->
