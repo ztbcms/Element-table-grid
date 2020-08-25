@@ -1,0 +1,31 @@
+{
+  "data": {
+    "items": [
+      {
+        "id": 11,
+        "name": "张三",
+        "age": "12",
+        "sex": 1,
+        "province": "广东",
+        "rate": 4.7,
+        "image": "https://s3.pstatp.com/toutiao/xitu_juejin_web/img/wechat.63e1ce0.svg"
+      },
+      {
+        "id": 22,
+        "name": "李四",
+        "age": "12",
+        "sex": 1,
+        "province": "湖北",
+        "rate": 4.7,
+        "image": "https://s3.pstatp.com/toutiao/xitu_juejin_web/img/wechat.63e1ce0.svg"
+      }
+    ],
+    "total_pages": 1,
+    "total_items": 200,
+    "limit": 10,
+    "page": 1
+  },
+  "status": true,
+  "code": 200,
+  "msg": ""
+}

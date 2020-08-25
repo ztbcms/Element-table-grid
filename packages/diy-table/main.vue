@@ -35,7 +35,7 @@
         @current-change="currentChange"
         @header-dragend="headerDragend"
         @expand-change="expandChange"
-        v-loading="loading || detaultLoading"
+        v-loading="loading && detaultLoading"
         :ref="tableConfig.ref"
         :summary-method="getSummaries"
       >
@@ -407,7 +407,7 @@ export default {
     tableAttr: {
       type: Object, default: () => {
         return{
-          // border: true,
+          // border: false,
           showSummary: false
         }
       }
@@ -428,7 +428,6 @@ export default {
       default: false
     },
     defaultSelections: { type: [Array, Object], default: () => null },
-    indexLabel: { type: String, default: '序号' },
     // 是否显示分页
     isPagination: { type: Boolean, default: true },
     // 默认请求配置

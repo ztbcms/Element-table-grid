@@ -28,7 +28,6 @@ let sexs = [{ label: '男', value: 'M', disabled: true }, { label: '女', value:
 let sexProps = { label: 'label', value: 'value', disabled: 'disabled' }
 // let intersts = [{ label: '羽毛球', value: 'badminton' }, { label: '篮球', value: 'basketball' }]
 // let interstProps = { label: 'label', value: 'value' }
-import data from './data'
 export default {
   data () {
     return {
@@ -61,6 +60,7 @@ export default {
       tableData: [],
       // table配置
       tableConfig: {
+        loading: true,
         //
         ref: 'diytable',
         // 是否开启全选
@@ -71,10 +71,16 @@ export default {
         isHandle: true,
         indexLabel: '序号',
         tableAttr: {
-          ref: 'cpytable',
-          border: true,
+          border: false,
           'tree-props': {children: 'children', hasChildren: 'hasChildren'},
           showSummary: true
+        },
+        requestConfig: {
+          apiurl: '/mock_data/data.json',
+          method: 'get',
+          datakeys: ['data', 'items'],
+          totalkeys: ['data', 'total_items'],
+          resCodes: [200, 1]
         },
         // 排序事件回调
         sortChange: row => console.log('sortChange', row),
@@ -120,7 +126,7 @@ export default {
   },
   methods: {
     GetList () {
-      this.tableData = data.slice((this.pagination.pageNum - 1) * this.pagination.pageSize, this.pagination.pageNum * this.pagination.pageSize)
+      // this.tableData = data.slice((this.pagination.pageNum - 1) * this.pagination.pageSize, this.pagination.pageNum * this.pagination.pageSize)
       // console.log(this.tableData)
     },
     ResetList () {
