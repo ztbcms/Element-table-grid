@@ -67,7 +67,6 @@ export default {
         isSelection: true,
         // 是否开启单选
         isSingle: false,
-        isIndex: false,
         isPagination: true,
         isHandle: true,
         indexLabel: '序号',

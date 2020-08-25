@@ -70,9 +70,6 @@ tableConfig: {
   // 是否分页
   isPagination [Boolean]
 
-  // 是否显示表格索引
-  isIndex [Boolean]
-
   // 表格索引名称
   indexLabel [String]
 

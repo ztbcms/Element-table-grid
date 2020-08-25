@@ -47,15 +47,7 @@
           align="center"
         ></el-table-column>
         <!--  多选END  -->
-        <!-- 列序号  -->
-        <el-table-column
-          v-if="isIndex"
-          type="index"
-          :label="indexLabel"
-          align="center"
-          width="50"
-        ></el-table-column>
-       <!--  列序号END      -->
+
         <slot name="before"></slot>
         <template
           v-for="(th, key) in tableHeader"
@@ -83,7 +75,7 @@
             :width="(th.tableColumnAttr && th.tableColumnAttr.width) || th.width"
           >
             <template slot-scope="scope">
-              <!-- 普通 -->
+              <!-- Text -->
               <template v-if="th.type === 'Text' || !th.type">
                 <slot name="Text" :prop='scope.row[th.prop]' v-bind="scope">
                   <span
@@ -97,7 +89,7 @@
                   <i class="_diyTable el-icon-edit" @click="dialogDataUpdate(scope.row, scope.$index, th)" v-if="th.edit"></i>
                 </slot>
               </template>
-              <!-- html -->
+              <!-- Html -->
               <template v-else-if="th.type === 'Html'">
                 <slot name="Html" :prop='scope.row[th.prop]' v-bind="scope">
                   <div v-html="th.html(scope.row[th.prop])"></div>
@@ -436,8 +428,6 @@ export default {
       default: false
     },
     defaultSelections: { type: [Array, Object], default: () => null },
-    // 是否显示表格索引
-    isIndex: { type: Boolean, default: false },
     indexLabel: { type: String, default: '序号' },
     // 是否显示分页
     isPagination: { type: Boolean, default: true },
