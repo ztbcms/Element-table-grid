@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>vue-data-tables Document</title>
+  <title>Element-Table-Grid 文档</title>
   <meta name="description" content="Description">
   <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <link href="./css/logo.png" rel="shortcut icon">
@@ -24,7 +24,6 @@
   <script src="./js/json2csv.js"></script>
   <script src="./js/docsify-plugin-codefund.js"></script>
   <script src="./js/data-tables.min.js"></script>
-  <link src="./components/diyelementtable.css"></link>
   <script src="./components/diyelementtable.umd.min.js"></script>
   <!-- 以下是模拟数据 -->
   <script src="./data/demo1.js"></script>
@@ -143,7 +142,7 @@ function http(res, time = 200) {
     var jsResources = '<scr' + 'ipt src="//unpkg.com/vue/dist/vue.js"></scr' + 'ipt>'
       + '\n<scr' + `ipt src="//unpkg.com/element-ui/lib/index.js"></scr` + 'ipt>'
       + '\n<scr' + `ipt src="//unpkg.com/element-ui/lib/umd/locale/en.js"></scr` + 'ipt>'
-      + '\n<scr' + `ipt src="//unpkg.com/vue-data-tables@3.4.5/dist/data-tables.min.js"></scr` + 'ipt>'
+      // + '\n<scr' + `ipt src="//unpkg.com/vue-data-tables@3.4.5/dist/data-tables.min.js"></scr` + 'ipt>'
     var cssResources = '@import url("//unpkg.com/element-ui/lib/theme-chalk/index.css");'
     var bootCode =
       'ELEMENT.locale(ELEMENT.lang.en)\n'
@@ -156,7 +155,7 @@ function http(res, time = 200) {
       coverpage: [
         '/md'
       ],
-      name: 'vue-data-tables',
+      name: 'Element Table Grid',
       subMaxLevel: 2,
       loadSidebar: true,
       loadNavbar: true,

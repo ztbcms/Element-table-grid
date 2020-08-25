@@ -1,3 +1,4 @@
+<html>
 <meta charset="utf-8">
 <title>diyelementtable demo</title>
 <script src="https://unpkg.com/vue/dist/vue.js"></script>
@@ -9,59 +10,64 @@
 <script src="./diyelementtable.umd.min.js"></script>
 <link rel="stylesheet" href="./diyelementtable.css">
 <style>
-  .el-form-item__content .el-input {
-    width: 160px;
-  }
-  .center {
-    display: inline-block;
-    width: 20px;
-    text-align: center;
-  }
-  .slotinput {
-    width: 70px !important;
-    text-align: center;
-  }
-  .slotinput input {
-    padding: 0 5px;
-  }
-  .el-input-group__append {
-    padding: 0 10px;
-  }
+    .el-form-item__content .el-input {
+        width: 160px;
+    }
+
+    .center {
+        display: inline-block;
+        width: 20px;
+        text-align: center;
+    }
+
+    .slotinput {
+        width: 70px !important;
+        text-align: center;
+    }
+
+    .slotinput input {
+        padding: 0 5px;
+    }
+
+    .el-input-group__append {
+        padding: 0 10px;
+    }
 </style>
 <body>
-  <div id="app">
+<div id="app">
     <el-card>
-      <diy-search-form v-bind="formConfig">
-        <div slot="sales" slot-scope="scope">
-          <el-input v-model="scope.prop.date1" class="slotinput"></el-input>
-          <span class="center" :span="2">-</span>
-          <el-input v-model="scope.prop.date2" class="slotinput"></el-input>
-        </div>
-        <template slot="price" slot-scope="scope">
-          <el-input v-model="scope.prop.price1" class="slotinput">
-            <template slot="append">元</template>
-          </el-input>
-          <span class="center" :span="2">-</span>
-          <el-input v-model="scope.prop.price2" class="slotinput">
-            <template slot="append">元</template>
-          </el-input>
-        </template>
-      </diy-search-form>
-      <diy-table v-bind="tableConfig">
-      </diy-table>
+        <diy-search-form v-bind="formConfig">
+            <div slot="sales" slot-scope="scope">
+                <el-input v-model="scope.prop.date1" class="slotinput"></el-input>
+                <span class="center" :span="2">-</span>
+                <el-input v-model="scope.prop.date2" class="slotinput"></el-input>
+            </div>
+            <template slot="price" slot-scope="scope">
+                <el-input v-model="scope.prop.price1" class="slotinput">
+                    <template slot="append">元</template>
+                </el-input>
+                <span class="center" :span="2">-</span>
+                <el-input v-model="scope.prop.price2" class="slotinput">
+                    <template slot="append">元</template>
+                </el-input>
+            </template>
+        </diy-search-form>
+        <diy-table v-bind="tableConfig">
+        </diy-table>
     </el-card>
-  </div>
+</div>
 </body>
 
 <script>
-  var sexs = [{ label: '男', value: 'M' }, { label: '女', value: 'F' }]
-  var sexProps = { label: 'label', value: 'value' }
+  var sexs = [{label: '男', value: 'M'}, {label: '女', value: 'F'}]
+  var sexProps = {label: 'label', value: 'value'}
   $(document).ready(function () {
-    function GetList () {
+    function GetList() {
       // 表单内置的请求
       app.$refs.tableform.inquire()
       // app.$refs.diytable.detaultGetList()
     }
+
     var app = new Vue({
       el: '#app',
       data: {
@@ -74,24 +80,24 @@
         this.init()
       },
       methods: {
-        init () {
-          var select = [{ label: '选项1', value: '1' }, { label: '选项2', value: '2' }]
-          var Props = { label: 'label', value: 'value' }
+        init() {
+          var select = [{label: '选项1', value: '1'}, {label: '选项2', value: '2'}]
+          var Props = {label: 'label', value: 'value'}
           // 表单配置
           this.formConfig = {
             // 表单设置
             searchForm: [
-              { type: 'Input', label: '商品名称', prop: 'name', placeholder: '请输入商品名称', option: {}, formoption: {} },
-              { type: 'Select', label: '商品分组', prop: 'group', options: select, props: Props, placeholder: '请选择商品分组' },
-              { type: 'Select', label: '商品类型', prop: 'type', options: select, props: Props, placeholder: '请选择商品类型' },
-              { type: 'Slot', label: '销量', slot: 'sales' },
-              { type: 'Slot', label: '价格', slot: 'price' },
-              { type: 'Select', label: '库存扣满方式', prop: 'fun', options: select, props: Props, placeholder: '请选择库存扣满方式' }
+              {type: 'Input', label: '商品名称', prop: 'name', placeholder: '请输入商品名称', option: {}, formoption: {}},
+              {type: 'Select', label: '商品分组', prop: 'group', options: select, props: Props, placeholder: '请选择商品分组'},
+              {type: 'Select', label: '商品类型', prop: 'type', options: select, props: Props, placeholder: '请选择商品类型'},
+              {type: 'Slot', label: '销量', slot: 'sales'},
+              {type: 'Slot', label: '价格', slot: 'price'},
+              {type: 'Select', label: '库存扣满方式', prop: 'fun', options: select, props: Props, placeholder: '请选择库存扣满方式'}
             ],
             // 表单按钮方法设置
             searchHandle: [
-              { name: '导出', click: this.derive },
-              { name: '查看导出', option: { type: 'text' }, click: this.deriveLook }
+              {name: '导出', click: this.derive},
+              {name: '查看导出', option: {type: 'text'}, click: this.deriveLook}
             ],
             // 行内布局时按钮组是否与右侧有一个labelwidth的距离
             inlineStyle: true,
@@ -107,14 +113,20 @@
             // 是否开启全选
             // isSelection: true,
             tableHeader: [
-              { label: 'ID', prop: 'id' },
-              { label: '名称', prop: 'title' },
-              { label: '订单数', prop: 'order_num' },
-              { label: '封面', prop: 'thumb', imgPreview: true, type: 'Image' },
-              { label: '状态', prop: 'display_status_name', tableColumnAttr: { sortable: 'custom' } },
-              { label: '更新时间', prop: 'inputtime_name', width: '180px', tableColumnAttr: { sortable: 'custom' } },
-              { label: '类型', prop: 'group_name', type: 'Tag' },
-              { type: 'Button', label: '操作', prop: 'materials_desc', tableColumnAttr: { fixed: 'right', align: 'right', width: '100px' }, buttonGroup: [{ name: '查看', click: this.look }, { name: '删除', click: this.deleltelinee }] },
+              {label: 'ID', prop: 'id'},
+              {label: '名称', prop: 'title'},
+              {label: '订单数', prop: 'order_num'},
+              {label: '封面', prop: 'thumb', imgPreview: true, type: 'Image'},
+              {label: '状态', prop: 'display_status_name', tableColumnAttr: {sortable: 'custom'}},
+              {label: '更新时间', prop: 'inputtime_name', width: '180px', tableColumnAttr: {sortable: 'custom'}},
+              {label: '类型', prop: 'group_name', type: 'Tag'},
+              {
+                type: 'Button',
+                label: '操作',
+                prop: 'materials_desc',
+                tableColumnAttr: {fixed: 'right', align: 'right', width: '100px'},
+                buttonGroup: [{name: '查看', click: this.look}, {name: '删除', click: this.deleltelinee}]
+              },
             ],
             tableAttr: {
               size: 'small',
@@ -149,3 +161,4 @@
     })
   })
 </script>
+</html>

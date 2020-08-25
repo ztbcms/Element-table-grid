@@ -6,7 +6,6 @@
         :tableData='tableData'
         :pagination.sync='pagination'
         v-bind="tableConfig"
-        ref="diytabe"
       >
         <div slot="before">
           <el-table-column type="expand">
@@ -15,11 +14,9 @@
             </template>
           </el-table-column>
         </div>
-        <template slot="operation" slot-scope="scope">
-          <el-button @click="ClickItem(scope)">按钮</el-button>
-        </template>
-        <template slot="bluk">
-          <el-button>删除</el-button>
+
+        <template slot="bulk" scope="fn">
+          <el-button @click="doBulkDelete(fn)" size="mini" type="danger">删除</el-button>
         </template>
       </diy-table>
     </el-card>
@@ -31,7 +28,6 @@ let sexs = [{ label: '男', value: 'M', disabled: true }, { label: '女', value:
 let sexProps = { label: 'label', value: 'value', disabled: 'disabled' }
 // let intersts = [{ label: '羽毛球', value: 'badminton' }, { label: '篮球', value: 'basketball' }]
 // let interstProps = { label: 'label', value: 'value' }
-import data from './data'
 export default {
   data () {
     return {
@@ -49,8 +45,7 @@ export default {
         ],
         // 表单按钮方法设置
         searchHandle: [
-          // { name: '查询', option: { type: 'primary' }, click: (searchForm) => console.log('searchForm', searchForm) },
-          { name: '查看', option: { type: 'primary' }, click: () => '' }
+          { name: '导出', option: { type: 'primary' }, click: (searchForm) => console.log('searchForm', searchForm) },
         ],
         // 表单
         formAttr: {
@@ -64,22 +59,27 @@ export default {
       tableData: [],
       // table配置
       tableConfig: {
-        // 
-        ref: 'diytabe',
+        loading: true,
+        //
+        ref: 'diytable',
         // 是否开启全选
-        // isSelection: true,
+        isSelection: true,
         // 是否开启单选
-        isSingle: true,
-        isIndex: false,
+        isSingle: false,
         isPagination: true,
         isHandle: true,
         indexLabel: '序号',
         tableAttr: {
-          ref: 'cpytable',
-          border: true,
-          'row-key': "id",
+          border: false,
           'tree-props': {children: 'children', hasChildren: 'hasChildren'},
           showSummary: true
+        },
+        requestConfig: {
+          apiurl: '/mock_data/data.json',
+          method: 'get',
+          datakeys: ['data', 'items'],
+          totalkeys: ['data', 'total_items'],
+          resCodes: [200, 1]
         },
         // 排序事件回调
         sortChange: row => console.log('sortChange', row),
@@ -97,11 +97,19 @@ export default {
             edit: {
                 type: 'Input',
                 change: (row, index, event) => {
-                    this.$refs.diyTable.detaultGetList()
-                    console.log('change', row, index, event)
+
+                  console.log('change', row, index, event)
+                  this.$refs.diytable.detaultGetList()
                 }
             }
-          }
+          },
+          {
+            type: 'Button',
+            label: '操作',
+            prop: 'materials_desc',
+            tableColumnAttr: {fixed: 'right', align: 'right', width: '120px'},
+            buttonGroup: [{name: '查看', click: ()=> {alert('查看')}}, {name: '删除', click: ()=> {alert('删除')}}]
+          },
         ]
       },
       // 分页配置
@@ -117,7 +125,7 @@ export default {
   },
   methods: {
     GetList () {
-      this.tableData = data.slice((this.pagination.pageNum - 1) * this.pagination.pageSize, this.pagination.pageNum * this.pagination.pageSize)
+      // this.tableData = data.slice((this.pagination.pageNum - 1) * this.pagination.pageSize, this.pagination.pageNum * this.pagination.pageSize)
       // console.log(this.tableData)
     },
     ResetList () {
@@ -134,12 +142,10 @@ export default {
       this.pagination.pageNum = val
       this.GetList()
     },
-    // 查看选择
-    Look () {
-      console.log(this.$refs.diytable.$refs.cpytable.selection)
-    },
-    ClickItem (e) {
-      console.log('e', e)
+
+    doBulkDelete(fn) {
+      console.log(fn)
+      console.log(fn.getCurrentSelection())
     }
   },
   created () {

@@ -11,6 +11,18 @@ import 'element-ui/lib/theme-chalk/index.css'
 Vue.use(ElementUI)
 ```
 
+或者直接引入
+
+```html
+<!-- Element UI 基础-->
+<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+
+<!-- 引入组件库 -->
+<link rel="stylesheet" href="diyelementtable.css">
+<script src="diyelementtable.umd.min.js"></script>
+```
+
 # Hello world
 * 以下操作请打开操作台,查看日志
 * 按这几个按钮试一试
@@ -29,7 +41,7 @@ Vue.use(ElementUI)
         v-bind="tableConfig"
         ref="diyTable"
       >
-        <template slot="bluk" scope="fn">
+        <template slot="bulk" scope="fn">
           <el-button @click="checkAllClick(fn)">删除</el-button>
         </template>
       </diy-table>

@@ -86,11 +86,10 @@ export default {
 | ref | 设置表单ref | String | - | - | - |
 | isSelection | 是否开启多选 | Boolean | false | true / false | - |
 | isSingle | 是否开启单选 | Boolean | false | true / false | - |
-| isIndex | 是否显示表格索引 | Boolean | false | true / false | - |
 | indexLabel | 设置索引列名 | String | 序号 | - | - |
 | isPagination | 是否显示分页 | Boolean | true | true / false | - |
 | isHandle | 是否显示表单操作按钮 | Boolean | false | true / false | - |
-| loading | 是否开启表单loading动画 | Boolean | false | true / false | - |
+| **loading** | 是否开启表单loading动画 | Boolean | false | true / false | - |
 | tableAttr | 表格属性，与`el-table`属性一致[传送门](https://element.eleme.cn/#/zh-CN/component/table#table-attributes) | Object | - | - | - |
 | sortChange | 排序事件回调 | Function | - | - | 回调参数`row`, 参数说明：倒叙或正序或默认 |
 | <a href="#md/basic?id=渲染列与行">tableHeader</a> | 用于渲染行和列的配置 | Array | - | - | - |
@@ -116,11 +115,12 @@ export default {
 ## type说明
 
 | 参数 | 说明 | 额外参数 | 参数类型 | 参数说明 | 回调事件 | 回调参数 | 参数说明 |
-| :------------ | :------------ | :------------ | :------------ | :------------ | :------------ | :------------ | :------------ |
-| location | <div style="width:80px">定位</div> | - | - | <div style="width:150px">-</div>  | - | <div style="width:70px">-</div> | <div style="width:110px">-</div> |
+| :---- | :------------ | :------------ | :------------ | :------------ | :------------ | :------------ | :------------ |
+| Text | <div style="width:80px">文本</div> | - | - | <div style="width:150px">-</div>  | - | <div style="width:70px">-</div> | <div style="width:110px">-</div> |
+| Html | Html内容 | - | - | -  | - | - | - |
+| Input | 输入框 | disabled | String | 是否禁用（填写说明：行数据key值 | - | - | - | - |
 | Slider | 滑块 | disabled | String | 是否禁用（填写说明：行数据key值 | change | row<br/>index<br/>event | 行数据<br/>行索引<br/>当前滑块数值 |
 | Image | 图片 | imgPreview | Boolean | - | - | - | - |
-| Input | 输入框 | disabled | String | 是否禁用（填写说明：行数据key值 | - | - | - | - |
 | Select | 下拉框 | disabled | String | 是否禁用（填写说明：行数据key值 | change | row<br/>index<br/>event | 行数据<br/>行索引<br/>选中的数据 | - |
 | Radio | 单选 | 1.disabled<br/>2.async | 1.String<br/>2.Boolean | 1.是否禁用（填写说明：行数据key值<br/>2.是否开启异步执行 | change<br/>**如果开启了异步，不会主动触发视图更新，需要异步执行后手动执行以下代码`this.$set(row, th.prop, txt)`** | row<br/>index<br/>event<br/>th | 行数据<br/>行索引<br/>当前选中的值<br/>列数据 | - |
 | Checkbox | 多选 | disabled | - | 是否禁用（填写说明：行数据key值 | change | row<br/>index<br/>event | 行数据<br/>行索引<br/>选中的数据，行数据 |
@@ -141,7 +141,7 @@ export default {
 | name | 按钮显示的文字 | String | - |
 | size | 按钮大小 | String | medium / small / mini |
 | buttonAttr | 按钮类型配置参数，参数与element一样[传送门](https://element.eleme.cn/#/zh-CN/component/button) | Object | size / type / plain / round / circle / loading / disabled / icon / autofocus / native-type |
-| click | 按钮被点击之后需要触发的事件 | fuction | - |
+| click | 按钮被点击之后需要触发的事件 | fuction | function(row, index) |
 
 **edit说明**
 

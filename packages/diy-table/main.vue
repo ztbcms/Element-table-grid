@@ -35,23 +35,19 @@
         @current-change="currentChange"
         @header-dragend="headerDragend"
         @expand-change="expandChange"
-        v-loading="loading || detaultLoading"
+        v-loading="loading && detaultLoading"
         :ref="tableConfig.ref"
         :summary-method="getSummaries"
       >
         <slot name="first"></slot>
+        <!--  多选  -->
         <el-table-column
           v-if="isSelection"
           type="selection"
           align="center"
         ></el-table-column>
-        <el-table-column
-          v-if="isIndex"
-          type="index"
-          :label="indexLabel"
-          align="center"
-          width="50"
-        ></el-table-column>
+        <!--  多选END  -->
+
         <slot name="before"></slot>
         <template
           v-for="(th, key) in tableHeader"
@@ -68,6 +64,7 @@
               </slot>
             </template>
           </el-table-column>
+
           <!-- 数据栏 -->
           <el-table-column
             :key="'column' + key"
@@ -78,7 +75,7 @@
             :width="(th.tableColumnAttr && th.tableColumnAttr.width) || th.width"
           >
             <template slot-scope="scope">
-              <!-- 普通 -->
+              <!-- Text -->
               <template v-if="th.type === 'Text' || !th.type">
                 <slot name="Text" :prop='scope.row[th.prop]' v-bind="scope">
                   <span
@@ -92,7 +89,7 @@
                   <i class="_diyTable el-icon-edit" @click="dialogDataUpdate(scope.row, scope.$index, th)" v-if="th.edit"></i>
                 </slot>
               </template>
-              <!-- html -->
+              <!-- Html -->
               <template v-else-if="th.type === 'Html'">
                 <slot name="Html" :prop='scope.row[th.prop]' v-bind="scope">
                   <div v-html="th.html(scope.row[th.prop])"></div>
@@ -293,17 +290,21 @@
               </template>
             </template>
           </el-table-column>
+          <!-- 数据栏END -->
         </template>
         <slot name="later"></slot>
       </el-table>
     </section>
     <div class="functional">
+      <!-- 批量操作区域 -->
       <div class="leftFunctional">
         <el-checkbox @click.native="toggleSelection" :value="checkAll" v-if="isSelection" :indeterminate="indeterminate">全选</el-checkbox>
         <div class="functionalBtn">
-          <slot name="bluk" :prop="functionalBtn"></slot>
+          <slot name="bulk" :getCurrentSelection="getCurrentSelection"></slot>
         </div>
       </div>
+      <!-- 批量操作区域END -->
+
       <!-- 分页 -->
       <section
         class="grid-pagination"
@@ -326,6 +327,7 @@
           </template>
         </slot>
       </section>
+      <!-- 分页END -->
     </div>
     <DiyDialog @dialogDataSuccess="dialogDataSuccess" :dialogData.sync="dialogData" />
   </section>
@@ -405,10 +407,10 @@ export default {
     tableAttr: {
       type: Object, default: () => {
         return{
-          // border: true,
+          // border: false,
           showSummary: false
         }
-      } 
+      }
     },
     // 是否加载
     loading: { type: Boolean, default: false },
@@ -426,9 +428,6 @@ export default {
       default: false
     },
     defaultSelections: { type: [Array, Object], default: () => null },
-    // 是否显示表格索引
-    isIndex: { type: Boolean, default: false },
-    indexLabel: { type: String, default: '序号' },
     // 是否显示分页
     isPagination: { type: Boolean, default: true },
     // 默认请求配置
@@ -624,47 +623,33 @@ export default {
         })
       }
     },
-    functionalBtn() {
+    // 获取当前选中项回调
+    getCurrentSelection() {
       var check = {}
       if(this.isSelection) {
         const list = this.$refs[this.tableConfig.ref].selection
         const indexs = []
-        const ids = []
         const checkData = []
         this.detaultData.map((el, index) => {
           list.forEach(val => {
             if(el.id === val.id) {
               indexs.push(index)
-              ids.push(val.id)
               checkData.push(val)
             }
           })
         })
         check = {
-          index: indexs,
-          checkData,
-          ids
+          indexs: indexs,
+          selectedRows: checkData
         }
       } else if(this.isSingle) {
         const checkData = this.detaultData.find(el => el._checkBox)
         check = {
-          index: this.detaultData.findIndex(el => el._checkBox),
-          checkData,
-          ids: checkData ? checkData.id : ''
+          indexs: this.detaultData.findIndex(el => el._checkBox),
+          selectedRows: checkData
         }
       }
       return check
-      // return check
-      // if((this.isSingle && check.index >= 0) || (this.isSelection && check.index.length >= 1)) {
-      //   const stringData = JSON.stringify(check.checkData)
-      //   this.$alert(`<p>index: ${check.index}</p><p>ids: ${check.ids}</p><p>数据: ${stringData}</p>`, 'HTML 片段', {
-      //     dangerouslyUseHTMLString: true
-      //   }).then(() => {
-      //     if(data.click) {
-      //       data.click(check)
-      //     }
-      //   })
-      // }
     },
     // 弹出对话框
     dialogDataUpdate(data, index, th) {
