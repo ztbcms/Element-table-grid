@@ -209,12 +209,13 @@ export default {
     this.formHandle = this.RemoveRepeat(this.formHandle.concat(this.searchHandle), 'name')
   },
   methods: {
+    // 查询
     inquire () {
       Bus.$emit('getTableInquire', this.fromData)
     },
+    // 重置
     reset () {
       this.formDataInit()
-      this.inquire()
     },
     formDataInit () {
       this.searchForm.forEach(el => {

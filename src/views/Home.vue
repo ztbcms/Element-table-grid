@@ -45,8 +45,7 @@ export default {
         ],
         // 表单按钮方法设置
         searchHandle: [
-          // { name: '查询', option: { type: 'primary' }, click: (searchForm) => console.log('searchForm', searchForm) },
-          { name: '查看', option: { type: 'primary' }, click: () => '' }
+          { name: '导出', option: { type: 'primary' }, click: (searchForm) => console.log('searchForm', searchForm) },
         ],
         // 表单
         formAttr: {
