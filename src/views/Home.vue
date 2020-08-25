@@ -15,7 +15,7 @@
           </el-table-column>
         </div>
 
-        <template slot="bluk" scope="fn">
+        <template slot="bulk" scope="fn">
           <el-button @click="doBulkDelete(fn)" size="mini" type="danger">删除</el-button>
         </template>
       </diy-table>

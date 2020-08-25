@@ -41,7 +41,7 @@ Vue.use(ElementUI)
         v-bind="tableConfig"
         ref="diyTable"
       >
-        <template slot="bluk" scope="fn">
+        <template slot="bulk" scope="fn">
           <el-button @click="checkAllClick(fn)">删除</el-button>
         </template>
       </diy-table>

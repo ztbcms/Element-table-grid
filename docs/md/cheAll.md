@@ -5,7 +5,7 @@
 主要功能:
 + 返回已勾选的数据
 
-使用`slot`来传递全选方的按钮以及一些其他的组件，`slot`名为：`bluk`,他会`返回一个函数`，该函数会`返回已选中数据`，数据有`2种格式`
+使用`slot`来传递全选方的按钮以及一些其他的组件，`slot`名为：`bulk`,他会`返回一个函数`，该函数会`返回已选中数据`，数据有`2种格式`
 + 在表中的序号数组(从0开始) `indexs`
 + 选中的源数据数组`selectedRows`
 
@@ -19,7 +19,7 @@
         v-bind="tableConfig"
         ref="diyTable"
       >
-        <template slot="bluk" scope="fn">
+        <template slot="bulk" scope="fn">
           <el-button @click="checkAllClick(fn)" size="mini" type="danger">删除</el-button>
         </template>
       </diy-table>

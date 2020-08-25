@@ -10,7 +10,7 @@
         v-bind="tableConfig"
         ref="diyTable"
       >
-        <template slot="bluk" scope="fn">
+        <template slot="bulk" scope="fn">
           <p @click="demoClick(fn)">22</p>
         </template>
       </diy-table>
