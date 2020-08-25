@@ -5,9 +5,9 @@
 主要功能:
 + 返回已勾选的数据
 
-使用`slot`来传递全选方的按钮以及一些其他的组件，`slot`名为：`bluk`,他会`返回一个函数`，该函数会`返回已选中数据`，数据有`3种格式`
-+ 在表中的序号(从0开始)
-+ 选中的源数据
+使用`slot`来传递全选方的按钮以及一些其他的组件，`slot`名为：`bluk`,他会`返回一个函数`，该函数会`返回已选中数据`，数据有`2种格式`
++ 在表中的序号数组(从0开始) `indexs`
++ 选中的源数据数组`selectedRows`
 
 尝试打开控制台，查看日志输出吧
 ```html
@@ -20,7 +20,7 @@
         ref="diyTable"
       >
         <template slot="bluk" scope="fn">
-          <el-button @click="checkAllClick(fn)">删除</el-button>
+          <el-button @click="checkAllClick(fn)" size="mini" type="danger">删除</el-button>
         </template>
       </diy-table>
     </el-card>
@@ -72,14 +72,21 @@ export default {
     }
   },
   methods: {
-    click(row) {
+    click(row, index) {
       console.log(row)
+      ELEMENT.Message.success('点击：'+index)
     },
-    change(row) {
-      console.log(row)
+    change(info) {
+      console.log(info)
+      ELEMENT.Message.success('修改内容为：'+info.value)
     },
     checkAllClick(fn) {
-      console.log(fn.functionalBtn())
+      // 获取当前选中  
+      var selectInfo = fn.getCurrentSelection()
+      console.log(selectInfo)
+      if(selectInfo && selectInfo.indexs){
+        alert('删除选中序号：'+selectInfo.indexs.join(','))
+      }
     }
   }
 }

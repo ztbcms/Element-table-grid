@@ -308,7 +308,7 @@
       <div class="leftFunctional">
         <el-checkbox @click.native="toggleSelection" :value="checkAll" v-if="isSelection" :indeterminate="indeterminate">全选</el-checkbox>
         <div class="functionalBtn">
-          <slot name="bluk" :functionalBtn="functionalBtn"></slot>
+          <slot name="bluk" :getCurrentSelection="getCurrentSelection"></slot>
         </div>
       </div>
       <!-- 批量操作区域END -->
@@ -634,8 +634,8 @@ export default {
         })
       }
     },
-    // 选中项回调
-    functionalBtn() {
+    // 获取当前选中项回调
+    getCurrentSelection() {
       var check = {}
       if(this.isSelection) {
         const list = this.$refs[this.tableConfig.ref].selection
@@ -650,14 +650,14 @@ export default {
           })
         })
         check = {
-          index: indexs,
-          checkData
+          indexs: indexs,
+          selectedRows: checkData
         }
       } else if(this.isSingle) {
         const checkData = this.detaultData.find(el => el._checkBox)
         check = {
-          index: this.detaultData.findIndex(el => el._checkBox),
-          checkData
+          indexs: this.detaultData.findIndex(el => el._checkBox),
+          selectedRows: checkData
         }
       }
       return check

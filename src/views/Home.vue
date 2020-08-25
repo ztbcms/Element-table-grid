@@ -64,9 +64,9 @@ export default {
         //
         ref: 'diytable',
         // 是否开启全选
-        // isSelection: true,
+        isSelection: true,
         // 是否开启单选
-        isSingle: true,
+        isSingle: false,
         isIndex: false,
         isPagination: true,
         isHandle: true,
@@ -141,7 +141,7 @@ export default {
 
     doBulkDelete(fn) {
       console.log(fn)
-      console.log(fn.functionalBtn())
+      console.log(fn.getCurrentSelection())
     }
   },
   created () {
