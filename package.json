@@ -12,6 +12,7 @@
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "lib": "vue-cli-service build --target lib --name diyelementtable --dest lib packages/index.js",
+    "lib_sync_to_docs": "cp ./lib/diyelementtable.umd.min.js ./docs/components/ && cp ./lib/diyelementtable.css ./docs/components/",
     "docs-preview": "./node_modules/.bin/docsify serve docs"
   },
   "dependencies": {
