@@ -68,7 +68,6 @@ export default {
         isSingle: false,
         isPagination: true,
         isHandle: true,
-        indexLabel: '序号',
         tableAttr: {
           border: false,
           'tree-props': {children: 'children', hasChildren: 'hasChildren'},

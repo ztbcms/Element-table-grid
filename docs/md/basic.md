@@ -85,7 +85,6 @@ export default {
 | ref | 设置表单ref | String | - | - | - |
 | isSelection | 是否开启多选 | Boolean | false | true / false | - |
 | isSingle | 是否开启单选 | Boolean | false | true / false | - |
-| indexLabel | 设置索引列名 | String | 序号 | - | - |
 | isPagination | 是否显示分页 | Boolean | true | true / false | - |
 | isHandle | 是否显示表单操作按钮 | Boolean | false | true / false | - |
 | **loading** | 是否开启表单loading动画 | Boolean | false | true / false | - |
