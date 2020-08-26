@@ -197,7 +197,6 @@ export default {
       },
       // table配置
       this.tableConfig = {
-        sortChange: this.change,
         tableHeader: [
           {
             label: 'ID',

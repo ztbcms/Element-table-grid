@@ -67,8 +67,6 @@ export default {
       tableConfig: {
         // 是否全选
         isSelection: true,
-        // 排序事件回调
-        sortChange: this.change,
         tableHeader: [
           {
             label: 'ID',

@@ -748,11 +748,11 @@ export default {
       this.detaultGetList()
     },
     // 默认排序
-    detaultSortChange ({order, prop}) {
+    detaultSortChange (row) {
+      let {order, prop} = row
       this.sortData = {}
-      this.sortData[prop] = order
+      this.sortData['sort_' + prop] = order
       this.detaultPagination.currentPage = 1
-      // {'sort': order, 'sortType': prop}
       this.detaultGetList()
     }
   },

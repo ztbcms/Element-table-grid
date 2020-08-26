@@ -84,8 +84,6 @@ export default {
             }
           }
         },
-        // 排序事件回调
-        sortChange: row => console.log('sortChange', row),
         tableHeader: [
           {
             label: 'ID',
