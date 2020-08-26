@@ -421,7 +421,7 @@ export default {
 </script>
 ```
 
-## 通过配置requestConfig请求表单数据
+## 通过配置`requestConfig`请求表单数据
 
 **requestConfig说明**
 
@@ -429,7 +429,52 @@ export default {
 | :------------ | :------------ | :------------ | :------------ |
 | apiurl | 请求地址 | String | - |
 | method | 请求方式 | get | get / post |
-| data | 请求参数 | Object |  |
 | headers | 请求头 | Object | - |
-| datakeys | 解析请求数据, 如果返回的总页数在`{data: {items: [], total: 10, page: 1}}`则填入`['data', 'items']` | Array | - |
-| totalkeys | 解析总页数, 如果返回的总页数在`{data: {total: 10, page: 1}}`则填入`['data', 'total']` | Array | - |
+| data | 请求参数 | Object |  |
+| processGetListResponse | 自定义解析请求数据 | Function | - |
+
+默认情况下,组件会按照以下格式来解析
+```json
+{
+  "data": {
+    "items": [ // [必须]列表数据
+      {
+        "id": 11,
+        "name": "张三",
+      }
+    ],
+    "total_pages": 1, //总页数
+    "total_items": 200,//[必须]列表项总数
+    "limit": 10,// 每页数量
+    "page": 1 //当前页
+  },
+  "status": true,
+  "code": 200,
+  "msg": ""
+}
+```
+
+若数据格式不符合上面的，也可以自定义数据解析`processGetListResponse`,示例如下
+```javascript
+var requestConfig = {
+      processGetListResponse: (res)=>{
+        return {
+          total_items: res.data.total_items,
+          items: res.data.items,
+        }
+      }
+}
+```
+
+
+
+
+
+
+
+
+
+
+
+
+

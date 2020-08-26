@@ -5,5 +5,5 @@
   - [基本用法](/md/basic)
   - [功能栏](/md/functionBar)
   - [分页栏](/md/paging)
-  - [全选](/md/cheAll)
+  - [全选栏](/md/cheAll)
   - [表格内的slot说明](/md/slots)

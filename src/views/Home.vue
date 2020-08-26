@@ -77,9 +77,12 @@ export default {
         requestConfig: {
           apiurl: '/mock_data/data.json',
           method: 'get',
-          datakeys: ['data', 'items'],
-          totalkeys: ['data', 'total_items'],
-          resCodes: [200, 1]
+          processGetListResponse: (res)=>{
+            return {
+              total_items: res.data.total_items,
+              items: res.data.items,
+            }
+          }
         },
         // 排序事件回调
         sortChange: row => console.log('sortChange', row),
