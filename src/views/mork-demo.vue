@@ -20,7 +20,6 @@ export default {
                 isIndex: false,
                 isPagination: true,
                 isHandle: true,
-                indexLabel: '序号',
                 tableAttr: {
                     ref: 'cpytable',
                     border: true,

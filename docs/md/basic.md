@@ -29,8 +29,7 @@ export default {
     return {
       // table配置
       tableConfig: {
-        // 排序回调
-        sortChange: this.change,
+  
         tableHeader: [
           {
             label: 'ID',
@@ -86,12 +85,10 @@ export default {
 | ref | 设置表单ref | String | - | - | - |
 | isSelection | 是否开启多选 | Boolean | false | true / false | - |
 | isSingle | 是否开启单选 | Boolean | false | true / false | - |
-| indexLabel | 设置索引列名 | String | 序号 | - | - |
 | isPagination | 是否显示分页 | Boolean | true | true / false | - |
 | isHandle | 是否显示表单操作按钮 | Boolean | false | true / false | - |
 | **loading** | 是否开启表单loading动画 | Boolean | false | true / false | - |
 | tableAttr | 表格属性，与`el-table`属性一致[传送门](https://element.eleme.cn/#/zh-CN/component/table#table-attributes) | Object | - | - | - |
-| sortChange | 排序事件回调 | Function | - | - | 回调参数`row`, 参数说明：倒叙或正序或默认 |
 | <a href="#md/basic?id=渲染列与行">tableHeader</a> | 用于渲染行和列的配置 | Array | - | - | - |
 | <a href="#md/basic?id=分页配置">pagination</a> | 分页配置 | Object | - | - | - |
 | <a href="#md/basic?id=通过配置requestconfig请求表单数据">requestConfig</a> | 配置表单请求数据 | Object | - | - | - |
@@ -177,8 +174,6 @@ export default {
       tableConfig: {
         // 是否全选
         isSelection: true,
-        // 排序事件回调
-        sortChange: this.change,
         tableHeader: [
           {
             label: 'ID',
@@ -421,7 +416,7 @@ export default {
 </script>
 ```
 
-## 通过配置requestConfig请求表单数据
+## 通过配置`requestConfig`请求表单数据
 
 **requestConfig说明**
 
@@ -429,7 +424,76 @@ export default {
 | :------------ | :------------ | :------------ | :------------ |
 | apiurl | 请求地址 | String | - |
 | method | 请求方式 | get | get / post |
-| data | 请求参数 | Object |  |
 | headers | 请求头 | Object | - |
-| datakeys | 解析请求数据, 如果返回的总页数在`{data: {items: [], total: 10, page: 1}}`则填入`['data', 'items']` | Array | - |
-| totalkeys | 解析总页数, 如果返回的总页数在`{data: {total: 10, page: 1}}`则填入`['data', 'total']` | Array | - |
+| data | 请求参数 | Object |  |
+| processGetListResponse | 自定义解析请求数据 | Function | - |
+
+默认情况下,组件会按照以下格式来解析
+```json
+{
+  "data": {
+    "items": [ // [必须]列表数据
+      {
+        "id": 11,
+        "name": "张三",
+      }
+    ],
+    "total_pages": 1, //总页数
+    "total_items": 200,//[必须]列表项总数
+    "limit": 10,// 每页数量
+    "page": 1 //当前页
+  },
+  "status": true,
+  "code": 200,
+  "msg": ""
+}
+```
+
+若数据格式不符合上面的，也可以自定义数据解析`processGetListResponse`,示例如下
+```javascript
+var requestConfig = {
+      processGetListResponse: (res)=>{
+        return {
+          total_items: res.data.total_items,
+          items: res.data.items,
+        }
+      }
+}
+```
+
+## 列表排序
+
+只需要设置表格列字段`{ sortable: 'custom'}`,示例：
+```javascript
+var tableHeader = [
+  {
+    label: 'ID',
+    prop: 'id',
+    tableColumnAttr: { sortable: 'custom'}
+  }
+]
+```
+
+发生列排序改变时，组件会自动向apiurl请求带上对应列字段的情况参数。
+排序字段格式:`sort_`+该列的`prop`
+
+请求示例：
+- 升序：`http://a.com?sort_id=ascending`
+- 降序：`http://a.com?sort_id=descending`
+
+### Q:我想排序字段格式和升降序的值怎么操作？
+
+- 排序字段格式，无法修改，我们约定俗成这样格式
+- 升降序的值修改，参考下`ElmentUI-table`中的`Table-column Attributes`参数`sort-orders`，同样地不建议修改，特殊需求除外. [点击查看sort-orders字段](https://element.eleme.cn/#/zh-CN/component/table#table-column-attributes)
+
+
+
+
+
+
+
+
+
+
+
+

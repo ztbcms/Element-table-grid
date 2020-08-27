@@ -70,9 +70,6 @@ tableConfig: {
   // 是否分页
   isPagination [Boolean]
 
-  // 表格索引名称
-  indexLabel [String]
-
   // 是否显示表格复选框
   isSelection [Boolean]
 

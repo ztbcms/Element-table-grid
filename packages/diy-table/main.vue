@@ -699,45 +699,11 @@ export default {
       }
       th.change && th.change({row: data, index, value, th})
     },
-    tabelSearch(requestData) {
-      this.detaultLoading = true
-      let fun = null
-      if (requestData.method === 'post') {
-        fun = Post
-      } else {
-        fun = Get
-      }
-      fun({
-        url: requestData.apiurl,
-        data: {
-          page: this.detaultPagination.currentPage,
-          limit: this.detaultPagination.pageSize,
-          ...(this.requestConfig.data || {}),
-          ...(this.searchData || {}),
-          ...this.sortData,
-          ...(requestData.data || {})
-        },
-        header: requestData.headers || {}
-      }).then(({ data }) => {
-        let resCodes = this.requestConfig.resCodes || []
-        let codeStatus = resCodes.findIndex(item => item === data.code) != -1
-        if (data.status || codeStatus) {
-          this.detaultPagination.total = this.setListTotal(data)
-          this.detaultData = this.setListData(data)
-        } else {
-          this.$message.error(data.msg);
-        }
-        this.detaultLoading = false
-      }).catch(() => {
-        this.$message.error('请求失败')
-        this.detaultLoading = false
-      })
-    },
-    // 默认获取列表
+    // 获取列表
     detaultGetList (addData = {}) {
       this.detaultLoading = true
       let fun = null
-      if (this.requestConfig.method === 'post') {
+      if (this.requestConfig.method && this.requestConfig.method.toLowerCase() === 'post') {
         fun = Post
       } else {
         fun = Get
@@ -753,42 +719,23 @@ export default {
           ...addData
         },
         header: this.requestConfig.headers || {}
-      }).then(({ data }) => {
-        let resCodes = this.requestConfig.resCodes || []
-        let codeStatus = resCodes.findIndex(item => item === data.code) != -1
-        if (data.status || codeStatus) {
-          this.detaultPagination.total = this.setListTotal(data)
-          this.detaultData = this.setListData(data)
+      }).then((response) => {
+        let response_data = response.data
+        if(this.requestConfig.processGetListResponse && typeof this.requestConfig.processGetListResponse === 'function') {
+          // 自定义过滤函数
+          let result = this.requestConfig.processGetListResponse(response_data)
+          this.detaultPagination.total = result.total_items || 0
+          this.detaultData = result.items || []
         } else {
-          this.$message.error(data.msg);
+          this.detaultPagination.total = response_data.data.total_items
+          this.detaultData = response_data.data.items
         }
+
         this.detaultLoading = false
       }).catch(() => {
         this.$message.error('请求失败')
         this.detaultLoading = false
       })
-    },
-    // set列表数据
-    setListData (res) {
-      if (this.requestConfig.datakeys && this.requestConfig.datakeys.length) {
-        this.requestConfig.datakeys.forEach(item => {
-          res = res[item]
-        })
-        return res
-      } else {
-        return res.data.items
-      }
-    },
-    // set列表total
-    setListTotal (res) {
-      if (this.requestConfig.totalkeys && this.requestConfig.totalkeys.length) {
-        this.requestConfig.totalkeys.forEach(item => {
-          res = res[item]
-        })
-        return res * this.detaultPagination.pageSize
-      } else {
-        return res.data.total_pages
-      }
     },
     // 默认页码变化
     detaultCurrentChange (val) {
@@ -801,11 +748,11 @@ export default {
       this.detaultGetList()
     },
     // 默认排序
-    detaultSortChange ({order, prop}) {
+    detaultSortChange (row) {
+      let {order, prop} = row
       this.sortData = {}
-      this.sortData[prop] = order
+      this.sortData['sort_' + prop] = order
       this.detaultPagination.currentPage = 1
-      // {'sort': order, 'sortType': prop}
       this.detaultGetList()
     }
   },

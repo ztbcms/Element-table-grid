@@ -23,8 +23,6 @@ export default {
   data () {
     return {
       tableConfig: {
-        // 排序事件回调
-        sortChange: this.change,
         tableHeader: [
           {
             label: 'ID',

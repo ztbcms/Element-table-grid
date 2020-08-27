@@ -141,7 +141,7 @@ export default {
     <el-card>
       <diy-search-form v-bind="formConfig">
         <template slot="searchAfter" slot-scope="fromData">
-          <p>{{fromData}}</p>
+          <p>Current: {{fromData}}</p>
         </template>
         <!-- 自定义插槽 -->
         <template slot="custom" slot-scope="scope">
@@ -184,8 +184,8 @@ export default {
       this.formConfig = {
         // 表单设置
         searchForm: [
-            { type: 'Input', label: '', prop: 'name', width: '180px', placeholder: '请输入姓名...' },
-            { type: 'Select', label: '', prop: 'age', width: '180px', placeholder: '选择' ,options: sexs},
+            { type: 'Input', label: '姓名', prop: 'name', width: '180px', placeholder: '请输入姓名...' },
+            { type: 'Select', label: '性别', prop: 'age', width: '180px', placeholder: '选择' ,options: sexs},
             { type: 'Radio', label: '单选',  prop: 'che2', options: sexs},
             { type: 'Checkbox',label: '多选', prop: 'che', options: sexs},
             { type: 'Date', label: '日期', prop: 'sex3', width: '180px' },
@@ -197,7 +197,6 @@ export default {
       },
       // table配置
       this.tableConfig = {
-        sortChange: this.change,
         tableHeader: [
           {
             label: 'ID',

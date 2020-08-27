@@ -1,6 +1,6 @@
 {
   "name": "element-table-grid",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "基于 element table 的二次封装",
   "main": "lib/diyelementtable.umd.js",
   "keyword": "elementTable table element-table element-table-grid",
@@ -17,7 +17,6 @@
     "docs-preview": "./node_modules/.bin/docsify serve docs"
   },
   "dependencies": {
-    "bootstrap-table": "^1.17.1",
     "codemirror": "^5.56.0",
     "core-js": "^3.6.5",
     "element-ui": "^2.13.2",

@@ -2,7 +2,7 @@
 <template>
   <div class="element-table-grid-search" :style="gridSearchStyle">
     <el-form v-bind="formAttr">
-      <slot name="searchBefore" :prop="fromData"></slot>
+      <slot name="searchBefore" :prop="formData"></slot>
       <el-form-item
         v-for='item in searchForm'
         v-bind="item.formoption"
@@ -12,27 +12,27 @@
         <!-- 输入框 -->
         <el-input
           v-if="item.type==='Input'"
-          v-model="fromData[item.prop]"
+          v-model="formData[item.prop]"
           v-bind="item.option"
           :placeholder="item.placeholder"
-          @blur="item.blur && item.blur($event, fromData[item.prop])"
-          @focus="item.focus && item.focus($event, fromData[item.prop])"
-          @input="item.input && item.input($event, fromData[item.prop])"
-          @change="item.change && item.change($event, fromData[item.prop])"
-          @clear="item.clear && item.clear($event, fromData[item.prop])"
+          @blur="item.blur && item.blur($event, formData[item.prop])"
+          @focus="item.focus && item.focus($event, formData[item.prop])"
+          @input="item.input && item.input($event, formData[item.prop])"
+          @change="item.change && item.change($event, formData[item.prop])"
+          @clear="item.clear && item.clear($event, formData[item.prop])"
         ></el-input>
         <!-- 下拉框 -->
         <el-select
           v-if="item.type==='Select'"
-          v-model="fromData[item.prop]"
+          v-model="formData[item.prop]"
           v-bind="item.option"
           :placeholder="item.placeholder"
-          @change="item.change && item.change($event, fromData[item.prop])"
-          @visible-change="item.visibleChange && item.visibleChange($event, fromData[item.prop])"
-          @remove-tag="item.removeTag && item.removeTag($event, fromData[item.prop])"
-          @clear="item.clear && item.clear($event, fromData[item.prop])"
-          @blur="item.blur && item.blur($event, fromData[item.prop])"
-          @focus="item.focus && item.focus($event, fromData[item.prop])"
+          @change="item.change && item.change($event, formData[item.prop])"
+          @visible-change="item.visibleChange && item.visibleChange($event, formData[item.prop])"
+          @remove-tag="item.removeTag && item.removeTag($event, formData[item.prop])"
+          @clear="item.clear && item.clear($event, formData[item.prop])"
+          @blur="item.blur && item.blur($event, formData[item.prop])"
+          @focus="item.focus && item.focus($event, formData[item.prop])"
         >
           <el-option
             v-for="op in item.options"
@@ -45,7 +45,7 @@
         <!-- 单选 -->
         <el-radio-group
           v-if="item.type==='Radio'"
-          v-model="fromData[item.prop]"
+          v-model="formData[item.prop]"
           v-bind="item.option"
         >
           <el-radio
@@ -59,8 +59,8 @@
         <el-radio-group
           v-if="item.type==='RadioButton'"
           v-bind="item.option"
-          v-model="fromData[item.prop]"
-          @change="item.change && item.change($event, fromData[item.prop])"
+          v-model="formData[item.prop]"
+          @change="item.change && item.change($event, formData[item.prop])"
         >
           <el-radio-button
             v-for="ra in item.options"
@@ -73,7 +73,7 @@
         <el-checkbox-group
           v-if="item.type==='Checkbox'"
           v-bind="item.option"
-          v-model="fromData[item.prop]"
+          v-model="formData[item.prop]"
         >
           <el-checkbox
             v-for="ch in item.options"
@@ -86,53 +86,54 @@
         <el-date-picker
           v-if="item.type==='Date'"
           v-bind="item.option"
-          v-model="fromData[item.prop]"
-          @change="item.change && item.change($event, fromData[item.prop])"
-          @blur="item.blur && item.blur($event, fromData[item.prop])"
-          @focus="item.focus && item.focus($event, fromData[item.prop])"
+          v-model="formData[item.prop]"
+          @change="item.change && item.change($event, formData[item.prop])"
+          @blur="item.blur && item.blur($event, formData[item.prop])"
+          @focus="item.focus && item.focus($event, formData[item.prop])"
         ></el-date-picker>
         <!-- 时间 -->
         <el-time-select
           v-if="item.type==='Time'"
           v-bind="item.option"
-          v-model="fromData[item.prop]"
-          @change="item.change && item.change($event, fromData[item.prop])"
-          @blur="item.blur && item.blur($event, fromData[item.prop])"
-          @focus="item.focus && item.focus($event, fromData[item.prop])"
+          v-model="formData[item.prop]"
+          @change="item.change && item.change($event, formData[item.prop])"
+          @blur="item.blur && item.blur($event, formData[item.prop])"
+          @focus="item.focus && item.focus($event, formData[item.prop])"
         ></el-time-select>
         <!-- 日期范围 -->
         <el-date-picker
           v-if="item.type==='DateRange'"
           v-bind="item.option"
           type='daterange'
-          v-model="fromData[item.prop]"
-          @change="item.change && item.change($event, fromData[item.prop])"
-          @blur="item.blur && item.blur($event, fromData[item.prop])"
-          @focus="item.focus && item.focus($event, fromData[item.prop])"
+          v-model="formData[item.prop]"
+          @change="item.change && item.change($event, formData[item.prop])"
+          @blur="item.blur && item.blur($event, formData[item.prop])"
+          @focus="item.focus && item.focus($event, formData[item.prop])"
         ></el-date-picker>
         <!-- 日期时间 -->
         <el-date-picker
           v-if="item.type==='DateTime'"
           v-bind="item.option"
           type='datetime'
-          v-model="fromData[item.prop]"
-          @change="item.change && item.change($event, fromData[item.prop])"
-          @blur="item.blur && item.blur($event, fromData[item.prop])"
-          @focus="item.focus && item.focus($event, fromData[item.prop])"
+          v-model="formData[item.prop]"
+          @change="item.change && item.change($event, formData[item.prop])"
+          @blur="item.blur && item.blur($event, formData[item.prop])"
+          @focus="item.focus && item.focus($event, formData[item.prop])"
         ></el-date-picker>
         <!-- 开关 -->
         <el-switch
           v-if="item.type==='Switch'"
           v-bind="item.option"
-          v-model="fromData[item.prop]"
+          v-model="formData[item.prop]"
         ></el-switch>
         <el-button
           v-if="item.type==='Button'"
           v-bind="item.option"
-          @click="item.click && item.click(fromData)"
-        >{{item.name}}{{fromData[item.prop] || ''}}</el-button>
+          @click="item.click && item.click(formData)"
+        >{{item.name}}{{formData[item.prop] || ''}}</el-button>
+        <!--  Slot  -->
         <template v-if="item.type === 'Slot'">
-          <slot :name="item.slot" :prop="fromData"></slot>
+          <slot :name="item.slot" :prop="formData"></slot>
         </template>
       </el-form-item>
       <div></div>
@@ -143,13 +144,13 @@
               :key="item.name"
               v-bind="item.option"
               v-if="(isInquire || item.key != 'inquire') && (isReset || item.key != 'reset')"
-              @click='item.click && item.click(fromData)'
-            >{{item.name}}{{fromData[item.prop] || ''}}</el-button>
+              @click='item.click && item.click(formData)'
+            >{{item.name}}{{formData[item.prop] || ''}}</el-button>
           </template>
-          <slot name="searchHandle" :prop="fromData"></slot>
+          <slot name="searchHandle" :prop="formData"></slot>
         </div>
       </el-form-item>
-      <slot name="searchAfter" :prop="fromData"></slot>
+      <slot name="searchAfter" :prop="formData"></slot>
     </el-form>
   </div>
 </template>
@@ -164,7 +165,7 @@ export default {
       default: () => {
         return {
           size: 'mini',
-          labelWidth: '100px',
+          labelWidth: '70px',
           inline: true
         }
       }
@@ -186,12 +187,10 @@ export default {
     isInquire: { type: Boolean, default: true },
     // 是否显示重置按钮
     isReset: { type: Boolean, default: true },
-    // 行内布局时按钮组是否需要设置一个labelWidth的外边距（自定义）
-    inlineStyle: [Boolean]
   },
   data () {
     return {
-      fromData: {},
+      formData: {},
       formHandle: [
         { name: '查询', key: 'inquire', option: { type: 'primary' }, click: () => this.inquire.apply(this, arguments) },
         { name: '重置', key: 'reset', option: { type: 'primary' }, click: () => this.reset.apply(this, arguments) }
@@ -211,7 +210,7 @@ export default {
   methods: {
     // 查询
     inquire () {
-      Bus.$emit('getTableInquire', this.fromData)
+      Bus.$emit('getTableInquire', this.formData)
     },
     // 重置
     reset () {
@@ -221,9 +220,9 @@ export default {
       this.searchForm.forEach(el => {
         if(el.prop) {
           if(el.type === 'Checkbox') {
-            this.$set(this.fromData, el.prop, [])
+            this.$set(this.formData, el.prop, [])
           } else {
-            this.$set(this.fromData, el.prop, '')
+            this.$set(this.formData, el.prop, '')
           }
         }
       })
@@ -243,7 +242,7 @@ export default {
     },
     // 表单按钮组的样式
     gridSearchButtonStyle () {
-      if (this.formAttr.inline && (this.formAttr.labelWidth || this.formAttr['label-width']) && this.inlineStyle) {
+      if (this.formAttr.inline && this.formAttr.labelWidth) {
         return `margin-left: ${this.formAttr.labelWidth || this.formAttr['label-width']};`
       }
       return ''
@@ -253,5 +252,5 @@ export default {
 
 </script>
 
-<style>
+<style scoped>
 </style>

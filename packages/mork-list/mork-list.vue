@@ -59,13 +59,7 @@
                 </slot>
               </template>
           </el-table-column>
-          <el-table-column
-            v-if="isIndex"
-            type="index"
-            :label="indexLabel"
-            align="center"
-            width="50"
-          ></el-table-column>
+
           <slot name="before"></slot>
           <template
             v-for="(th, key) in tableHeader"
@@ -447,7 +441,6 @@ export default {
     defaultSelections: { type: [Array, Object], default: () => null },
     // 是否显示表格索引
     isIndex: { type: Boolean, default: false },
-    indexLabel: { type: String, default: '序号' },
     // 是否显示分页
     isPagination: { type: Boolean, default: true },
     // 默认请求配置
