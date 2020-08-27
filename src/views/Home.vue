@@ -38,10 +38,10 @@ export default {
         isHandle: true,
         // 表单设置
         searchForm: [
-          { type: 'Input', label: '姓名', prop: 'name', width: '120px', placeholder: '请输入姓名...', option: {}, formoption: {} },
-          { type: 'Input', label: '年龄', prop: 'age', width: '180px', placeholder: '请输入年龄...' },
-          { type: 'Select', label: '性别', prop: 'sex', width: '180px', options: sexs, props: sexProps, change: row => console.log('tag', row), placeholder: '请选择性别...' },
-          { type: 'Checkbox', label: '选项', prop: 'che', option: {},  options: [{value: 'val1', label:'选项1'}, {value: 'val2', label:'选项2'}]}
+          { type: 'Input', label: '姓名', prop: 'name', placeholder: '请输入姓名...', option: {}, formoption: {} },
+          { type: 'Input', label: '年龄', prop: 'age', placeholder: '请输入年龄...' },
+          { type: 'Select', label: '性别', prop: 'sex', options: sexs, props: sexProps, change: row => console.log('tag', row), placeholder: '请选择性别...' },
+          { type: 'Checkbox', label: '选项', prop: 'che', option: {},  options: [{value: 'val1', label:'选项1'}, {value: 'val2', label:'选项2'}]},
         ],
         // 表单按钮方法设置
         searchHandle: [
@@ -50,8 +50,7 @@ export default {
         // 表单
         formAttr: {
           size: 'mini',
-          labelWidth: '50px',
-          class: 'diygaid',
+          labelWidth: '70px',
           inline: true
         }
       },
@@ -60,7 +59,6 @@ export default {
       // table配置
       tableConfig: {
         loading: true,
-        //
         ref: 'diytable',
         // 是否开启全选
         isSelection: true,
@@ -155,7 +153,7 @@ export default {
 </script>
 
 <style>
-  .diygaid .el-form-item__content .el-input {
-    width: 200px;
-  }
+  /*.diygaid .el-form-item__content .el-input {*/
+  /*  width: 200px;*/
+  /*}*/
 </style>

@@ -131,6 +131,7 @@
           v-bind="item.option"
           @click="item.click && item.click(fromData)"
         >{{item.name}}{{fromData[item.prop] || ''}}</el-button>
+        <!--  Slot  -->
         <template v-if="item.type === 'Slot'">
           <slot :name="item.slot" :prop="fromData"></slot>
         </template>
@@ -164,7 +165,7 @@ export default {
       default: () => {
         return {
           size: 'mini',
-          labelWidth: '100px',
+          labelWidth: '70px',
           inline: true
         }
       }
@@ -186,8 +187,6 @@ export default {
     isInquire: { type: Boolean, default: true },
     // 是否显示重置按钮
     isReset: { type: Boolean, default: true },
-    // 行内布局时按钮组是否需要设置一个labelWidth的外边距（自定义）
-    inlineStyle: [Boolean]
   },
   data () {
     return {
@@ -243,7 +242,7 @@ export default {
     },
     // 表单按钮组的样式
     gridSearchButtonStyle () {
-      if (this.formAttr.inline && (this.formAttr.labelWidth || this.formAttr['label-width']) && this.inlineStyle) {
+      if (this.formAttr.inline && this.formAttr.labelWidth) {
         return `margin-left: ${this.formAttr.labelWidth || this.formAttr['label-width']};`
       }
       return ''
@@ -253,5 +252,5 @@ export default {
 
 </script>
 
-<style>
+<style scoped>
 </style>
