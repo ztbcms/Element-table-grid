@@ -65,7 +65,7 @@
     function GetList() {
       // 表单内置的请求
       app.$refs.tableform.inquire()
-      // app.$refs.diytable.detaultGetList()
+      // app.$refs.diytable.fetchList()
     }
 
     var app = new Vue({
@@ -143,7 +143,7 @@
         inquire: function () {
           console.log('tag', this, arguments)
           var that = this;
-          that.$refs.diytable.detaultGetList()
+          that.$refs.diytable.fetchList()
         },
         look: function () {
           console.log('look', arguments)

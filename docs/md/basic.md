@@ -149,8 +149,8 @@ export default {
 | props | **type:Select可用**<br/>配置选项的value和label [el-select的Option](https://element.eleme.cn/#/zh-CN/component/select)一样,格式为：`props: {value: 'value', label: 'label'}` | Object | - | - | - | - |
 | change | 确定修改的回调方法 | Function | - | change | row<br/>index<br/>event | 行数据<br/>行索引<br/>编辑之后的数据 |
 
-**注：修改完毕之后，使用this.$refs.xxx.detaultGetList()刷新当前表单，既：**
-`change: () => {this.$refs.xxx.detaultGetList()}`
+**注：修改完毕之后，使用this.$refs.xxx.fetchList()刷新当前表单，既：**
+`change: () => {this.$refs.xxx.fetchList()}`
 
 ```html
 /*vue*/

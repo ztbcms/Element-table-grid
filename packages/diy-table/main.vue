@@ -540,10 +540,10 @@ export default {
     init () {
       that = this
       if (this.requestConfig.apiurl) {
-        this.detaultGetList()
+        this.fetchList()
         Bus.$on('getTableInquire', (data = {}) => {
           this.searchData = data
-          this.detaultGetList(data)
+          this.fetchList(data)
         })
       } else if(this.tableData.length !== 0) {
         this.detaultData = Object.assign([], this.tableData)
@@ -600,7 +600,7 @@ export default {
     // integratedSort({ column, prop, order }) {
     //     this.sortData = {}
     //     this.sortData[prop] = order
-    //     this.detaultGetList()
+    //     this.fetchList()
     //     this.sortChange(
     //       {
     //         column,
@@ -700,7 +700,7 @@ export default {
       th.change && th.change({row: data, index, value, th})
     },
     // 获取列表
-    detaultGetList (addData = {}) {
+    fetchList (addData = {}) {
       this.detaultLoading = true
       let fun = null
       if (this.requestConfig.method && this.requestConfig.method.toLowerCase() === 'post') {
@@ -740,12 +740,12 @@ export default {
     // 默认页码变化
     detaultCurrentChange (val) {
       this.detaultPagination.currentPage = val
-      this.detaultGetList()
+      this.fetchList()
     },
     // 默认单页个数
     detaultSizeChange (val) {
       this.detaultPagination.pageSize = val
-      this.detaultGetList()
+      this.fetchList()
     },
     // 默认排序
     detaultSortChange (row) {
@@ -753,7 +753,7 @@ export default {
       this.sortData = {}
       this.sortData['sort_' + prop] = order
       this.detaultPagination.currentPage = 1
-      this.detaultGetList()
+      this.fetchList()
     }
   },
   computed: {

@@ -97,7 +97,7 @@ export default {
                 change: (row, index, event) => {
 
                   console.log('change', row, index, event)
-                  this.$refs.diytable.detaultGetList()
+                  this.$refs.diytable.fetchList()
                 }
             }
           },
