@@ -451,7 +451,7 @@ export default {
     },
     selectionChange: {
       type: Function,
-      default: (selection) => { that.selectionList = selection, that.$emit('selectionChange', selection) }
+      default: (selection) => { that.selectionList = selection,that.$emit('selectionChange', selection) }
     },
     cellMouseEnter: {
       type: Function,
@@ -627,25 +627,12 @@ export default {
     getCurrentSelection() {
       var check = {}
       if(this.isSelection) {
-        const list = this.$refs[this.tableConfig.ref].selection
-        const indexs = []
-        const checkData = []
-        this.detaultData.map((el, index) => {
-          list.forEach(val => {
-            if(el.id === val.id) {
-              indexs.push(index)
-              checkData.push(val)
-            }
-          })
-        })
         check = {
-          indexs: indexs,
-          selectedRows: checkData
+          selectedRows: this.selectionList
         }
       } else if(this.isSingle) {
         const checkData = this.detaultData.find(el => el._checkBox)
         check = {
-          indexs: this.detaultData.findIndex(el => el._checkBox),
           selectedRows: checkData
         }
       }
@@ -665,7 +652,6 @@ export default {
         optionLabel: th.edit.optionLabel,
         optionValue: th.edit.optionValue
       }
-      // console.log(this.dialogData)
     },
     dialogDataSuccess() {
       this.dialogData.show = false
@@ -688,7 +674,6 @@ export default {
       }
     },
     radiosClick(data, index, value, th, e) {
-      // console.log(data, index, value, th)
       // 绑定点击事件，第一次在label会触发，第二次在input标签上也会触发，去除input触发的事件
       // 判断本次点击是否和上次点击的一样
       if (e.target.tagName === 'INPUT' || value === data[th.prop]) {

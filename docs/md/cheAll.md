@@ -5,9 +5,8 @@
 主要功能:
 + 返回已勾选的数据
 
-使用`slot`来传递全选方的按钮以及一些其他的组件，`slot`名为：`bulk`,他会`返回一个函数`，该函数会`返回已选中数据`，数据有`2种格式`
-+ 在表中的序号数组(从0开始) `indexs`
-+ 选中的源数据数组`selectedRows`
+使用`slot`来传递全选方的按钮以及一些其他的组件，`slot`名为：`bulk`,他会`返回一个函数`，该函数会`返回已选中数据`，数据有`1种格式`
+- 选中的源数据数组`selectedRows`
 
 尝试打开控制台，查看日志输出吧
 ```html
@@ -84,8 +83,8 @@ export default {
       // 获取当前选中  
       var selectInfo = fn.getCurrentSelection()
       console.log(selectInfo)
-      if(selectInfo && selectInfo.indexs){
-        alert('删除选中序号：'+selectInfo.indexs.join(','))
+      if(selectInfo && selectInfo.selectedRows){
+        console.log(selectInfo.selectedRows)
       }
     }
   }
