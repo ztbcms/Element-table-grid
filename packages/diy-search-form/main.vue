@@ -143,7 +143,8 @@
             <el-button
               :key="item.name"
               v-bind="item.option"
-              v-if="(hasFormData && isInquire || item.key != 'inquire') && (hasFormData && isReset || item.key != 'reset')"
+              v-if="(hasFormData && isInquire || item.key != 'inquire') && (hasFormData && isReset || item.key != 'reset') && !item.option.hide"
+              :type="item.option.type || 'primary'"
               @click='item.click && item.click(formData)'
             >{{item.name}}{{formData[item.prop] || ''}}</el-button>
           </template>

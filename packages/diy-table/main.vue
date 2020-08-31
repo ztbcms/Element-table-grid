@@ -269,7 +269,6 @@
               <!-- 按钮 -->
               <template v-else-if="th.type === 'Button' || (isSelection && key === tableHeader.length - 1)">
                 <slot name="Button" :prop='scope.row[th.prop]' v-bind="scope">
-                  <!-- <el-button v-if="isSelection" size='mini' @click="multistageFn(scope.row)">查看</el-button> -->
                   <template
                     v-for="(o, k) in th.buttonGroup"
                   >
@@ -279,7 +278,7 @@
                       :size="o.size || 'mini'"
                       @click.stop="o.click && o.click(scope.row, scope.$index)"
                       v-bind="o.buttonAttr"
-                      v-if="!scope.row[o.hidKey]"
+                      v-if="!scope.row[o.hidKey] && !(o.buttonAttr && o.buttonAttr.hide)"
                     >{{scope.row[o.prop] || o.name}}</el-button>
                   </template>
                 </slot>

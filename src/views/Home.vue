@@ -45,7 +45,7 @@ export default {
         ],
         // 表单按钮方法设置
         searchHandle: [
-          { name: '导出', option: { type: 'primary' }, click: (searchForm) => console.log('searchForm', searchForm) },
+          { name: '导出', option: { type: 'primary',hide: false }, click: (searchForm) => console.log('searchForm', searchForm) },
         ],
         // 表单
         formAttr: {
@@ -106,7 +106,10 @@ export default {
             label: '操作',
             prop: 'materials_desc',
             tableColumnAttr: {fixed: 'right', align: 'right', width: '120px'},
-            buttonGroup: [{name: '查看', click: ()=> {alert('查看')}}, {name: '删除', click: ()=> {alert('删除')}}]
+            buttonGroup: [
+              {name: '查看', buttonAttr: {hide: false}, click: ()=> {alert('查看')}},
+              {name: '删除', click: ()=> {alert('删除')}}
+            ]
           },
         ]
       },
