@@ -3,7 +3,6 @@
     <el-card>
       <diy-search-form v-bind="formConfig" :tableConfig="tableConfig"></diy-search-form>
       <diy-table
-        :tableData='tableData'
         :pagination.sync='pagination'
         v-bind="tableConfig"
       >
@@ -26,14 +25,13 @@
 <script>
 let sexs = [{ label: '男', value: 'M', disabled: true }, { label: '女', value: 'F' }]
 let sexProps = { label: 'label', value: 'value', disabled: 'disabled' }
-// let intersts = [{ label: '羽毛球', value: 'badminton' }, { label: '篮球', value: 'basketball' }]
-// let interstProps = { label: 'label', value: 'value' }
+
 export default {
   data () {
     return {
       // 表单配置
       formConfig: {
-        width: '50%',
+        width: '70%',
         // 是否显示表单按钮
         isHandle: true,
         // 表单设置
@@ -46,16 +44,9 @@ export default {
         // 表单按钮方法设置
         searchHandle: [
           { name: '导出', option: { type: 'primary',hide: false }, click: (searchForm) => console.log('searchForm', searchForm) },
+          { name: '获取本页数据', option: { type: 'primary'}, click: this.readThisPage },
         ],
-        // 表单
-        formAttr: {
-          size: 'mini',
-          labelWidth: '70px',
-          inline: true
-        }
       },
-      // 表格数据
-      tableData: [],
       // table配置
       tableConfig: {
         loading: true,
@@ -115,42 +106,25 @@ export default {
       },
       // 分页配置
       pagination: {
-        pageSize: 5, // 页条数
-        currentPage: 1, // 当前页
-        total: 17, // 总条数
-        sizeChange: (...args) => this.sizeChange.apply(this, args), // 页条数大小改变触发
-        currentChange: (...args) => this.currentChange.apply(this, args), // 当前页改变触发
+        pageSize: 10, // 页条数
+        currentPage: 0, // 当前页
+        total: 0, // 总条数
         layout: 'total,sizes ,prev, pager, next,jumper'
       }
     }
   },
   methods: {
-    GetList () {
-      // this.tableData = data.slice((this.pagination.pageNum - 1) * this.pagination.pageSize, this.pagination.pageNum * this.pagination.pageSize)
-      // console.log(this.tableData)
-    },
-    ResetList () {
-      this.pagination.pageNum = 1
-      this.tableData = []
-      this.GetList()
-    },
-    sizeChange (val) {
-      console.log('sizeChange', val)
-      this.pagination.pageSize = val
-    },
-    currentChange (val) {
-      console.log('currentChange', val)
-      this.pagination.pageNum = val
-      this.GetList()
-    },
-
     doBulkDelete(fn) {
       console.log(fn)
       console.log(fn.getCurrentSelection())
+    },
+    readThisPage(){
+      var table_data = this.$refs[this.tableConfig.ref].getTableData()
+      this.$message.success('列表数据：'+JSON.stringify(table_data))
     }
   },
   created () {
-    this.ResetList()
+
   }
 }
 </script>

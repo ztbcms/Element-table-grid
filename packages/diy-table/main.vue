@@ -738,6 +738,10 @@ export default {
       this.sortData['sort_' + prop] = order
       this.detaultPagination.currentPage = 1
       this.fetchList()
+    },
+    // 获取表格数据
+    getTableData (){
+      return this.detaultData
     }
   },
   computed: {

@@ -93,6 +93,13 @@ export default {
 | <a href="#md/basic?id=分页配置">pagination</a> | 分页配置 | Object | - | - | - |
 | <a href="#md/basic?id=通过配置requestconfig请求表单数据">requestConfig</a> | 配置表单请求数据 | Object | - | - | - |
 
+**函数说明**
+
+| 函数 | 说明 | 
+| :------------ | :------------ | 
+| getTableData | 获取当前表格数据 | 
+| fetchList | 远程获取当前配置下的表格数据 | 
+
 ## 渲染列与行
 通过 `tableHeader` 属性 为表单传入列与行的配置数据，并通过[el-table-column](https://element.eleme.cn/#/zh-CN/component/table#table-column-attributes)来定义表格的列。
 
