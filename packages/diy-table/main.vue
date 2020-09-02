@@ -269,7 +269,6 @@
               <!-- 按钮 -->
               <template v-else-if="th.type === 'Button' || (isSelection && key === tableHeader.length - 1)">
                 <slot name="Button" :prop='scope.row[th.prop]' v-bind="scope">
-                  <!-- <el-button v-if="isSelection" size='mini' @click="multistageFn(scope.row)">查看</el-button> -->
                   <template
                     v-for="(o, k) in th.buttonGroup"
                   >
@@ -279,7 +278,7 @@
                       :size="o.size || 'mini'"
                       @click.stop="o.click && o.click(scope.row, scope.$index)"
                       v-bind="o.buttonAttr"
-                      v-if="!scope.row[o.hidKey]"
+                      v-if="!scope.row[o.hidKey] && !(o.buttonAttr && o.buttonAttr.hide)"
                     >{{scope.row[o.prop] || o.name}}</el-button>
                   </template>
                 </slot>
@@ -451,7 +450,7 @@ export default {
     },
     selectionChange: {
       type: Function,
-      default: (selection) => { that.selectionList = selection, that.$emit('selectionChange', selection) }
+      default: (selection) => { that.selectionList = selection,that.$emit('selectionChange', selection) }
     },
     cellMouseEnter: {
       type: Function,
@@ -540,10 +539,10 @@ export default {
     init () {
       that = this
       if (this.requestConfig.apiurl) {
-        this.detaultGetList()
+        this.fetchList()
         Bus.$on('getTableInquire', (data = {}) => {
           this.searchData = data
-          this.detaultGetList(data)
+          this.fetchList(data)
         })
       } else if(this.tableData.length !== 0) {
         this.detaultData = Object.assign([], this.tableData)
@@ -600,7 +599,7 @@ export default {
     // integratedSort({ column, prop, order }) {
     //     this.sortData = {}
     //     this.sortData[prop] = order
-    //     this.detaultGetList()
+    //     this.fetchList()
     //     this.sortChange(
     //       {
     //         column,
@@ -627,25 +626,12 @@ export default {
     getCurrentSelection() {
       var check = {}
       if(this.isSelection) {
-        const list = this.$refs[this.tableConfig.ref].selection
-        const indexs = []
-        const checkData = []
-        this.detaultData.map((el, index) => {
-          list.forEach(val => {
-            if(el.id === val.id) {
-              indexs.push(index)
-              checkData.push(val)
-            }
-          })
-        })
         check = {
-          indexs: indexs,
-          selectedRows: checkData
+          selectedRows: this.selectionList
         }
       } else if(this.isSingle) {
         const checkData = this.detaultData.find(el => el._checkBox)
         check = {
-          indexs: this.detaultData.findIndex(el => el._checkBox),
           selectedRows: checkData
         }
       }
@@ -665,7 +651,6 @@ export default {
         optionLabel: th.edit.optionLabel,
         optionValue: th.edit.optionValue
       }
-      // console.log(this.dialogData)
     },
     dialogDataSuccess() {
       this.dialogData.show = false
@@ -688,7 +673,6 @@ export default {
       }
     },
     radiosClick(data, index, value, th, e) {
-      // console.log(data, index, value, th)
       // 绑定点击事件，第一次在label会触发，第二次在input标签上也会触发，去除input触发的事件
       // 判断本次点击是否和上次点击的一样
       if (e.target.tagName === 'INPUT' || value === data[th.prop]) {
@@ -700,7 +684,7 @@ export default {
       th.change && th.change({row: data, index, value, th})
     },
     // 获取列表
-    detaultGetList (addData = {}) {
+    fetchList (addData = {}) {
       this.detaultLoading = true
       let fun = null
       if (this.requestConfig.method && this.requestConfig.method.toLowerCase() === 'post') {
@@ -740,12 +724,12 @@ export default {
     // 默认页码变化
     detaultCurrentChange (val) {
       this.detaultPagination.currentPage = val
-      this.detaultGetList()
+      this.fetchList()
     },
     // 默认单页个数
     detaultSizeChange (val) {
       this.detaultPagination.pageSize = val
-      this.detaultGetList()
+      this.fetchList()
     },
     // 默认排序
     detaultSortChange (row) {
@@ -753,7 +737,11 @@ export default {
       this.sortData = {}
       this.sortData['sort_' + prop] = order
       this.detaultPagination.currentPage = 1
-      this.detaultGetList()
+      this.fetchList()
+    },
+    // 获取表格数据
+    getTableData (){
+      return this.detaultData
     }
   },
   computed: {

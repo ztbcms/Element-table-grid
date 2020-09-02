@@ -616,7 +616,7 @@ export default {
     integratedSort({ column, prop, order }) {
         this.sortData = {}
         this.sortData[prop] = order
-        this.detaultGetList()
+        this.fetchList()
         this.sortChange({
           sortData: this.sortData,
           sort: {
@@ -733,7 +733,7 @@ export default {
       th.change && th.change(data, index, value, th)
     },
     // 默认获取列表
-    detaultGetList () {
+    fetchList () {
       // this.detaultLoading = true
       let fun = null
       if (this.requestConfig.method === 'post') {
@@ -791,12 +791,12 @@ export default {
     // 默认页码变化
     detaultCurrentChange (val) {
       this.detaultPagination.currentPage = val
-      this.detaultGetList()
+      this.fetchList()
     },
     // 默认单页个数
     detaultSizeChange (val) {
       this.detaultPagination.pageSize = val
-      this.detaultGetList()
+      this.fetchList()
     },
     getRowKey () {
       return null
@@ -839,7 +839,7 @@ export default {
     this.$refs.tableBox.style.height = document.documentElement.clientHeight + 'px'
     that = this
     if (this.requestConfig.apiurl) {
-      this.detaultGetList()
+      this.fetchList()
     } else if(this.tableData.length !== 0) {
       this.detaultData = Object.assign([], this.tableData)
     }

@@ -93,6 +93,13 @@ export default {
 | <a href="#md/basic?id=分页配置">pagination</a> | 分页配置 | Object | - | - | - |
 | <a href="#md/basic?id=通过配置requestconfig请求表单数据">requestConfig</a> | 配置表单请求数据 | Object | - | - | - |
 
+**函数说明**
+
+| 函数 | 说明 | 
+| :------------ | :------------ | 
+| getTableData | 获取当前表格数据 | 
+| fetchList | 远程获取当前配置下的表格数据 | 
+
 ## 渲染列与行
 通过 `tableHeader` 属性 为表单传入列与行的配置数据，并通过[el-table-column](https://element.eleme.cn/#/zh-CN/component/table#table-column-attributes)来定义表格的列。
 
@@ -149,8 +156,8 @@ export default {
 | props | **type:Select可用**<br/>配置选项的value和label [el-select的Option](https://element.eleme.cn/#/zh-CN/component/select)一样,格式为：`props: {value: 'value', label: 'label'}` | Object | - | - | - | - |
 | change | 确定修改的回调方法 | Function | - | change | row<br/>index<br/>event | 行数据<br/>行索引<br/>编辑之后的数据 |
 
-**注：修改完毕之后，使用this.$refs.xxx.detaultGetList()刷新当前表单，既：**
-`change: () => {this.$refs.xxx.detaultGetList()}`
+**注：修改完毕之后，使用this.$refs.xxx.fetchList()刷新当前表单，既：**
+`change: () => {this.$refs.xxx.fetchList()}`
 
 ```html
 /*vue*/
