@@ -3,7 +3,6 @@
     <el-card>
       <diy-search-form v-bind="formConfig" :tableConfig="tableConfig"></diy-search-form>
       <diy-table
-        :pagination.sync='pagination'
         v-bind="tableConfig"
       >
         <div slot="before">
@@ -30,23 +29,7 @@ export default {
   data () {
     return {
       // 表单配置
-      formConfig: {
-        width: '70%',
-        // 是否显示表单按钮
-        isHandle: true,
-        // 表单设置
-        searchForm: [
-          { type: 'Input', label: '姓名', prop: 'name', placeholder: '请输入姓名...', option: {}, formoption: {} },
-          { type: 'Input', label: '年龄', prop: 'age', placeholder: '请输入年龄...' },
-          { type: 'Select', label: '性别', prop: 'sex', options: sexs, props: sexProps, change: row => console.log('tag', row), placeholder: '请选择性别...' },
-          { type: 'Checkbox', label: '选项', prop: 'che', option: {},  options: [{value: 'val1', label:'选项1'}, {value: 'val2', label:'选项2'}]},
-        ],
-        // 表单按钮方法设置
-        searchHandle: [
-          { name: '导出', option: { type: 'primary',hide: false }, click: (searchForm) => console.log('searchForm', searchForm) },
-          { name: '获取本页数据', option: { type: 'primary'}, click: this.readThisPage },
-        ],
-      },
+      formConfig: {},
       // table配置
       tableConfig: {
         loading: true,
@@ -56,10 +39,8 @@ export default {
         // 是否开启单选
         isSingle: false,
         isPagination: true,
-        isHandle: true,
         tableAttr: {
           border: false,
-          'tree-props': {children: 'children', hasChildren: 'hasChildren'},
           showSummary: true
         },
         requestConfig: {
@@ -104,16 +85,28 @@ export default {
           },
         ]
       },
-      // 分页配置
-      pagination: {
-        pageSize: 10, // 页条数
-        currentPage: 0, // 当前页
-        total: 0, // 总条数
-        layout: 'total,sizes ,prev, pager, next,jumper'
-      }
     }
   },
   methods: {
+    init(){
+      this.formConfig = {
+        width: '70%',
+        // 是否显示表单按钮
+        isHandle: true,
+        // 表单设置
+        searchForm: [
+          { type: 'Input', label: '姓名', prop: 'name', placeholder: '请输入姓名...', option: {}, formoption: {} },
+          { type: 'Input', label: '年龄', prop: 'age', placeholder: '请输入年龄...' },
+          { type: 'Select', label: '性别', prop: 'sex', options: sexs, props: sexProps, change: row => console.log('tag', row), placeholder: '请选择性别...' },
+          { type: 'Checkbox', label: '选项', prop: 'che', option: {},  options: [{value: 'val1', label:'选项1'}, {value: 'val2', label:'选项2'}]},
+        ],
+        // 表单按钮方法设置
+        searchHandle: [
+          { name: '导出', option: { type: 'primary',hide: false }, click: (searchForm) => console.log('searchForm', searchForm) },
+          { name: '获取本页数据', option: { type: 'primary'}, click: this.readThisPage },
+        ],
+      }
+    },
     doBulkDelete(fn) {
       console.log(fn)
       console.log(fn.getCurrentSelection())
@@ -124,7 +117,7 @@ export default {
     }
   },
   created () {
-
+    this.init()
   }
 }
 </script>

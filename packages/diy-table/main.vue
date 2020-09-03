@@ -1,18 +1,6 @@
 <!--表格组件 -->
 <template>
   <section class="table-grid-page">
-    <!-- 表格操作按钮 -->
-    <section
-      class="grid-handle"
-      v-if='isHandle'
-    >
-      <el-button
-        v-for='(item, key) in tableHandles'
-        v-bind="item.buttonAttr"
-        @click="item.click()"
-        :key="key"
-      >{{item.label}}</el-button>
-    </section>
     <!-- 数据表格 -->
     <section class="grid-table">
       <el-table
@@ -37,6 +25,7 @@
         @expand-change="expandChange"
         v-loading="loading && detaultLoading"
         :ref="tableConfig.ref"
+        :size="tableAttr.size || 'small'"
         :summary-method="getSummaries"
       >
         <slot name="first"></slot>
@@ -413,11 +402,8 @@ export default {
     },
     // 是否加载
     loading: { type: Boolean, default: false },
-    // 表格操作
-    isHandle: { type: Boolean, default: false },
     // 表格数据
     tableData: {type: Array, default: () => []},
-    tableHandles: { type: Array, default: () => [] },
     // 表格列配置
     tableHeader: { type: Array, default: () => [] },
     // 是否显示表格复选框
