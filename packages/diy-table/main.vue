@@ -26,7 +26,6 @@
         v-loading="loading && detaultLoading"
         :ref="tableConfig.ref"
         :size="tableAttr.size || 'small'"
-        :summary-method="getSummaries"
       >
         <slot name="first"></slot>
         <!--  多选  -->
@@ -75,7 +74,7 @@
                     v-else
                     @click.stop="th.click && th.click(scope.row)"
                   >{{ scope.row[th.prop] | formatters(th.formatData) }}</span>
-                  <i class="_diyTable el-icon-edit" @click="dialogDataUpdate(scope.row, scope.$index, th)" v-if="th.edit"></i>
+                  <i v-if="th.edit" class="_diyTable el-icon-edit" @click="dialogDataUpdate(scope.row, scope.$index, th)"></i>
                 </slot>
               </template>
               <!-- Html -->
@@ -419,8 +418,6 @@ export default {
     requestConfig: { type: Object, default: () => ({
       method: 'get'
     }) },
-    // 表单数据
-    // searchData: { type: Object, default: () => ({}) },
     // 分页数据
     pagination: { type: Object, default: () => ({ pageSize: 10, currentPage: 1, total: 0 }) },
     // 全选相关配置
@@ -547,54 +544,6 @@ export default {
       this.$set(row, th.prop, update)
       th.change && th.change({row, index, value: formatDataOff ? th.formatData(row[th.prop]) ? 1 : 0 : $event, th})
     },
-    // 合计
-    getSummaries(param) {
-      const tableHeader = this.tableHeader.filter(item => item.showSummary).map(item => item.prop)
-      const { columns, data } = param
-      const sums = []
-      var total = true
-      columns.forEach((column, index) => {
-        if (index === 0) {
-          sums[index] = '合计'
-          return
-        }
-        const values = data.map(item => Number(item[column.property]))
-        if(tableHeader.length !== 0) {
-          total = false
-          tableHeader.forEach(el => {
-            if (column.property === el) {
-              total = true
-            }
-          })
-        }
-        if(total) {
-          sums[index] = values.reduce((prev, curr) => {
-            const value = Number(curr)
-            if (!isNaN(value)) {
-              return prev + curr
-            } else {
-              return prev
-            }
-          }, 0)
-          sums[index]
-        }
-      })
-      return sums
-    },
-    // 记录排序列
-    // integratedSort({ column, prop, order }) {
-    //     this.sortData = {}
-    //     this.sortData[prop] = order
-    //     this.fetchList()
-    //     this.sortChange(
-    //       {
-    //         column,
-    //         prop,
-    //         order
-    //       },
-    //       this.sortData
-    //     )
-    // },
     toggleSelection(e) {
       if (e.target.tagName === 'INPUT') {
         return false
@@ -638,6 +587,7 @@ export default {
         optionValue: th.edit.optionValue
       }
     },
+    // 编辑框确认修改
     dialogDataSuccess() {
       this.dialogData.show = false
       const {
@@ -768,10 +718,7 @@ export default {
     for(var k in this.pagination){
       this.detaultPagination[k] = this.pagination[k]
     }
-    const showSummaryList = this.tableHeader.filter(item => item.showSummary)
-    if(showSummaryList.length !== 0) {
-      this.$set(this.tableAttr, 'showSummary', true)
-    }
+
     this.init()
   },
   beforeDestroy(){

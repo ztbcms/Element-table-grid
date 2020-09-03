@@ -31,63 +31,11 @@ export default {
       // 表单配置
       formConfig: {},
       // table配置
-      tableConfig: {
-        loading: true,
-        ref: 'diytable',
-        // 是否开启全选
-        isSelection: true,
-        // 是否开启单选
-        isSingle: false,
-        isPagination: true,
-        tableAttr: {
-          border: false,
-          showSummary: true
-        },
-        requestConfig: {
-          apiurl: '/mock_data/data.json',
-          method: 'get',
-          processGetListResponse: (res)=>{
-            return {
-              total_items: res.data.total_items,
-              items: res.data.items,
-            }
-          }
-        },
-        tableHeader: [
-          {
-            label: 'ID',
-            prop: 'id',
-            showSummary: true,
-            tableColumnAttr: { sortable: 'custom', align: 'center', width: '80' }
-          },
-          {
-            label: '姓名',
-            prop: 'name',
-            tableColumnAttr: { align: 'center' },
-            edit: {
-                type: 'Input',
-                change: (row, index, event) => {
-
-                  console.log('change', row, index, event)
-                  this.$refs.diytable.fetchList()
-                }
-            }
-          },
-          {
-            type: 'Button',
-            label: '操作',
-            prop: 'materials_desc',
-            tableColumnAttr: {fixed: 'right', align: 'right', width: '120px'},
-            buttonGroup: [
-              {name: '查看', buttonAttr: {hide: false}, click: ()=> {alert('查看')}},
-              {name: '删除', click: ()=> {alert('删除')}}
-            ]
-          },
-        ]
-      },
+      tableConfig: {},
     }
   },
   methods: {
+    // 初始化
     init(){
       this.formConfig = {
         width: '70%',
@@ -106,6 +54,68 @@ export default {
           { name: '获取本页数据', option: { type: 'primary'}, click: this.readThisPage },
         ],
       }
+
+      // table配置
+      this.tableConfig = {
+        loading: true,
+        ref: 'diytable',
+        // 是否开启全选
+        isSelection: true,
+        // 是否开启单选
+        isSingle: false,
+        isPagination: true,
+        tableAttr: {
+          border: false,
+          showSummary: true
+        },
+        requestConfig: {
+          apiurl: '/mock_data/data.json',
+          method: 'get',
+          processGetListResponse: (res) => {
+            return {
+              total_items: res.data.total_items,
+              items: res.data.items,
+            }
+          }
+        },
+        tableHeader: [
+          {
+            label: 'ID',
+            prop: 'id',
+            tableColumnAttr: {sortable: 'custom', align: 'center', width: '80'}
+          },
+          {
+            label: '姓名',
+            prop: 'name',
+            tableColumnAttr: {align: 'center'},
+            edit: {
+              type: 'Input',
+              change: (row, index, event) => {
+                console.log(row)
+                console.log('change', row, index, event)
+                this.$refs.diytable.fetchList()
+              }
+            }
+          },
+          {
+            type: 'Button',
+            label: '操作',
+            tableColumnAttr: {fixed: 'right', align: 'right', width: '120px'},
+            buttonGroup: [
+              {
+                name: '查看', buttonAttr: {hide: false}, click: () => {
+                  alert('查看')
+                }
+              },
+              {
+                name: '删除', click: () => {
+                  alert('删除')
+                }
+              }
+            ]
+          },
+        ]
+      }
     },
     doBulkDelete(fn) {
       console.log(fn)
@@ -122,8 +132,6 @@ export default {
 }
 </script>
 
-<style>
-  /*.diygaid .el-form-item__content .el-input {*/
-  /*  width: 200px;*/
-  /*}*/
+<style scoped>
+
 </style>
