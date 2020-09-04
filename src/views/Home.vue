@@ -47,10 +47,11 @@ export default {
           { type: 'Input', label: '年龄', prop: 'age', placeholder: '请输入年龄...' },
           { type: 'Select', label: '性别', prop: 'sex', options: sexs, props: sexProps, change: row => console.log('tag', row), placeholder: '请选择性别...' },
           { type: 'Checkbox', label: '选项', prop: 'che', option: {},  options: [{value: 'val1', label:'选项1'}, {value: 'val2', label:'选项2'}]},
+          { type: 'Date', label: '注册日期', prop: 'register_date', option: {valueFormat: "yyyy-MM-dd", type: 'daterange'}},
         ],
         // 表单按钮方法设置
         searchHandle: [
-          { name: '导出', option: { type: 'primary',hide: false }, click: (searchForm) => console.log('searchForm', searchForm) },
+          { name: '导出', option: { type: 'primary',hide: false }, click: this.doExport },
           { name: '获取本页数据', option: { type: 'primary'}, click: this.readThisPage },
         ],
       }
@@ -93,7 +94,7 @@ export default {
               change: (row, index, event) => {
                 console.log(row)
                 console.log('change', row, index, event)
-                this.$refs.diytable.fetchList()
+                this.$refs[this.tableConfig['ref']].fetchList()
               }
             }
           },
@@ -124,6 +125,10 @@ export default {
     readThisPage(){
       var table_data = this.$refs[this.tableConfig.ref].getTableData()
       this.$message.success('列表数据：'+JSON.stringify(table_data))
+    },
+    doExport(searchForm) {
+      console.log('searchForm', searchForm)
+      this.$message.success('列表数据：'+JSON.stringify(searchForm))
     }
   },
   created () {
@@ -132,6 +137,3 @@ export default {
 }
 </script>
 
-<style scoped>
-
-</style>
