@@ -5,7 +5,7 @@
     <section class="grid-table">
       <el-table
         v-bind="tableAttr"
-        :data="detaultData"
+        :data="defaultData"
         @select="select"
         @select-all="selectAll"
         @selection-change="selectionChange"
@@ -23,7 +23,7 @@
         @current-change="currentChange"
         @header-dragend="headerDragend"
         @expand-change="expandChange"
-        v-loading="loading && detaultLoading"
+        v-loading="loading && defaultLoading"
         :ref="tableConfig.ref"
         :size="tableAttr.size || 'small'"
       >
@@ -307,9 +307,9 @@
           </template>
           <template v-else>
             <el-pagination
-              v-bind="detaultPagination"
-              @current-change="detaultCurrentChange"
-              @size-change="detaultSizeChange"
+              v-bind="defaultPagination"
+              @current-change="defaultCurrentChange"
+              @size-change="defaultSizeChange"
             ></el-pagination>
           </template>
         </slot>
@@ -356,15 +356,15 @@ export default {
   data () {
     return {
       multipleSelection: [],
-      detaultPagination: {
+      defaultPagination: {
         pageSize: 10, // 页条数
         currentPage: 1, // 当前页
         total: 0, // 总条数
         layout: 'total,sizes ,prev, pager, next,jumper',
         style: 'display: flex;justify-content: flex-end;align-items: center;margin-top: 10px;'
       },
-      detaultLoading: false,
-      detaultData: [],
+      defaultLoading: false,
+      defaultData: [],
       selectionList: [],
       sortData: {},
       dialogData: {
@@ -473,7 +473,7 @@ export default {
     },
     sortChange: {
       type: Function,
-      default: (...arges) => { that.detaultSortChange.apply(that, arges) }
+      default: (...arges) => { that.defaultSortChange.apply(that, arges) }
     },
     filterChange: {
       type: Function,
@@ -505,7 +505,7 @@ export default {
       })
     },
     tableData() {
-      this.detaultData = Object.assign([], this.tableData)
+      this.defaultData = Object.assign([], this.tableData)
     },
     tableHeader () {
       this.init()
@@ -528,7 +528,7 @@ export default {
           this.fetchList(data)
         })
       } else if(this.tableData.length !== 0) {
-        this.detaultData = Object.assign([], this.tableData)
+        this.defaultData = Object.assign([], this.tableData)
       }
     },
     // switch兼容formatData表达式
@@ -552,7 +552,7 @@ export default {
       var checkAll = this.checkAll
       list.clearSelection();
       if(!checkAll) {
-        this.detaultData.forEach(el => {
+        this.defaultData.forEach(el => {
           list.toggleRowSelection(el);
         })
       }
@@ -565,7 +565,7 @@ export default {
           selectedRows: this.selectionList
         }
       } else if(this.isSingle) {
-        const checkData = this.detaultData.find(el => el._checkBox)
+        const checkData = this.defaultData.find(el => el._checkBox)
         check = {
           selectedRows: checkData
         }
@@ -602,7 +602,7 @@ export default {
       if(!e) {
         this.$set(data, '_checkBox', false)
       } else {
-        this.detaultData.forEach(el => {
+        this.defaultData.forEach(el => {
           this.$set(el, '_checkBox', false)
         })
         this.$set(data, '_checkBox', true)
@@ -621,7 +621,7 @@ export default {
     },
     // 获取列表
     fetchList (addData = {}) {
-      this.detaultLoading = true
+      this.defaultLoading = true
       let fun = null
       if (this.requestConfig.method && this.requestConfig.method.toLowerCase() === 'post') {
         fun = Post
@@ -631,8 +631,8 @@ export default {
       fun({
         url: this.requestConfig.apiurl,
         data: {
-          page: this.detaultPagination.currentPage,
-          limit: this.detaultPagination.pageSize,
+          page: this.defaultPagination.currentPage,
+          limit: this.defaultPagination.pageSize,
           ...(this.requestConfig.data || {}),
           ...(this.searchData || {}),
           ...this.sortData,
@@ -644,46 +644,46 @@ export default {
         if(this.requestConfig.processGetListResponse && typeof this.requestConfig.processGetListResponse === 'function') {
           // 自定义过滤函数
           let result = this.requestConfig.processGetListResponse(response_data)
-          this.detaultPagination.total = result.total_items || 0
-          this.detaultData = result.items || []
+          this.defaultPagination.total = result.total_items || 0
+          this.defaultData = result.items || []
         } else {
-          this.detaultPagination.total = response_data.data.total_items
-          this.detaultData = response_data.data.items
+          this.defaultPagination.total = response_data.data.total_items
+          this.defaultData = response_data.data.items
         }
 
-        this.detaultLoading = false
+        this.defaultLoading = false
       }).catch(() => {
         this.$message.error('请求失败')
-        this.detaultLoading = false
+        this.defaultLoading = false
       })
     },
     // 默认页码变化
-    detaultCurrentChange (val) {
-      this.detaultPagination.currentPage = val
+    defaultCurrentChange (val) {
+      this.defaultPagination.currentPage = val
       this.fetchList()
     },
     // 默认单页个数
-    detaultSizeChange (val) {
-      this.detaultPagination.pageSize = val
+    defaultSizeChange (val) {
+      this.defaultPagination.pageSize = val
       this.fetchList()
     },
     // 默认排序
-    detaultSortChange (row) {
+    defaultSortChange (row) {
       let {order, prop} = row
       this.sortData = {}
       this.sortData['sort_' + prop] = order
-      this.detaultPagination.currentPage = 1
+      this.defaultPagination.currentPage = 1
       this.fetchList()
     },
     // 获取表格数据
     getTableData (){
-      return this.detaultData
+      return this.defaultData
     }
   },
   computed: {
     checkAll() {
       var list = this.selectionList
-      var tableDataLength = this.detaultData.length
+      var tableDataLength = this.defaultData.length
       if(list) {
         var selectionLength = list.length
         if(selectionLength === tableDataLength && tableDataLength !== 0) {
@@ -694,7 +694,7 @@ export default {
     },
     indeterminate() {
       var list = this.selectionList
-      var tableDataLength = this.detaultData.length
+      var tableDataLength = this.defaultData.length
       var condition = false
       if(list) {
         var selectionLength = list.length
@@ -716,7 +716,7 @@ export default {
   // 判断是否有存在只合计某一列
   created() {
     for(var k in this.pagination){
-      this.detaultPagination[k] = this.pagination[k]
+      this.defaultPagination[k] = this.pagination[k]
     }
 
     this.init()
