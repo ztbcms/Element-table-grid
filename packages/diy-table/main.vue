@@ -763,11 +763,5 @@ export default {
   margin-left: 5px;
   cursor: pointer;
 }
-._dialogcontent{
-  margin-bottom: 50px;
-}
-._dialogBtn{
-  display: flex;
-  justify-content: flex-end;
-}
+
 </style>

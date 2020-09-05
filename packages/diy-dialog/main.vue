@@ -13,11 +13,10 @@
         >
         </el-option>
       </el-select>
-      <!-- <el-input autocomplete="off" v-model="dialogData.value"></el-input> -->
     </div>
     <div class="_dialogBtn">
-      <el-button type="info" @click="dialogData.show = false">取消</el-button>
-      <el-button type="primary" @click="$emit('dialogDataSuccess')">确定</el-button>
+      <el-button type="info" @click="dialogData.show = false" size="mini">取消</el-button>
+      <el-button type="primary" @click="$emit('dialogDataSuccess')" size="mini">确定</el-button>
     </div>
   </el-dialog>
 </template>
@@ -34,7 +33,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 ._dialogcontent{
   margin-bottom: 50px;
 }
