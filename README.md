@@ -140,14 +140,14 @@ tableData: [
 // tableHeader为Array类型
 // type：控制其类型（目前支持Text, Html, Button, Select, Radio, Checkbox, Rate, Switch, Image, Slider, Link, Popover）（判断调用element的组件）
 // prop：与tableData的key相对应
-// {...}Attr： 根据type的不同改变，为elementui组件的Attr  例：tableColumnAttr，selectAttr
+// {...}Attr： 根据type的不同改变，为elementui组件的Attr  例：attr，selectAttr
 // label: 标题名
 // formatData方法： type为Text或null时存在formatData方法用于过滤信息
 // 组件的Events方法（根据type的不同改变）如下
 tableHeader: [
-	{ label: '姓名', prop: 'name', tableColumnAttr: { align: 'center', class: 'stylestyle' } },
-  { label: '年龄', prop: 'age', tableColumnAttr: { sortable: 'custom' } },
-  { label: '性别', prop: 'sex', tableColumnAttr: { sortable: 'custom' }, formatData: (val) => { return val === 1 ? '男' : '女' } },
+	{ label: '姓名', prop: 'name', attr: { align: 'center', class: 'stylestyle' } },
+  { label: '年龄', prop: 'age', attr: { sortable: 'custom' } },
+  { label: '性别', prop: 'sex', attr: { sortable: 'custom' }, formatData: (val) => { return val === 1 ? '男' : '女' } },
   {
     label: '定位',
     prop: 'location',
@@ -157,7 +157,7 @@ tableHeader: [
     label: '滑块',
     prop: 'slider',
     type: 'Slider',
-    tableColumnAttr: { align: 'center', 'width': '100px' },
+    attr: { align: 'center', 'width': '100px' },
     sliderAttr: {
     },
     change: (txt, row) => console.log('change', txt, row)
@@ -166,20 +166,20 @@ tableHeader: [
     label: '图片',
     prop: 'image',
     type: 'Image',
-    tableColumnAttr: { align: 'center', 'width': '50px' }
+    attr: { align: 'center', 'width': '50px' }
   },
   {
     label: '输入',
     prop: 'text',
     type: 'Input',
-    tableColumnAttr: { align: 'center', 'width': '100px' },
+    attr: { align: 'center', 'width': '100px' },
     inputAttr: {}
   },
   {
     label: '下拉框',
     prop: 'select',
     type: 'Select',
-    tableColumnAttr: { align: 'center', 'width': '150px' },
+    attr: { align: 'center', 'width': '150px' },
     selectAttr: {},
     optionAttr: {
       placeholder: '请选择...'
@@ -192,7 +192,7 @@ tableHeader: [
     label: '单选',
     prop: 'radio',
     type: 'Radio',
-    tableColumnAttr: { align: 'center', 'width': '150px' },
+    attr: { align: 'center', 'width': '150px' },
     radioAttr: {
       disabled: false
     },
@@ -203,7 +203,7 @@ tableHeader: [
     label: '复选框',
     prop: 'checkbox',
     type: 'Checkbox',
-    tableColumnAttr: { align: 'center', 'width': '150px' },
+    attr: { align: 'center', 'width': '150px' },
     checkboxAttr: {},
     checkboxGroupAttr: {},
     checkboxs: sexs,
@@ -213,7 +213,7 @@ tableHeader: [
     label: '评价',
     prop: 'rate',
     type: 'Rate',
-    tableColumnAttr: { align: 'center', 'width': '150px' },
+    attr: { align: 'center', 'width': '150px' },
     rateAttr: {
       disabled: true
     },
@@ -223,7 +223,7 @@ tableHeader: [
     label: '开关',
     prop: 'switch',
     type: 'Switch',
-    tableColumnAttr: { align: 'center', 'width': '100px' },
+    attr: { align: 'center', 'width': '100px' },
     switchAttr: {
     },
     change: (txt, row) => console.log('change', txt, row)
@@ -232,21 +232,21 @@ tableHeader: [
     label: '链接',
     prop: 'image',
     type: 'Link',
-    tableColumnAttr: { align: 'center', 'width': '100px' },
+    attr: { align: 'center', 'width': '100px' },
     linkAttr: {}
   },
   {
     label: '长文本',
     prop: 'image',
     type: 'Popover',
-    tableColumnAttr: { align: 'center', 'width': '100px' },
+    attr: { align: 'center', 'width': '100px' },
     popoverAttr: {
       trigger: "hover"
     }
   },
   {
     label: '操作', type: 'Button',
-    tableColumnAttr: { fixed: 'right', align: 'center', 'width': '200px', 'z-index': '' },
+    attr: { fixed: 'right', align: 'center', 'width': '200px', 'z-index': '' },
     buttonGroup: [
       { name: '编辑', click: row => console.log('tag', row), buttonAttr: { type: 'primary' } },
       { name: '删除', click: row => console.log('tag', row), buttonAttr: { type: 'danger' } }

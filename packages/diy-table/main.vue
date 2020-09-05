@@ -56,11 +56,11 @@
           <!-- 数据栏 -->
           <el-table-column
             :key="'column' + key"
-            v-bind="th.tableColumnAttr"
-            :align="(th.tableColumnAttr && th.tableColumnAttr.align) || 'center'"
+            v-bind="th.attr"
+            :align="(th.attr && th.attr.align) || 'center'"
             :label="th.label"
             :prop="th.prop"
-            :width="(th.tableColumnAttr && th.tableColumnAttr.width) || th.width"
+            :width="(th.attr && th.attr.width) || th.width"
           >
             <template slot-scope="scope">
               <!-- Text -->
@@ -86,10 +86,6 @@
               <!-- 输入框 -->
               <template v-else-if="th.type === 'Input'">
                 <slot name="Input" :prop='scope.row[th.prop]' v-bind="scope">
-                  <!-- <span
-                    v-if="!th.formatData"
-                    @click.stop="th.click && th.click(scope.row)"
-                  >{{ scope.row[th.prop] }}</span> -->
                   <el-input
                     v-model="scope.row[th.prop]"
                     v-bind="th.inputAttr"
@@ -262,11 +258,11 @@
                   >
                     <el-button
                       :key="k"
-                      :type="o.type || 'text'"
-                      :size="o.size || 'mini'"
+                      :type="o.buttonAttr && o.buttonAttr.type ? o.buttonAttr.type : 'text'"
+                      :size="o.buttonAttr && o.buttonAttr.size ? o.buttonAttr.size : 'mini'"
                       @click.stop="o.click && o.click(scope.row, scope.$index)"
                       v-bind="o.buttonAttr"
-                      v-if="!scope.row[o.hidKey] && !(o.buttonAttr && o.buttonAttr.hide)"
+                      v-if="!(o.buttonAttr && o.buttonAttr.hide)"
                     >{{scope.row[o.prop] || o.name}}</el-button>
                   </template>
                 </slot>
@@ -767,11 +763,5 @@ export default {
   margin-left: 5px;
   cursor: pointer;
 }
-._dialogcontent{
-  margin-bottom: 50px;
-}
-._dialogBtn{
-  display: flex;
-  justify-content: flex-end;
-}
+
 </style>
