@@ -66,7 +66,6 @@ export default {
           {
             label: 'ID',
             prop: 'id',
-            showSummary: true,
             tableColumnAttr: { sortable: 'custom', align: 'center', width: '80' }
           },
           {
@@ -201,7 +200,6 @@ export default {
           {
             label: 'ID',
             prop: 'id',
-            showSummary: true,
             tableColumnAttr: { sortable: 'custom', align: 'center', width: '80' }
           },
           {
@@ -309,3 +307,12 @@ export default {
 }
 </script>
 ```
+
+
+## FAQ 常见问题
+
+需求：获取筛选时间格式改为`yyyy-mm-dd`
+![wk4pnO.png](https://s1.ax1x.com/2020/09/04/wk4pnO.png)
+
+解决办法：其实Element UI 自带这个功能
+![wk4jaQ.png](https://s1.ax1x.com/2020/09/04/wk4jaQ.png)

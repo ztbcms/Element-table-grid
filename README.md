@@ -64,9 +64,6 @@ tableConfig: {
   // 表格头按钮设置
   tableHandles [Array]
 
-  // 是否设置表格，表单按钮
-  isHandle [Boolean]
-
   // 是否分页
   isPagination [Boolean]
 
@@ -254,20 +251,6 @@ tableHeader: [
       { name: '编辑', click: row => console.log('tag', row), buttonAttr: { type: 'primary' } },
       { name: '删除', click: row => console.log('tag', row), buttonAttr: { type: 'danger' } }
     ]
-  }
-]
-```
-
-### 表格头按钮设置tableHandles
-
-``` javascript
-// buttonAttr elementui button组件的Attr
-tableHandles: [
-  { label: '新增', click: () => console.log('tag'), buttonAttr: { type: 'success' } },
-  {
-    label: '查看',
-    click: () => this.Look(),
-    buttonAttr: { type: 'primary' }
   }
 ]
 ```
