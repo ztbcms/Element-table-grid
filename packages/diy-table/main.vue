@@ -86,10 +86,6 @@
               <!-- 输入框 -->
               <template v-else-if="th.type === 'Input'">
                 <slot name="Input" :prop='scope.row[th.prop]' v-bind="scope">
-                  <!-- <span
-                    v-if="!th.formatData"
-                    @click.stop="th.click && th.click(scope.row)"
-                  >{{ scope.row[th.prop] }}</span> -->
                   <el-input
                     v-model="scope.row[th.prop]"
                     v-bind="th.inputAttr"
