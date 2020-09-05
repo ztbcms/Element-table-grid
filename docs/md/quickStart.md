@@ -42,7 +42,7 @@ Vue.use(ElementUI)
         ref="diyTable"
       >
         <template slot="bulk" scope="fn">
-          <el-button @click="checkAllClick(fn)">删除</el-button>
+          <el-button @click="checkAllClick(fn)" size="mini" type="danger">删除</el-button>
         </template>
       </diy-table>
     </el-card>
@@ -71,12 +71,12 @@ export default {
           {
             label: 'ID',
             prop: 'id',
-            tableColumnAttr: { sortable: 'custom', align: 'center', width: '80' }
+            attr: { sortable: 'custom', align: 'center', width: '80' }
           },
           {
             label: '姓名',
             prop: 'name',
-            tableColumnAttr: { align: 'center' },
+            attr: { align: 'center' },
             edit: {
                 type: 'Input',
                 change: this.change
@@ -85,7 +85,7 @@ export default {
           {
             label: '操作',
             type: 'Button',
-            tableColumnAttr: { fixed: 'right', align: 'center', 'width': '250px' },
+            attr: { fixed: 'right', align: 'center', 'width': '250px' },
             buttonGroup: [
                 { name: '编辑', click: this.click, buttonAttr: { type: 'primary' }, hidKey: 'buttonHid' },
                 { name: '删除', click: this.click, buttonAttr: { type: 'danger' } }

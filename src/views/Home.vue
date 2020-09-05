@@ -83,12 +83,12 @@ export default {
           {
             label: 'ID',
             prop: 'id',
-            tableColumnAttr: {sortable: 'custom', align: 'center', width: '80'}
+            attr: {sortable: 'custom', align: 'center', width: '80'}
           },
           {
             label: '姓名',
             prop: 'name',
-            tableColumnAttr: {align: 'center'},
+            attr: {align: 'center'},
             edit: {
               type: 'Input',
               change: (row, index, event) => {
@@ -101,7 +101,7 @@ export default {
           {
             type: 'Button',
             label: '操作',
-            tableColumnAttr: {fixed: 'right', align: 'right', width: '120px'},
+            attr: {fixed: 'right', align: 'right', width: '120px'},
             buttonGroup: [
               {
                 name: '查看', buttonAttr: {hide: false}, click: () => {

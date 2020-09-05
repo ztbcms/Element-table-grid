@@ -34,12 +34,12 @@ export default {
           {
             label: 'ID',
             prop: 'id',
-            tableColumnAttr: { sortable: 'custom', align: 'center', width: '80', prop: 'input' }
+            attr: { sortable: 'custom', align: 'center', width: '80', prop: 'input' }
           },
           {
             label: '姓名',
             prop: 'name',
-            tableColumnAttr: { align: 'center' },
+            attr: { align: 'center' },
             edit: {
                 type: 'Input',
                 change: this.change
@@ -48,7 +48,7 @@ export default {
           {
             label: '操作',
             type: 'Button',
-            tableColumnAttr: { fixed: 'right', align: 'center', 'width': '250px' },
+            attr: { fixed: 'right', align: 'center', 'width': '250px' },
             buttonGroup: [
                 { name: '编辑', size: '', click: this.click, buttonAttr: { type: 'primary' }, hidKey: 'buttonHid' },
                 { name: '删除', size: '', click: this.click, buttonAttr: { type: 'danger' }, hidKey: '' }
@@ -111,7 +111,7 @@ export default {
 | :------------ | :------------ | :------------ | :------------ | :------------ |
 | label | 列名 | String | <div style="width:50px">-</div> | - |
 | type | 列展示类型，如果不填，默认显示文字 | String | - | location / Slider / Image / Input / Select / Radio / Checkbox / Rate / Link / Popover / Button / Slot |
-| tableColumnAttr | table-column配置项，用于配置列数据居中显示之类的，与element配置一样[传送门](http://element.eleme.io/#/zh-CN/component/table#table-column-attributes) | Object | - | - |
+| attr | table-column配置项，用于配置列数据居中显示之类的，与element配置一样[传送门](http://element.eleme.io/#/zh-CN/component/table#table-column-attributes) | Object | - | - |
 | prop | 需要展示的行数据key值 | String | - | - |
 | edit | 编辑配置 | Object | - | - |
     
@@ -184,12 +184,12 @@ export default {
           {
             label: 'ID',
             prop: 'id',
-            tableColumnAttr: { sortable: 'custom', align: 'center' }
+            attr: { sortable: 'custom', align: 'center' }
           },
           {
             label: '姓名',
             prop: 'name',
-            tableColumnAttr: { align: 'center' },
+            attr: { align: 'center' },
             edit: {
                 type: 'Input',
                 change: this.change
@@ -198,7 +198,7 @@ export default {
           {
             label: '性别',
             prop: 'sex',
-            tableColumnAttr: { sortable: 'custom' },
+            attr: { sortable: 'custom' },
             formatData: (val) => { return val === 1 ? '男' : '女' },
             edit: {
                 type: 'Select',
@@ -219,7 +219,7 @@ export default {
             prop: 'slider',
             type: 'Slider',
             disabled: 'sliderDisabled',
-            tableColumnAttr: { align: 'center', 'width': '100px' },
+            attr: { align: 'center', 'width': '100px' },
             change: this.change
           },
           {
@@ -227,21 +227,21 @@ export default {
             prop: 'image',
             type: 'Image',
             imgPreview: true,
-            tableColumnAttr: { align: 'center', 'width': '50px' }
+            attr: { align: 'center', 'width': '50px' }
           },
           {
             label: '输入',
             prop: 'text',
             type: 'Input',
             disabled: 'inputDisabled',
-            tableColumnAttr: { align: 'center', 'width': '100px' }
+            attr: { align: 'center', 'width': '100px' }
           },
           {
             label: '下拉框',
             prop: 'select',
             type: 'Select',
             disabled: 'selectDisabled',
-            tableColumnAttr: { align: 'center', 'width': '150px' },
+            attr: { align: 'center', 'width': '150px' },
             optionAttr: {
               placeholder: '请选择...'
             },
@@ -258,7 +258,7 @@ export default {
             type: 'Radio',
             disabled: 'radioDisabled',
             async: false,
-            tableColumnAttr: { align: 'center', 'width': '150px' },
+            attr: { align: 'center', 'width': '150px' },
             radioAttr: {
               disabled: false
             },
@@ -270,7 +270,7 @@ export default {
             prop: 'checkbox',
             type: 'Checkbox',
             disabled: 'checkboxDisabled',
-            tableColumnAttr: { align: 'center', 'width': '150px' },
+            attr: { align: 'center', 'width': '150px' },
             checkboxs: sexs,
             change: this.change
           },
@@ -278,7 +278,7 @@ export default {
             label: '评价',
             prop: 'rate',
             type: 'Rate',
-            tableColumnAttr: { align: 'center', 'width': '150px' },
+            attr: { align: 'center', 'width': '150px' },
             disabled: 'RateDisabled',
             rateAttr: {
               'allow-half': true
@@ -291,7 +291,7 @@ export default {
             type: 'Switch',
             disabled: 'SwitchDisabled',
             async: false,
-            tableColumnAttr: { align: 'center', 'width': '100px' },
+            attr: { align: 'center', 'width': '100px' },
             switchAttr: {
             },
             change: this.change
@@ -306,7 +306,7 @@ export default {
             label: '长文本',
             prop: 'image',
             type: 'Popover',
-            tableColumnAttr: { align: 'center', 'width': '100px' },
+            attr: { align: 'center', 'width': '100px' },
             popoverAttr: {
               trigger: "hover"
             }
@@ -315,7 +315,7 @@ export default {
             label: '操作',
             type: 'Button',
 
-            tableColumnAttr: { fixed: 'right', align: 'center', 'width': '250px' },
+            attr: { fixed: 'right', align: 'center', 'width': '250px' },
             buttonGroup: [
               { name: '编辑', size: '', click: this.click, buttonAttr: { type: 'primary' }, hidKey: 'buttonHid' },
               { name: '删除', size: '', click: this.click, buttonAttr: { type: 'danger' }, hidKey: '' }
@@ -474,7 +474,7 @@ var tableHeader = [
   {
     label: 'ID',
     prop: 'id',
-    tableColumnAttr: { sortable: 'custom'}
+    attr: { sortable: 'custom'}
   }
 ]
 ```

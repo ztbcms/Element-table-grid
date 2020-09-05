@@ -65,7 +65,7 @@ export default {
         tableHeader: [
           { label: 'ID', prop: 'id'},
           { label: '名称', prop: 'title'},
-          { label: '状态', prop: 'display_status_name', tableColumnAttr: { sortable: 'custom' }},
+          { label: '状态', prop: 'display_status_name', attr: { sortable: 'custom' }},
           { label: '类型', prop: 'group_name', type: 'Tag'},
           { type: 'Button', label: '操作', prop: 'materials_desc', buttonGroup: [{name: '查看', click: this.demo}, {name: '删除', click: this.demo}]},
         ],
@@ -118,10 +118,10 @@ export default {
           { label: '名称', prop: 'title'},
           { label: '订单数', prop: 'order_num'},
           { label: '封面', prop: 'thumb', imgPreview: true, type: 'Image'},
-          { label: '状态', prop: 'display_status_name', tableColumnAttr: { sortable: 'custom' }},
-          { label: '更新时间', prop: 'inputtime_name', width: '150px', tableColumnAttr: { sortable: 'custom' }},
+          { label: '状态', prop: 'display_status_name', attr: { sortable: 'custom' }},
+          { label: '更新时间', prop: 'inputtime_name', width: '150px', attr: { sortable: 'custom' }},
           { label: '类型', prop: 'group_name', type: 'Tag'},
-          { type: 'Button', label: '操作', prop: 'materials_desc',tableColumnAttr: { fixed: 'right', align: 'right', width: '100px' }, buttonGroup: [{name: '查看', click: this.demo}, {name: '删除', click: this.demo}]},
+          { type: 'Button', label: '操作', prop: 'materials_desc',attr: { fixed: 'right', align: 'right', width: '100px' }, buttonGroup: [{name: '查看', click: this.demo}, {name: '删除', click: this.demo}]},
         ],
         tableAttr: {
           size: 'small',

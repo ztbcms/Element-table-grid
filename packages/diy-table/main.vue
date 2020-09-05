@@ -56,11 +56,11 @@
           <!-- 数据栏 -->
           <el-table-column
             :key="'column' + key"
-            v-bind="th.tableColumnAttr"
-            :align="(th.tableColumnAttr && th.tableColumnAttr.align) || 'center'"
+            v-bind="th.attr"
+            :align="(th.attr && th.attr.align) || 'center'"
             :label="th.label"
             :prop="th.prop"
-            :width="(th.tableColumnAttr && th.tableColumnAttr.width) || th.width"
+            :width="(th.attr && th.attr.width) || th.width"
           >
             <template slot-scope="scope">
               <!-- Text -->
