@@ -3,20 +3,22 @@
 
 ## Installation
 
-``` 
-npm install cpy-elementui-table --save
+```shell script
+npm install element-table-grid --save
 # 文档预览
 npm run docs-preview
 ```
 
 演示请参考 `examples/es5/demo.html`
 
+文档：http://table-grid.ztbcms.com/docs/#/
+
 
 ## 说明
 
 ### 使用
 
-``` html
+```html
 <div class="grid-main">
   <diy-search-form v-bind="formConfig"></diy-search-form>
   <diy-table
@@ -30,12 +32,9 @@ npm run docs-preview
 
 ## 数据说明
 
-``` javascript
+```javascript
 // 表单配置
 formConfig: {
-  // 是否显示表单按钮组行
-  isHandle [Boolean],
-
   // 表单数据
   searchData [Object]
 
@@ -60,9 +59,6 @@ tableConfig: {
 
   // 表格头设置
   tableHeader [Array]
-
-  // 表格头按钮设置
-  tableHandles [Array]
 
   // 是否分页
   isPagination [Boolean]
@@ -89,7 +85,7 @@ pagination [Object]
 
 ### 表单数据searchData
 
-``` javascript
+```javascript
 // 需要绑定的属性
 searchData: {
 	name: null,
@@ -100,7 +96,7 @@ searchData: {
 
 ### 表单设置searchForm
 
-``` javascript
+```javascript
 // searchForm为Array类型
 // type：控制其类型（目前支持Input，Select，Date, Time）（判断调用element的组件）
 // prop：与searchData的key相对应
@@ -117,7 +113,7 @@ searchForm: [
 
 ### 表单按钮方法设置searchHandle
 
-``` javascript
+```javascript
 searchHandle: [
   { name: '查询', option: { type: 'primary' }, click: (searchForm) => console.log('searchForm', searchForm) },
   { name: '重置', option: { type: 'primary' }, click: () => '' }
@@ -126,7 +122,7 @@ searchHandle: [
 
 ### 表格数据tableData 
 
-``` javascript
+```javascript
 // tableData为Array类型
 tableData: [
   { id: 1, name: '张三', age: '12', text: '', sex: 1, province: '广东', rate: 4.7, checkbox: [], image: 'https://s3.pstatp.com/toutiao/xitu_juejin_web/img/wechat.63e1ce0.svg' },
@@ -136,7 +132,7 @@ tableData: [
 
 ### 表格头设置tableHeader
 
-``` javascript
+```javascript
 // tableHeader为Array类型
 // type：控制其类型（目前支持Text, Html, Button, Select, Radio, Checkbox, Rate, Switch, Image, Slider, Link, Popover）（判断调用element的组件）
 // prop：与tableData的key相对应
@@ -257,7 +253,7 @@ tableHeader: [
 
 ### 分页pagination
 
-``` javascript
+```javascript
 pagination: {
 	pageSize: 10, // 页条数
   pageNum: 1, // 当前页
@@ -271,7 +267,7 @@ pagination: {
 
 ### 支持slot自定义
 
-``` html
+```html
 <diy-table>
   <div slot="location">
     <el-table-column
@@ -282,6 +278,7 @@ pagination: {
   </div>
 </diy-table>
 ```
+
 ```javascript
 // 预设置slot
 // name: ['first', 'before', 'Text', 'Html', 'Button', 'Input', 'Select', 'Radio', 'Checkbox', 'Rate', 'Switch', 'Image', 'Slider', 'Link', 'Popover', 'later']
@@ -297,7 +294,8 @@ tableHeader: [
 ```
 
 ### requestConfig 默认请求配置
-``` javascript
+
+```javascript
 // 若存在apiurl便开启默认请求
 requestConfig: {
   apiurl: 'https://xxxx.com/GetList', // 请求api
