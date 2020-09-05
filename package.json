@@ -1,6 +1,6 @@
 {
   "name": "element-table-grid",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "Element UI table ",
   "main": "lib/diyelementtable.umd.js",
   "keyword": "elementTable table element-table element-table-grid",
