@@ -109,7 +109,7 @@ export default {
                 }
               },
               {
-                name: '删除', click: () => {
+                name: '删除', buttonAttr: {type: 'danger'}, click: () => {
                   alert('删除')
                 }
               }

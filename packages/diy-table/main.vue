@@ -262,11 +262,11 @@
                   >
                     <el-button
                       :key="k"
-                      :type="o.type || 'text'"
-                      :size="o.size || 'mini'"
+                      :type="o.buttonAttr && o.buttonAttr.type ? o.buttonAttr.type : 'text'"
+                      :size="o.buttonAttr && o.buttonAttr.size ? o.buttonAttr.size : 'mini'"
                       @click.stop="o.click && o.click(scope.row, scope.$index)"
                       v-bind="o.buttonAttr"
-                      v-if="!scope.row[o.hidKey] && !(o.buttonAttr && o.buttonAttr.hide)"
+                      v-if="!(o.buttonAttr && o.buttonAttr.hide)"
                     >{{scope.row[o.prop] || o.name}}</el-button>
                   </template>
                 </slot>

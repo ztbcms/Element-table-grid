@@ -54,8 +54,8 @@ export default {
             type: 'Button',
             attr: { fixed: 'right', align: 'center', 'width': '250px' },
             buttonGroup: [
-                { name: '编辑', size: '', click: this.click, buttonAttr: { type: 'primary' }, hidKey: 'buttonHid' },
-                { name: '删除', size: '', click: this.click, buttonAttr: { type: 'danger' }, hidKey: '' }
+                { name: '编辑', size: '', click: this.click, buttonAttr: { type: 'primary' } },
+                { name: '删除', size: '', click: this.click, buttonAttr: { type: 'danger' }}
             ]
           }
         ],

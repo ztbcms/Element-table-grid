@@ -87,7 +87,7 @@ export default {
             type: 'Button',
             attr: { fixed: 'right', align: 'center', 'width': '250px' },
             buttonGroup: [
-                { name: '编辑', click: this.click, buttonAttr: { type: 'primary' }, hidKey: 'buttonHid' },
+                { name: '编辑', click: this.click, buttonAttr: { type: 'primary' } },
                 { name: '删除', click: this.click, buttonAttr: { type: 'danger' } }
             ]
           }
