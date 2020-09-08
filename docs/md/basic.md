@@ -141,6 +141,7 @@ export default {
 | size | 按钮大小 | String | medium / small / mini |
 | buttonAttr | 按钮类型配置参数，参数与element一样[传送门](https://element.eleme.cn/#/zh-CN/component/button) | Object | size / type / plain / round / circle / loading / disabled / icon / autofocus / native-type |
 | click | 按钮被点击之后需要触发的事件 | fuction | function(row, index) |
+| hide | 是否隐藏 | Boolean | true/false(默认) |
 
 **edit说明**
 
