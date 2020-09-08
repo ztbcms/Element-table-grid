@@ -110,7 +110,7 @@ export default {
 | 参数 | 说明 | 类型 | 默认值 | 可选值 |
 | :------------ | :------------ | :------------ | :------------ | :------------ |
 | label | 列名 | String | <div style="width:50px">-</div> | - |
-| type | 列展示类型，如果不填，默认显示文字 | String | - | location / Slider / Image / Input / Select / Radio / Checkbox / Rate / Link / Popover / Button / Slot |
+| type | 列展示类型，如果不填，默认显示文字 | String | - | location / Image / Input / Select / Link / Popover / Button / Slot |
 | attr | table-column配置项，用于配置列数据居中显示之类的，与element配置一样[传送门](http://element.eleme.io/#/zh-CN/component/table#table-column-attributes) | Object | - | - |
 | prop | 需要展示的行数据key值 | String | - | - |
 | edit | 编辑配置 | Object | - | - |
@@ -122,13 +122,9 @@ export default {
 | Text | <div style="width:80px">文本</div> | - | - | <div style="width:150px">-</div>  | - | <div style="width:70px">-</div> | <div style="width:110px">-</div> |
 | Html | Html内容 | - | - | -  | - | - | - |
 | Input | 输入框 | disabled | String | 是否禁用（填写说明：行数据key值 | - | - | - | - |
-| Slider | 滑块 | disabled | String | 是否禁用（填写说明：行数据key值 | change | row<br/>index<br/>event | 行数据<br/>行索引<br/>当前滑块数值 |
 | Image | 图片 | imgPreview | Boolean | - | - | - | - |
-| Select | 下拉框 | disabled | String | 是否禁用（填写说明：行数据key值 | change | row<br/>index<br/>event | 行数据<br/>行索引<br/>选中的数据 | - |
-| Radio | 单选 | 1.disabled<br/>2.async | 1.String<br/>2.Boolean | 1.是否禁用（填写说明：行数据key值<br/>2.是否开启异步执行 | change<br/>**如果开启了异步，不会主动触发视图更新，需要异步执行后手动执行以下代码`this.$set(row, th.prop, txt)`** | row<br/>index<br/>event<br/>th | 行数据<br/>行索引<br/>当前选中的值<br/>列数据 | - |
-| Checkbox | 多选 | disabled | - | 是否禁用（填写说明：行数据key值 | change | row<br/>index<br/>event | 行数据<br/>行索引<br/>选中的数据，行数据 |
-| Rate | 评价 | disabled | String | 是否禁用（填写说明：行数据key值 | change | row<br/>index<br/>event | 行数据<br/>行索引<br/>本次评价的数据 |
-| Switch | 开关 | 1.disabled<br/>2.async | 1.String<br/>2.Boolean | 1.是否禁用（填写说明：行数据key值<br/>2.是否异步执行 | change<br/>**如果开启了异步，不会主动触发视图更新，需要异步执行后手动执行以下代码`this.$set(row, th.prop, !type)`** | row<br/>index<br/>event<br/>th | 行数据<br/>行索引<br/>当前switch状态<br/>列数据 |
+| Select | 下拉框 | disabled | String | 是否禁用（填写说明：行数据key值 | change | row<br/>index<br/>value<br>th | 行数据<br/>行索引<br/>选中的数据<br/>当前列 | - |
+| Switch | 开关 | 1.disabled| 1.String<br/>2.Boolean（设置方法参考ElementUI-Switch组件`switchAttr: {inactiveValue: 0,activeValue: 1,}`） | 1.是否禁用（填写说明：行数据key值<br/> | change | row<br/>index<br/>event<br/>th | 行数据<br/>行索引<br/>当前switch状态<br/>当前列 |
 | Link | 链接 | - | - | - | - | - | - |
 | Popover | 长文本 | - | - | - | - | - | - |
 | Button | 按钮 | buttonGroup | Array | 按钮配置 | click | row<br/>index | 行数据<br/>行索引 |
@@ -151,7 +147,7 @@ export default {
 | 参数 | 说明 | 类型 | 可选参数 | 回调事件 | 回调参数 | 参数说明 | 
 | :------------ | :------------ | :------------ | :------------ | :------------ | :------------ | :------------ |
 | type | 编辑的类型 | String | Input / Select | <div style="width:110px">-</div> | - | - |
-| option | **type:Select可用**<br/>选择列表,与element [el-select](https://element.eleme.cn/#/zh-CN/component/select)一样 | Array | - | - | - | - |
+| options | **type:Select可用**<br/>选择列表,与element [el-select](https://element.eleme.cn/#/zh-CN/component/select)一样 | Array | - | - | - | - |
 | props | **type:Select可用**<br/>配置选项的value和label [el-select的Option](https://element.eleme.cn/#/zh-CN/component/select)一样,格式为：`props: {value: 'value', label: 'label'}` | Object | - | - | - | - |
 | change | 确定修改的回调方法 | Function | - | change | row<br/>index<br/>event | 行数据<br/>行索引<br/>编辑之后的数据 |
 
@@ -202,9 +198,7 @@ export default {
             formatData: (val) => { return val === 1 ? '男' : '女' },
             edit: {
                 type: 'Select',
-                option: [{id: 1, val: '男'},{id: 2, val: '女'}],
-                optionLabel: 'val',
-                optionValue: 'id',
+                options: [{'value': 1, label: '男'},{value: 2, label: '女'}],
                 change: this.change
             }
           },
@@ -213,14 +207,6 @@ export default {
             type: 'Slot',
             prop: 'location',
             slot: 'location'
-          },
-          {
-            label: '滑块',
-            prop: 'slider',
-            type: 'Slider',
-            disabled: 'sliderDisabled',
-            attr: { align: 'center', 'width': '100px' },
-            change: this.change
           },
           {
             label: '图片',
@@ -249,39 +235,6 @@ export default {
             props: {
               value: 'value',
               label: 'label'
-            },
-            change: this.change
-          },
-          {
-            label: '单选',
-            prop: 'radio',
-            type: 'Radio',
-            disabled: 'radioDisabled',
-            async: false,
-            attr: { align: 'center', 'width': '150px' },
-            radioAttr: {
-              disabled: false
-            },
-            radios: sexs,
-            change: this.change
-          },
-          {
-            label: '复选框',
-            prop: 'checkbox',
-            type: 'Checkbox',
-            disabled: 'checkboxDisabled',
-            attr: { align: 'center', 'width': '150px' },
-            checkboxs: sexs,
-            change: this.change
-          },
-          {
-            label: '评价',
-            prop: 'rate',
-            type: 'Rate',
-            attr: { align: 'center', 'width': '150px' },
-            disabled: 'RateDisabled',
-            rateAttr: {
-              'allow-half': true
             },
             change: this.change
           },

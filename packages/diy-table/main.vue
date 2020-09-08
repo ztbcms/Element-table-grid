@@ -63,7 +63,7 @@
             :width="(th.attr && th.attr.width) || th.width"
           >
             <template slot-scope="scope">
-              <!-- Text -->
+              <!-- Text/默认 -->
               <template v-if="th.type === 'Text' || !th.type">
                 <slot name="Text" :prop='scope.row[th.prop]' v-bind="scope">
                   <span
@@ -105,60 +105,24 @@
                     v-model="scope.row[th.prop]"
                     v-bind="th.selectAttr"
                     :disabled="scope.row[th.disabled]"
-                    @change='th.change && th.change({row: scope.row, index: scope.$index, event: $event})'
+                    @change='th.change && th.change({row: scope.row, index: scope.$index, value: $event})'
                     @visible-change="th.visibleChange && th.visibleChange($event, scope.row)"
                     @remove-tag="th.removeTag && th.removeTag($event, scope.row)"
                     @clear="th.clear && th.clear($event, scope.row)"
                     @blur="th.blur && th.blur($event, scope.row)"
                     @focus="th.focus && th.focus($event, scope.row)"
+                    :size="th.selectAttr && th.selectAttr.size ? th.selectAttr.size: 'mini'"
                   >
                     <el-option
-                      v-for="op in th.options"
-                      :label="op[th.props.label]"
-                      :value="op[th.props.value]"
-                      :key="op[th.props.value]"
-                      :disabled="op[th.props.disabled]"
+                      v-for="(op, i) in th.options"
+                      :label="op['label']"
+                      :value="op['value']"
+                      :key="i"
                       v-bind="op.optionAttr || th.optionAttr"
                       @blur="op.blur && op.blur(op)"
                       @focus="op.focus && op.focus(op)"
                     ></el-option>
                   </el-select>
-                </slot>
-              </template>
-              <!-- 单选 -->
-              <template v-else-if="th.type === 'Radio'">
-                <slot name="Radio" :prop='scope.row[th.prop]' v-bind="scope">
-                  <el-radio-group
-                    :value="scope.row[th.prop]"
-                    v-bind="th.radioGroupAttr"
-                    :disabled="scope.row[th.disabled]"
-                  >
-                    <el-radio
-                      @click.native="radiosClick(scope.row, scope.$index, ra.value, th, $event)"
-                      v-for="ra in th.radios"
-                      v-bind="ra.radioAttr || th.radioAttr"
-                      :label="ra.value"
-                      :key="ra.value"
-                    >{{ra.label}}</el-radio>
-                  </el-radio-group>
-                </slot>
-              </template>
-              <!-- 复选框 -->
-              <template v-else-if="th.type === 'Checkbox'">
-                <slot name="Checkbox" :prop='scope.row[th.prop]' v-bind="scope">
-                  <el-checkbox-group
-                    v-model="scope.row[th.prop]"
-                    v-bind="th.checkboxGroupAttr"
-                    :disabled="scope.row[th.disabled]"
-                    @change='th.change && th.change({row: scope.row, index: scope.$index, event: $event})'
-                  >
-                    <el-checkbox
-                      v-for="ra in th.checkboxs"
-                      :label="ra.value"
-                      :key="ra.value"
-                      v-bind="ra.checkboxAttr || th.checkboxAttr"
-                    >{{ra.label}}</el-checkbox>
-                  </el-checkbox-group>
                 </slot>
               </template>
               <!-- 评价 -->
@@ -174,17 +138,9 @@
               </template>
               <!-- 开关 -->
               <template v-else-if="th.type === 'Switch'">
-                <div @click="!scope.row[th.disabled] && th.change && th.change({row: scope.row, index: scope.$index, value: !scope.row[th.prop], th})" v-if="th.async">
-                  <el-switch
-                    :value="!th.formatData ? scope.row[th.prop] : scope.row[th.prop] | formatters(th.formatData)"
-                    v-bind="th.switchAttr"
-                    :disabled="scope.row[th.disabled]"
-                  ></el-switch>
-                </div>
                 <el-switch
-                  v-else
-                  @change='switchdefle(scope.row, scope.$index, $event, th)'
-                  :value="!th.formatData ? scope.row[th.prop] : scope.row[th.prop] | formatters(th.formatData)"
+                  @change="onSwitchChanged(scope.row, scope.$index, $event, th)"
+                  :value="scope.row[th.prop]"
                   v-bind="th.switchAttr"
                   :disabled="scope.row[th.disabled]"
                 ></el-switch>
@@ -202,17 +158,6 @@
                     >
                     </el-image>
                   </div>
-                </slot>
-              </template>
-              <!-- 滑块 -->
-              <template v-else-if="th.type === 'Slider'">
-                <slot name="Slider" :prop='scope.row[th.prop]' v-bind="scope">
-                  <el-slider
-                    v-model="scope.row[th.prop]"
-                    :disabled="scope.row[th.disabled]"
-                    v-bind="th.sliderAttr"
-                    @change='th.change && th.change({row: scope.row, index: scope.$index, event: $event})'
-                  ></el-slider>
                 </slot>
               </template>
               <!-- 链接 -->
@@ -527,18 +472,10 @@ export default {
         this.defaultData = Object.assign([], this.tableData)
       }
     },
-    // switch兼容formatData表达式
-    switchdefle(row, index, $event, th) {
-      var update = row[th.prop]
-      var formatDataOff = false
-      if(th.formatData) {
-        formatDataOff = true
-        update = th.formatData(row[th.prop]) ? 0 : 1
-      } else {
-        update = !update
-      }
-      this.$set(row, th.prop, update)
-      th.change && th.change({row, index, value: formatDataOff ? th.formatData(row[th.prop]) ? 1 : 0 : $event, th})
+    // Switch 组件值变动
+    onSwitchChanged(row, index, $event, th) {
+      this.$set(row, th.prop, $event)
+      th.change && th.change({row, index, value: $event, th})
     },
     toggleSelection(e) {
       if (e.target.tagName === 'INPUT') {
@@ -578,9 +515,7 @@ export default {
         index,
         th,
         row: data,
-        option: th.edit.option,
-        optionLabel: th.edit.optionLabel,
-        optionValue: th.edit.optionValue
+        options: th.edit.options,
       }
     },
     // 编辑框确认修改
@@ -592,7 +527,7 @@ export default {
         value,
         th
       } = this.dialogData
-      th.edit.change && th.edit.change({row, index, value})
+      th.edit.change && th.edit.change({row, index, value, th })
     },
     singlecheckBox(e, data) {
       if(!e) {

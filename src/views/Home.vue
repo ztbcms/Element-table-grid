@@ -99,6 +99,41 @@ export default {
             }
           },
           {
+            label: '性别',
+            prop: 'sex',
+            formatData: function(v){ return v === 1 ? '男':'女'},
+            edit: {
+              type: 'Select',
+              options: [{value: 1, label: '男'},{value: 0, label: '女'}],
+              change: (data) => {
+                console.log('change', data)
+                this.$refs[this.tableConfig['ref']].fetchList()
+              }
+            }
+          },
+          {
+            label: '性别',
+            prop: 'sex',
+            type: 'Select',
+            options: [{value: 1, label: '男'},{value: 0, label: '女'}],
+            change: (data) => {
+              console.log('change', data)
+              this.$refs[this.tableConfig['ref']].fetchList()
+            }
+          },
+          {
+            label: '审核状态',
+            prop: 'status',
+            type: 'Switch',
+            switchAttr: {
+              inactiveValue: 0,
+              activeValue: 1,
+            },
+            change: (res)=>{
+              console.log(res)
+            }
+          },
+          {
             type: 'Button',
             label: '操作',
             attr: {fixed: 'right', align: 'right', width: '120px'},

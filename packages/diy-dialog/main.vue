@@ -1,15 +1,17 @@
 <template>
   <el-dialog :title="dialogData.title" :visible.sync="dialogData.show" width="35%" :append-to-body="true">
+    <!-- 输入框-->
     <div class="_dialogcontent" v-if="dialogData.type === 'Input'">
       <el-input autocomplete="off" v-model="dialogData.value"></el-input>
     </div>
+    <!-- 选择框  -->
     <div class="_dialogcontent" v-else-if="dialogData.type === 'Select'">
       <el-select v-model="dialogData.value" placeholder="请选择">
         <el-option
-          v-for="(item) in dialogData.option"
-          :key="item[dialogData.optionValue]"
-          :label="item[dialogData.optionLabel]"
-          :value="item[dialogData.optionValue]"
+          v-for="(item, index) in dialogData.options"
+          :key="index"
+          :label="item['label']"
+          :value="item['value']"
         >
         </el-option>
       </el-select>

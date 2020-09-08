@@ -8,15 +8,17 @@
         "sex": 1,
         "province": "广东",
         "rate": 4.7,
+        "status": 0,
         "image": "https://s3.pstatp.com/toutiao/xitu_juejin_web/img/wechat.63e1ce0.svg"
       },
       {
         "id": 22,
         "name": "李四",
         "age": "12",
-        "sex": 1,
+        "sex": 0,
         "province": "湖北",
         "rate": 4.7,
+        "status": 1,
         "image": "https://s3.pstatp.com/toutiao/xitu_juejin_web/img/wechat.63e1ce0.svg"
       }
     ],
