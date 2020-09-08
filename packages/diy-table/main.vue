@@ -207,7 +207,7 @@
                       :size="o.buttonAttr && o.buttonAttr.size ? o.buttonAttr.size : 'mini'"
                       @click.stop="o.click && o.click(scope.row, scope.$index)"
                       v-bind="o.buttonAttr"
-                      v-if="!(o.buttonAttr && o.buttonAttr.hide)"
+                      v-if="!o.hide"
                     >{{scope.row[o.prop] || o.name}}</el-button>
                   </template>
                 </slot>
