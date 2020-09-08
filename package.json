@@ -1,6 +1,6 @@
 {
   "name": "element-table-grid",
-  "version": "0.0.11",
+  "version": "0.0.12",
   "description": "Element UI table ",
   "main": "lib/diyelementtable.umd.js",
   "keyword": "elementTable table element-table element-table-grid",
@@ -13,7 +13,6 @@
     "lint": "vue-cli-service lint",
     "lib": "vue-cli-service build --target lib --name diyelementtable --dest lib packages/index.js",
     "lib_sync_to_docs": "cp ./lib/diyelementtable.umd.min.js ./docs/components/ && cp ./lib/diyelementtable.css ./docs/components/",
-    "lib_sync_to_example": "cp ./lib/diyelementtable.umd.min.js ./examples/es5/ && cp ./lib/diyelementtable.css ./examples/es5/",
     "docs-preview": "./node_modules/.bin/docsify serve docs"
   },
   "dependencies": {
