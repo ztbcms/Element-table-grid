@@ -39,11 +39,7 @@ Vue.use(ElementUI)
       <diy-search-form v-bind="formConfig"></diy-search-form>
       <diy-table
         v-bind="tableConfig"
-        ref="diyTable"
       >
-        <template slot="bulk" scope="fn">
-          <el-button @click="checkAllClick(fn)" size="mini" type="danger">删除</el-button>
-        </template>
       </diy-table>
     </el-card>
   </div>
@@ -65,6 +61,7 @@ export default {
       },
       // table配置
       tableConfig: {
+        ref: 'diyTable',
         // 是否全选
         isSelection: true,
         tableHeader: [
@@ -98,7 +95,21 @@ export default {
             datakeys: ['data', 'items'],
             totalkeys: ['data', 'total'],
             resCodes: [200, 1]
-        }
+        },
+        bulkButtonGroup: [
+          {
+            name: '审核通过', buttonAttr: {hide: false}, click: (selectedRows) => {
+              console.log(selectedRows)
+              alert('查看')
+            }
+          },
+          {
+            name: '删除', buttonAttr: {type: 'danger'}, click: (selectedRows) => {
+              console.log(selectedRows)
+              alert('删除')
+            }
+          }
+        ]
       }
     }
   },

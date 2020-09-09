@@ -228,7 +228,21 @@
       <div class="leftFunctional">
         <el-checkbox @click.native="toggleSelection" :value="checkAll" v-if="isSelection" :indeterminate="indeterminate">全选</el-checkbox>
         <div class="functionalBtn">
-          <slot name="bulk" :getCurrentSelection="getCurrentSelection"></slot>
+          <slot name="bulk" :getCurrentSelection="getCurrentSelection" :selectedRows="selectionList">
+            <template v-if="bulkButtonGroup">
+              <template v-for="(o, k) in bulkButtonGroup">
+                <el-button
+                        v-if="!o.hide"
+                        :key="k"
+                        :type="o.buttonAttr && o.buttonAttr.type ? o.buttonAttr.type : 'text'"
+                        :size="o.buttonAttr && o.buttonAttr.size ? o.buttonAttr.size : 'mini'"
+                        @click.stop="o.click && o.click(selectionList)"
+                        v-bind="o.buttonAttr"
+                >{{o.name}}</el-button>
+              </template>
+              </template>
+
+          </slot>
         </div>
       </div>
       <!-- 批量操作区域END -->
@@ -363,6 +377,8 @@ export default {
     pagination: { type: Object, default: () => ({ pageSize: 10, currentPage: 1, total: 0 }) },
     // 全选相关配置
     allselect: { type: Array, default: () => [] },
+    // 批量操作区域按钮
+    bulkButtonGroup: { type: Array, default: () => [] },
     // 表格方法
     select: {
       type: Function,

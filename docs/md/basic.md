@@ -61,7 +61,21 @@ export default {
             datakeys: ['data', 'items'],
             totalkeys: ['data', 'total'],
             resCodes: [200, 1]
-        }
+        },
+        bulkButtonGroup: [
+          {
+            name: '审核通过', buttonAttr: {hide: false}, click: (selectedRows) => {
+              console.log(selectedRows)
+              alert('查看')
+            }
+          },
+          {
+            name: '删除', buttonAttr: {type: 'danger'}, click: (selectedRows) => {
+              console.log(selectedRows)
+              alert('删除')
+            }
+          }
+        ]
       }
     }
   },
@@ -92,6 +106,7 @@ export default {
 | <a href="#md/basic?id=渲染列与行">tableHeader</a> | 用于渲染行和列的配置 | Array | - | - | - |
 | <a href="#md/basic?id=分页配置">pagination</a> | 分页配置 | Object | - | - | - |
 | <a href="#md/basic?id=通过配置requestconfig请求表单数据">requestConfig</a> | 配置表单请求数据 | Object | - | - | - |
+| bulkButtonGroup | 批量操作区域按钮组 | Array | - | - | - |
 
 **函数说明**
 

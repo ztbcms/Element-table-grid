@@ -2,21 +2,7 @@
   <div class="grid-main">
     <el-card>
       <diy-search-form v-bind="formConfig" :tableConfig="tableConfig"></diy-search-form>
-      <diy-table
-        v-bind="tableConfig"
-      >
-        <div slot="before">
-          <el-table-column type="expand">
-            <template slot-scope="props">
-              展开行 {{ props.$index }}
-            </template>
-          </el-table-column>
-        </div>
-
-        <template slot="bulk" scope="fn">
-          <el-button @click="doBulkDelete(fn)" size="mini" type="danger">删除</el-button>
-        </template>
-      </diy-table>
+      <diy-table v-bind="tableConfig"></diy-table>
     </el-card>
   </div>
 </template>
@@ -66,8 +52,7 @@ export default {
         isSingle: false,
         isPagination: true,
         tableAttr: {
-          border: false,
-          showSummary: true
+          // border: false,
         },
         requestConfig: {
           apiurl: '/mock_data/data.json',
@@ -150,12 +135,22 @@ export default {
               }
             ]
           },
+        ],
+        bulkButtonGroup: [
+          {
+            name: '审核通过', buttonAttr: {hide: false}, click: (selectedRows) => {
+              console.log(selectedRows)
+              alert('查看')
+            }
+          },
+          {
+            name: '删除', buttonAttr: {type: 'danger'}, click: (selectedRows) => {
+              console.log(selectedRows)
+              alert('删除')
+            }
+          }
         ]
       }
-    },
-    doBulkDelete(fn) {
-      console.log(fn)
-      console.log(fn.getCurrentSelection())
     },
     readThisPage(){
       var table_data = this.$refs[this.tableConfig.ref].getTableData()
